@@ -1,0 +1,493 @@
+{
+    "$id": "spatial_experiment/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.spatial::loadSpatialExperiment"
+        }
+    },
+    "description": "A spatial experiment where each row corresponds to a feature and each column corresponds to a spatial location. This file contains pointers to spatial-specific components including the coordinates and image files. Each spatial location is assigned to a sample via a `sample_id` column in the column data; this is guaranteed to have the same levels as the `sample_id` values in the `image_data` property.\n\nDerived from `single_cell_experiment/v1.json`: a single cell experiment where each row corresponds to a feature and each column corresponds to a single cell. This file contains pointers to single-cell-specific components including reduced dimension results and alternative experiments.\n\nDerived from `summarized_experiment/v1.json`: a summarized experiment where each row corresponds to a feature and each column corresponds to an experimental sample. The layout of this data structure is based on Bioconductor's [SummarizedExperiment](https://bioconductor.org/packages/SummarizedExperiment) class. This metadata document contains pointers to the various components of the summarized experiment, including the row data, column data and assays.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        },
+        "single_cell_experiment": {
+            "additionalProperties": false,
+            "properties": {
+                "alternative_experiments": {
+                    "description": "Array of pointers to alternative experiments. Each file should follow the `summarized_experiment` schema with number of columns equal to the number of columns in this single cell experiment object.",
+                    "items": {
+                        "properties": {
+                            "name": {
+                                "description": "Name of the alternative experiment",
+                                "examples": [
+                                    "CITE-seq",
+                                    "spike-ins",
+                                    "HTO"
+                                ],
+                                "type": "string"
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [
+                                        "summarized_experiment"
+                                    ]
+                                },
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "main_experiment_name": {
+                    "description": "Name of the main experiment. This is analogous to the names of the alternative experiments. This may be omitted, in which case the main experiment is not named.",
+                    "examples": [
+                        "RNA-seq"
+                    ],
+                    "type": "string"
+                },
+                "reduced_dimensions": {
+                    "description": "Array of pointers to the reduced dimension results. Each entry is expected to follow the `array` schema, with number of rows equal to the number of columns of the single cell experiment.",
+                    "items": {
+                        "properties": {
+                            "name": {
+                                "description": "Name of the reduced dimensions",
+                                "examples": [
+                                    "PCA",
+                                    "TSNE",
+                                    "UMAP"
+                                ],
+                                "type": "string"
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [
+                                        "hdf5_dense_array",
+                                        "hdf5_sparse_matrix"
+                                    ]
+                                },
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "properties": {
+                        "resource": {
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "array"
+                }
+            },
+            "required": [
+                "reduced_dimensions"
+            ],
+            "type": "object"
+        },
+        "spatial_experiment": {
+            "additionalProperties": false,
+            "properties": {
+                "coordinates": {
+                    "description": "Pointer to the pixel coordinates for each spatial location, relative to the corresponding image in the `image_data`.\n\nIf `type = \"point\"`, this is a 2-3 column matrix complying with the `hdf5_dense_array` schema, where the first column refers to the x-axis, the second column refers to the y-axis, and the third column (if provided) refers to the z-axis. Each row of the matrix corresponds to a column of the spatial experiment.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "hdf5_dense_array"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        },
+                        "type": {
+                            "description": "Type of coordinate.",
+                            "enum": [
+                                "point",
+                                "box",
+                                "polygon"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "resource",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                "image_data": {
+                    "description": "An array of images for this experiment.",
+                    "items": {
+                        "properties": {
+                            "data": {
+                                "description": "Pointer to the actual image file.",
+                                "properties": {
+                                    "resource": {
+                                        "_children": {
+                                            "contains": [
+                                                "image_file"
+                                            ]
+                                        },
+                                        "properties": {
+                                            "path": {
+                                                "description": "Relative path of the resource from the root of the project directory.",
+                                                "type": "string"
+                                            },
+                                            "type": {
+                                                "description": "Type of file. Local files should be present in the same project directory.",
+                                                "enum": [
+                                                    "local"
+                                                ],
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "type",
+                                            "path"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "resource"
+                                ],
+                                "type": "object"
+                            },
+                            "image_id": {
+                                "description": "An identifier to distinguish between images for the same sample.",
+                                "examples": [
+                                    "lowres",
+                                    "hires"
+                                ],
+                                "type": "string"
+                            },
+                            "sample_id": {
+                                "description": "Sample of origin for each image. This should match the identifiers in the `sample_id` column of the column data.",
+                                "type": "string"
+                            },
+                            "scale_factor": {
+                                "description": "The scaling factor to apply to the `coordinates` to obtain pixel coordinates on a particular image. This is most relevant when images are downscaled for easier manipulation.",
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "sample_id",
+                            "image_id",
+                            "scale_factor",
+                            "data"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "coordinates",
+                "image_data"
+            ],
+            "type": "object"
+        },
+        "summarized_experiment": {
+            "additionalProperties": false,
+            "properties": {
+                "assays": {
+                    "description": "An array of pointers to the assay data. Each entry corresponds to a single assay in the summarized experiment object.",
+                    "items": {
+                        "properties": {
+                            "name": {
+                                "description": "Name of the assay.",
+                                "type": "string"
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [
+                                        "hdf5_dense_array",
+                                        "hdf5_sparse_matrix",
+                                        "multi_format_matrix",
+                                        "bumpy_data_frame_matrix"
+                                    ]
+                                },
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "column_data": {
+                    "description": "Pointer to the column data. This should be data frame (as defined by the `data_frame` schema) where each row corresponds to a column of the summarized experiment and each column contains some annotation for the experimental samples. Omitted if no sample-level annotation is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "dimensions": {
+                    "description": "Dimensions of a two-dimensional object.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                },
+                "other_data": {
+                    "description": "Pointer to the additional metadata for this object, typically stored as a list (via the `basic_list` schema). Omitted if no additional metadata is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "basic_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "row_data": {
+                    "description": "Pointer to the row data. This should be data frame (as defined by the `data_frame` schema) where each row corresponds to a row of the summarized experiment and each column contains some annotation for the features. Omitted if no feature-level annotation is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "row_ranges": {
+                    "description": "Pointer to the genomic coordinates corresponding to the rows. This should comply with the `genomic_ranges` or `genomic_ranges_list` schemas, where each range or group defines the genomic location of the feature corresponding to a row of the summarized experiment. Omitted if no genomic coordinates are present. This is based on Bioconductor's RangedSummarizedExperiment class.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "genomic_ranges",
+                                    "genomic_ranges_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "assays",
+                "dimensions"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "$schema",
+        "path",
+        "single_cell_experiment",
+        "spatial_experiment",
+        "summarized_experiment"
+    ],
+    "title": "Spatial Experiment",
+    "type": "object"
+}

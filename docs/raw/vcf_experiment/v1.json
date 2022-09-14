@@ -1,0 +1,354 @@
+{
+    "$id": "vcf_experiment/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.vcf::loadVCF"
+        }
+    },
+    "description": "A summarized experiment subclass containing variant calling data, typically corresponding to the `VCF` classes in the [**VariantAnnotation**](https://bioconductor.org/packages/VariantAnnotation) Bioconductor package. It is guaranteed to have assays with name and type listed in the `INFO` fields of the `header` file. Each row corresponds to a genomic position.\n\nDerived from `summarized_experiment/v1.json`: a summarized experiment where each row corresponds to a feature and each column corresponds to an experimental sample. The layout of this data structure is based on Bioconductor's [SummarizedExperiment](https://bioconductor.org/packages/SummarizedExperiment) class. This metadata document contains pointers to the various components of the summarized experiment, including the row data, column data and assays.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        },
+        "summarized_experiment": {
+            "additionalProperties": false,
+            "properties": {
+                "assays": {
+                    "description": "An array of pointers to the assay data. Each entry corresponds to a single assay in the summarized experiment object.",
+                    "items": {
+                        "properties": {
+                            "name": {
+                                "description": "Name of the assay.",
+                                "type": "string"
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [
+                                        "hdf5_dense_array",
+                                        "hdf5_sparse_matrix",
+                                        "multi_format_matrix",
+                                        "bumpy_data_frame_matrix"
+                                    ]
+                                },
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "column_data": {
+                    "description": "Pointer to the column data. This should be data frame (as defined by the `data_frame` schema) where each row corresponds to a column of the summarized experiment and each column contains some annotation for the experimental samples. Omitted if no sample-level annotation is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "dimensions": {
+                    "description": "Dimensions of a two-dimensional object.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                },
+                "other_data": {
+                    "description": "Pointer to the additional metadata for this object, typically stored as a list (via the `basic_list` schema). Omitted if no additional metadata is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "basic_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "row_data": {
+                    "description": "Pointer to the row data. This should be data frame (as defined by the `data_frame` schema) where each row corresponds to a row of the summarized experiment and each column contains some annotation for the features. Omitted if no feature-level annotation is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "row_ranges": {
+                    "description": "Pointer to the genomic coordinates corresponding to the rows. This should comply with the `genomic_ranges` or `genomic_ranges_list` schemas, where each range or group defines the genomic location of the feature corresponding to a row of the summarized experiment. Omitted if no genomic coordinates are present. This is based on Bioconductor's RangedSummarizedExperiment class.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "genomic_ranges",
+                                    "genomic_ranges_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "assays",
+                "dimensions"
+            ],
+            "type": "object"
+        },
+        "vcf_experiment": {
+            "additionalProperties": false,
+            "properties": {
+                "expanded": {
+                    "description": "Is this an expanded VCF? In an expanded VCF, genomic positions with multiple alternative alleles are expanded into multiple rows, one per alternative allele. In a collapsed VCF, each row strictly corresponds to a single genomic position and any multi-allelic information is embedded in the same row.",
+                    "type": "boolean"
+                },
+                "fixed": {
+                    "description": "Pointer to a data frame with number of rows equal to the number of genomic positions in the VCF experiment. This should contains a fixed set of columns:\n- `REF`, a DNA string set or character field containing the reference allele for each row.\n- `ALT`, a list containing one or more alternative alleles for each position when `expanded` is `false`, and a DNA string set or character field when `expanded` is `true`.\n- `QUAL`, an integer field with the quality score for the alternative allele calls.\n-`FILTER`, a character field indicating whether a row passes filter (`PASS`) or fails for some reason as listed in the `FILTER` tags of the header.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "header": {
+                    "description": "Pointer to a VCF file with header information but no other data. This is only used to transmit the headers efficiently, given that the headers are highly heterogeneous and do not easily fit into other formats.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "vcf_file"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "info": {
+                    "description": "Pointer to a data frame with additional information about each genomic position. Column names and types are as listed in the `INFO` tags of the header.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "header",
+                "fixed",
+                "info",
+                "expanded"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "$schema",
+        "path",
+        "summarized_experiment",
+        "vcf_experiment"
+    ],
+    "title": "VCF Experiment",
+    "type": "object"
+}
