@@ -1,0 +1,90 @@
+{
+    "$id": "hdf5_sparse_matrix/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "format": "application/x-hdf5",
+        "restore": {
+            "R": "artificer.matrix::loadArray"
+        }
+    },
+    "description": "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file. The group should contain a `data` subgroup, which should in turn contain the typical contents of the compressed sparse matrix, i.e., `indices`, `indptr` and `data`. Specifically, `data` should be a 1-dimensional integer or numeric dataset contains the values of the non-zero elements; `indices` should be a 1-dimensional integer dataset containing the 0-based row/column index for each non-zero element in `data`; and `indptr` should be a 1-dimensional integer dataset of length equal to the number of columns/rows plus 1, containing pointers to the start and end of each column/row. The exact interpretation depends on the format specified in `format`. Dimnames may also be saved inside the file.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "array": {
+            "additionalProperties": false,
+            "properties": {
+                "dimensions": {
+                    "description": "Dimensions of an n-dimensional array. Dimensions should be ordered from the fastest-changing to the slowest.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Type of data stored in this array.",
+                    "enum": [
+                        "boolean",
+                        "number",
+                        "integer",
+                        "string",
+                        "other"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "dimensions"
+            ],
+            "type": "object"
+        },
+        "hdf5_sparse_matrix": {
+            "additionalProperties": false,
+            "properties": {
+                "dimnames": {
+                    "description": "Name of the group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available.\n\n(Legacy versions of this file format for matrices may have the dimnames for the fastest and second-fastest dimensions saved in `samp_data/features` and `samp_data/samples`, respectively.)",
+                    "type": "string"
+                },
+                "format": {
+                    "description": "Format of the sparse matrix. For `csc_matrix` and `csr_matrix`, the attributes of the `data` group should contain at least `encoding-type`, a string set to `csc_matrix` or `csr_matrix`; and `shape`, an integer vector of length 2 containing the dimensions. For `tenx_matrix` (implicitly in compressed sparse column format), `data` should contain a `shape` dataset, an integer vector of length 2 containing the dimensions.",
+                    "enum": [
+                        "csc_matrix",
+                        "csr_matrix",
+                        "tenx_matrix"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "format"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "array",
+        "hdf5_sparse_matrix",
+        "md5sum",
+        "path"
+    ],
+    "title": "HDF5 sparse matrix",
+    "type": "object"
+}
