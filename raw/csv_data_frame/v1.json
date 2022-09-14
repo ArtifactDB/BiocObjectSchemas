@@ -16,7 +16,7 @@
             "type": "object",
             "additionalProperties": false,
             "allOf": [
-                { "$ref": "../_compression/v2.json" }
+                { "$ref": "../_compression/v1.json" }
             ]
         }
     },
