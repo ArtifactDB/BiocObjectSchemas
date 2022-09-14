@@ -1,0 +1,55 @@
+{
+    "$id": "array/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "description": "Some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "array": {
+            "additionalProperties": false,
+            "properties": {
+                "dimensions": {
+                    "description": "Dimensions of an n-dimensional array. Dimensions should be ordered from the fastest-changing to the slowest.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Type of data stored in this array.",
+                    "enum": [
+                        "boolean",
+                        "number",
+                        "integer",
+                        "string",
+                        "other"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "dimensions"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "array",
+        "path"
+    ],
+    "title": "Virtual array",
+    "type": "object"
+}
