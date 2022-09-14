@@ -1,0 +1,54 @@
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: python:latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Resolve schemas
+      run: |
+        python3 scripts/resolver.py raw resolved
+
+    - name: Archive resolved schemas
+      uses: actions/upload-artifact@v3
+      with:
+        name: resolved-schemas
+        path: resolved
+
+    - name: Install JSON-schema-for-humans
+      run: pip install json-schema-for-humans
+
+    - name: Create human-readable pages
+      run: |
+        all_json=$(find resolved -type f -name "*.json")
+        output=public/html
+        mkdir -p $output
+        for x in ${all_json}
+        do
+            base=$(basename $x | sed "s/.json/.html/")
+            dir=$(dirname $x | xargs basename)
+            mkdir -p $output/$dir
+            tmp=${output}/${dir}/tmp-${base}.json
+            python3 scripts/nest_allOf.py ${x} ${tmp}
+            generate-schema-doc ${tmp} ${output}/${dir}/${base}
+            rm ${tmp}
+        done
+        python3 scripts/indexer.py "Bioconductor schemas" public "https://i.imgur.com/VgP2ONn.gif" > public/index.html
+
+    - name: Organize JSON files
+      run: |
+        mv resolved public/raw
+        tar -czvf public/bundle.tar.gz resolved
+
+    - name: Publish to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.3
+      if: github.ref == 'refs/heads/master'
+      with:
+        branch: gh-pages 
+        folder: public
+        target-folder: docs
+        clean: true 
