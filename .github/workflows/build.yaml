@@ -3,11 +3,24 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: python:latest
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: python-packages
+
+    - name: Install Python packages
+      run: |
+        pip install json-schema-for-humans
 
     - name: Resolve schemas
       run: |
@@ -18,9 +31,6 @@ jobs:
       with:
         name: resolved-schemas
         path: resolved
-
-    - name: Install JSON-schema-for-humans
-      run: pip install json-schema-for-humans
 
     - name: Create human-readable pages
       run: |
@@ -41,8 +51,8 @@ jobs:
 
     - name: Organize JSON files
       run: |
-        mv resolved public/raw
         tar -czvf public/bundle.tar.gz resolved
+        mv resolved public/raw
 
     - name: Publish to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.3

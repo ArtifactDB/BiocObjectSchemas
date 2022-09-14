@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "md5sum": {
+            "type": "string",
+            "description": "MD5 checksum for the file."
+        }
+    },
+    "required": [
+        "md5sum"
+    ]
+}

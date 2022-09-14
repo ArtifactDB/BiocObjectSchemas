@@ -1,0 +1,145 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "data_frame/v1.json",
+    "type": "object",
+    "title": "Data Frame",
+    "description": "Virtual data frame object stored in a yet-to-be-defined file format. Simple columns are stored directly in the file. For complex columns, their contents should be stored in other files, and a pointer to a resource is stored in the corresponding entry of `columns` (a placeholder column may be created in the file).",
+    "allOf": [
+        { "$ref": "../_common/v1.json" }
+    ],
+    "required": [
+        "data_frame"
+    ],
+    "properties": {
+        "data_frame": {
+            "type": "object",
+            "allOf": [
+                { "$ref": "../_dimensions/v1.json" }
+            ],
+            "required": [
+                "columns"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "columns": {
+                    "type": "array",
+                    "description": "Information about the fields in this file. This follows the same order as the columns in the file (after omitting the first column corresponding to the row names, if `row_names` is present).",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "type"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the column."
+                            },
+                            "type": {
+                                "type": "string",
+                                "description": "What is the type of the column? Factors and ordered factors have an additional `levels` property specifying the levels. Dates are stored in `YYYY-MM-DD` format. Columns listed as `other` are assumed to be non-atomic and should contain a `resource` property pointing towards the file containing the column's contents.",
+                                "enum": [ "integer", "number", "string", "factor", "ordered", "boolean", "date", "other" ]
+                            }
+                        },
+                        "allOf": [
+                            {
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "enum": ["factor", "ordered"]
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "levels"
+                                    ],
+                                    "properties": {
+                                        "levels": {
+                                            "type": "object",
+                                            "description": "Levels for the categorical factor. This is stored as a single-column `data_frame`. For ordered factors, the order is respected in the saved data frame.",
+                                            "properties": {
+                                                "resource": {
+                                                    "_children":{
+                                                        "contains": ["data_frame"]
+                                                    }
+                                                }
+                                            },
+                                            "allOf": [{ "$ref": "../_resource/v1.json" }]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "enum": [ "string", "factor", "ordered" ]
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "values": {
+                                            "type": "array",
+                                            "description": "All unique (unordered) values for the covariate. This is only listed here for search purposes and may be truncated.",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "const": "other"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "allOf": [
+                                        { "$ref": "../_resource/v1.json" }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "row_names": {
+                    "type": "array",
+                    "description": "Names of the rows. This is only provided to facilitate search and may be truncated. Omitted if the data frame has no row names.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "column_data": {
+                    "type": "object",
+                    "description": "Location of additional metadata for each column, stored as another `data_frame`. Omitted if there is no additional per-column metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "other_data": {
+                    "type": "object",
+                    "description": "Location of additional metadata for this object, typically stored as a list (via the `basic_list` schema). Ommitted if no other metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["basic_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            }
+        }
+    }
+}
+

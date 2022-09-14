@@ -1,0 +1,20 @@
+{
+    "required": [ "resource" ],
+    "properties": {
+        "resource": {
+            "type": "object",
+            "required": [ "type", "path" ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description":"Type of file. Local files should be present in the same project directory.",
+                    "enum": [ "local" ]
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Relative path of the resource from the root of the project directory."
+                }
+            }
+        }
+    }
+}
