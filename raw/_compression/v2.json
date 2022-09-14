@@ -1,0 +1,10 @@
+{
+    "properties": {
+        "compression": {
+            "type": "string",
+            "description": "Type of compression applied to the file.",
+            "enum": [ "none", "gzip", "bzip2" ],
+            "default": "none"
+        }
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "csv_data_frame/v1.json",
+    "type": "object",
+    "title": "CSV Data Frame",
+    "description": "A data frame stored in a CSV file. If `data_frame.row_names` is present, the first column of the CSV file contains the row names of the data frame and should be ignored when indexing entries of `columns`. For complex columns, a placeholder column is created in the CSV and a pointer to the relevant resource is created in the corresponding entry of the `data_frame.columns` property. The CSV file may be compressed if `compression` is set. See https://ltla.github.io/comservatory for details on the expected CSV layout.", 
+    "allOf": [
+        { "$ref": "../data_frame/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [
+        "csv_data_frame"
+    ],
+    "properties": {
+        "csv_data_frame": {
+            "type": "object",
+            "additionalProperties": false,
+            "allOf": [
+                { "$ref": "../_compression/v2.json" }
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.base::loadDataFrame"
+        }
+    }
+}
