@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "genomic_ranges_list/v1.json",
+    "type": "object",
+    "title": "Genomic Ranges List",
+    "description": "A list of genomic ranges, used to represent groups of genomic ranges, e.g., all exons for each gene. The coordinates of the concatenated set of genomic ranges are stored in the resource referenced by the `ranges` property. The grouping of the concatenated ranges into a list of grouped ranges is contained in the CSV file at the location in the `path` property. This CSV contains a data frame with one row per group. It has at least the `number` column that specifies the number of consecutive entries of the concatenated ranges that belong in each group. If the `names` property is present, the first column contains the names of the groups. The CSV file should follow the [**comservatory specification](https://ltla.github.io/comservatory).", 
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [ 
+        "genomic_ranges_list" 
+    ],
+    "properties": {
+        "genomic_ranges_list": {
+            "type":"object",
+            "required": [
+                "length",
+                "genomic_ranges"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "description": "Number of entries, specifically the number of groups." 
+                },
+                "names": {
+                    "type": "array",
+                    "description": "Names of the entries. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "genomic_ranges": {
+                    "type": "object",
+                    "description": "Location of the genomic ranges object, created by concatenating the ranges across all groups in the genomic ranges list.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["genomic_ranges"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "element_data": {
+                    "type": "object",
+                    "description": "Location of additional annotations for each element in the GRangesList. If omitted, no additional annotations are present.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "other_data": {
+                    "type": "object",
+                    "description": "Location of additional metadata for this object, typically stored as a list (e.g., via the `basic_list` schema).",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["basic_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            },
+            "allOf": [
+                { "$ref": "../_compression/v1.json" }
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.ranges::loadGRangesList"
+        }
+    }
+}
+

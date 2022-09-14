@@ -1,0 +1,31 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "sequence_information/v1.json",
+    "type": "object",
+    "title": "Sequence information",
+    "description": "Sequence information for custom genomic ranges. This is a CSV file containing a data frame with one row per reference sequence in the custom annotation. It has at least the columns `seqnames`, `seqlengths`, `isCircular`, and `genome`. All columns can be interpreted as strings except for `isCircular`, which contains boolean values. The CSV layout should follow the standards described at https://github.com/LTLA/comservatory.", 
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [
+        "sequence_information"
+    ],
+    "properties": {
+        "sequence_information": {
+            "type":"object",
+            "additionalProperties": false,
+            "allOf": [
+                { "$ref": "../_dimensions/v1.json" },
+                { "$ref": "../_compression/v1.json" }
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.ranges::loadSeqinfo"
+        }
+    }
+}
+

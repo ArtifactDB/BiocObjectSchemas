@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "genomic_ranges/v1.json",
+    "type": "object",
+    "title": "Genomic Ranges",
+    "description": "Genomic ranges, stored as a data frame inside a CSV file. Each row of the data frame corresponds to a genomic range. The data frame should contain at least the columns `seqnames` (character), `start` (integer), `end` (integer), and `strand` (character). If the `names` proeprty is present, the first column of the CSV file contains the names of the ranges. The CSV file should comply with the [**comservatory** specification](https://github.com/LTLA/comservatory).",
+    "allOf": [ 
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" } 
+    ],
+    "required": [
+        "genomic_ranges"
+    ],
+    "properties": {
+        "genomic_ranges": {
+            "type": "object",
+            "required": [
+                "length",
+                "sequence_information"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "description": "Number of entries."
+                },
+                "sequence_information": {
+                    "type": "object",
+                    "description": "Location of the file containing the sequence information.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["sequence_information"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "range_data": {
+                    "type": "object",
+                    "description": "Location of additional annotations for each genomic range. If omitted, no additional annotations are present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "names": {
+                    "type": "array",
+                    "description": "Names of the genomic ranges. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "other_data": {
+                    "type": "object",
+                    "description": "Location of additional metadata for this object, typically stored as a list (via the `basic_list` schema).",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["basic_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            },
+            "allOf": [
+                { "$ref": "../_compression/v1.json" }
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.ranges::loadGRanges"
+        }
+    }
+}
