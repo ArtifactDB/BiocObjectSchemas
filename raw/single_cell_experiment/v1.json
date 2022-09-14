@@ -1,0 +1,81 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "single_cell_experiment/v1.json",
+    "type": "object",
+    "title": "Single Cell Experiment",
+    "description": "A single cell experiment where each row corresponds to a feature and each column corresponds to a single cell. This file contains pointers to single-cell-specific components including reduced dimension results and alternative experiments.",
+    "allOf": [ 
+        { "$ref": "../summarized_experiment/v1.json" } 
+    ],
+    "required": [ 
+        "single_cell_experiment" 
+    ],
+    "properties": {
+        "single_cell_experiment": {
+            "type": "object",
+            "required": [
+                "reduced_dimensions"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "reduced_dimensions": {
+                    "type": "array",
+                    "description": "Array of pointers to the reduced dimension results. Each entry is expected to follow the `array` schema, with number of rows equal to the number of columns of the single cell experiment.",
+                    "items": {
+                        "type": "object",
+                        "required": [ "name" ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the reduced dimensions",
+                                "examples": [ "PCA", "TSNE", "UMAP" ]
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [ 
+                                        "hdf5_dense_array",
+                                        "hdf5_sparse_matrix" 
+                                    ]
+                                }
+                            }
+                        },
+                        "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "alternative_experiments": {
+                    "type": "array",
+                    "description": "Array of pointers to alternative experiments. Each file should follow the `summarized_experiment` schema with number of columns equal to the number of columns in this single cell experiment object.",
+                    "items": {
+                        "type": "object",
+                        "required": [ "name" ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the alternative experiment",
+                                "examples": [ "CITE-seq", "spike-ins", "HTO" ]
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": ["summarized_experiment"]
+                                }
+                             }
+                        },
+                        "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                    }
+                },
+                "main_experiment_name": {
+                    "type": "string",
+                    "description": "Name of the main experiment. This is analogous to the names of the alternative experiments. This may be omitted, in which case the main experiment is not named.",
+                    "examples": [ "RNA-seq" ]
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.sce::loadSingleCellExperiment"
+        }
+    }
+}

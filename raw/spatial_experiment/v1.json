@@ -1,0 +1,94 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "spatial_experiment/v1.json",
+    "type": "object",
+    "title": "Spatial Experiment",
+    "description": "A spatial experiment where each row corresponds to a feature and each column corresponds to a spatial location. This file contains pointers to spatial-specific components including the coordinates and image files. Each spatial location is assigned to a sample via a `sample_id` column in the column data; this is guaranteed to have the same levels as the `sample_id` values in the `image_data` property.",
+    "allOf": [ 
+        { "$ref": "../single_cell_experiment/v1.json" } 
+    ],
+    "required": [ 
+        "spatial_experiment" 
+    ],
+    "properties": {
+        "spatial_experiment": {
+            "type": "object",
+            "required": [
+                "coordinates",
+                "image_data"
+            ],
+            "additionalProperties": false,
+
+            "properties": {
+                "coordinates": {
+                    "type": "object",
+                    "description": "Pointer to the pixel coordinates for each spatial location, relative to the corresponding image in the `image_data`.\n\nIf `type = \"point\"`, this is a 2-3 column matrix complying with the `hdf5_dense_array` schema, where the first column refers to the x-axis, the second column refers to the y-axis, and the third column (if provided) refers to the z-axis. Each row of the matrix corresponds to a column of the spatial experiment.",
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ],
+                    "required": [
+                        "type"
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "Type of coordinate.",
+                            "enum": [ "point", "box", "polygon" ]
+                        },
+                        "resource": {
+                            "_children": {
+                                "contains": [ "hdf5_dense_array" ]
+                            }
+                        }
+                    }
+                },
+
+                "image_data": {
+                    "type": "array",
+                    "description": "An array of images for this experiment.",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "sample_id",
+                            "image_id",
+                            "scale_factor",
+                            "data"
+                        ],
+                        "properties": {
+                            "sample_id": {
+                                "type": "string",
+                                "description": "Sample of origin for each image. This should match the identifiers in the `sample_id` column of the column data."
+                            },
+                            "image_id": {
+                                "type": "string",
+                                "description": "An identifier to distinguish between images for the same sample.",
+                                "examples": [ "lowres", "hires" ]
+                            },
+                            "scale_factor": {
+                                "type": "number",
+                                "description": "The scaling factor to apply to the `coordinates` to obtain pixel coordinates on a particular image. This is most relevant when images are downscaled for easier manipulation."
+                            },
+                            "data": {
+                                "type": "object",
+                                "description": "Pointer to the actual image file.",
+                                "properties": {
+                                    "resource": {
+                                        "_children": {
+                                            "contains": [ "image_file" ]
+                                        }
+                                    }
+                                },
+                                "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                            }
+                        }
+                    },
+                    "minItems": 1
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.spatial::loadSpatialExperiment"
+        }
+    }
+}

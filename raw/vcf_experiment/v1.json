@@ -1,0 +1,73 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "vcf_experiment/v1.json",
+    "type": "object",
+    "title": "VCF Experiment",
+    "description": "A summarized experiment subclass containing variant calling data, typically corresponding to the `VCF` classes in the [**VariantAnnotation**](https://bioconductor.org/packages/VariantAnnotation) Bioconductor package. It is guaranteed to have assays with name and type listed in the `INFO` fields of the `header` file. Each row corresponds to a genomic position.",
+    "allOf": [ 
+        { "$ref": "../summarized_experiment/v1.json" } 
+    ],
+    "required": [ 
+        "vcf_experiment" 
+    ],
+    "properties": {
+        "vcf_experiment": {
+            "type": "object",
+            "required": [
+                "header", 
+                "fixed", 
+                "info",
+                "expanded"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "header": {
+                    "type": "object",
+                    "description": "Pointer to a VCF file with header information but no other data. This is only used to transmit the headers efficiently, given that the headers are highly heterogeneous and do not easily fit into other formats.",
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ],
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [ "vcf_file" ]
+                            }
+                        }
+                    }
+                },
+                "fixed": {
+                    "type": "object",
+                    "description": "Pointer to a data frame with number of rows equal to the number of genomic positions in the VCF experiment. This should contains a fixed set of columns:\n- `REF`, a DNA string set or character field containing the reference allele for each row.\n- `ALT`, a list containing one or more alternative alleles for each position when `expanded` is `false`, and a DNA string set or character field when `expanded` is `true`.\n- `QUAL`, an integer field with the quality score for the alternative allele calls.\n-`FILTER`, a character field indicating whether a row passes filter (`PASS`) or fails for some reason as listed in the `FILTER` tags of the header.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [ "data_frame" ]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "info": {
+                    "type": "object",
+                    "description": "Pointer to a data frame with additional information about each genomic position. Column names and types are as listed in the `INFO` tags of the header.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [ "data_frame" ]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "expanded": {
+                    "type": "boolean",
+                    "description": "Is this an expanded VCF? In an expanded VCF, genomic positions with multiple alternative alleles are expanded into multiple rows, one per alternative allele. In a collapsed VCF, each row strictly corresponds to a single genomic position and any multi-allelic information is embedded in the same row."
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.vcf::loadVCF"
+        }
+    }
+}

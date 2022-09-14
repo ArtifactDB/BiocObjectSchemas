@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "summarized_experiment/v1.json",
+    "type": "object",
+    "title": "Experiment",
+    "description": "A summarized experiment where each row corresponds to a feature and each column corresponds to an experimental sample. The layout of this data structure is based on Bioconductor's [SummarizedExperiment](https://bioconductor.org/packages/SummarizedExperiment) class. This metadata document contains pointers to the various components of the summarized experiment, including the row data, column data and assays.",
+    "allOf": [ { "$ref": "../_common/v1.json" } ],
+    "required": [
+        "summarized_experiment"
+    ],
+    "properties": {
+        "summarized_experiment": {
+            "type": "object",
+            "allOf": [ 
+                { "$ref": "../_dimensions/v1.json" } 
+            ],
+            "required": [
+                "assays"
+            ],
+            "additionalProperties": false,
+
+            "properties": {
+                "assays": {
+                    "type": "array",
+                    "description": "An array of pointers to the assay data. Each entry corresponds to a single assay in the summarized experiment object.",
+                    "items": {
+                        "type": "object",
+                        "required": [ "name" ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the assay."
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [ 
+                                        "hdf5_dense_array", 
+                                        "hdf5_sparse_matrix", 
+                                        "multi_format_matrix",
+                                        "bumpy_data_frame_matrix"
+                                    ]
+                                }
+                            }
+                        },
+                        "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                    },
+                    "minItems": 1
+                },
+
+                "column_data": {
+                    "type": "object",
+                    "description": "Pointer to the column data. This should be data frame (as defined by the `data_frame` schema) where each row corresponds to a column of the summarized experiment and each column contains some annotation for the experimental samples. Omitted if no sample-level annotation is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+
+                "row_data": {
+                    "type": "object",
+                    "description": "Pointer to the row data. This should be data frame (as defined by the `data_frame` schema) where each row corresponds to a row of the summarized experiment and each column contains some annotation for the features. Omitted if no feature-level annotation is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+
+                "row_ranges": {
+                    "type": "object",
+                    "description": "Pointer to the genomic coordinates corresponding to the rows. This should comply with the `genomic_ranges` or `genomic_ranges_list` schemas, where each range or group defines the genomic location of the feature corresponding to a row of the summarized experiment. Omitted if no genomic coordinates are present. This is based on Bioconductor's RangedSummarizedExperiment class.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["genomic_ranges", "genomic_ranges_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+
+                "other_data": {
+                    "type": "object",
+                    "description": "Pointer to the additional metadata for this object, typically stored as a list (via the `basic_list` schema). Omitted if no additional metadata is present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["basic_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                 }
+            }
+        }
+    },
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.se::loadSummarizedExperiment"
+        }
+    }
+}
