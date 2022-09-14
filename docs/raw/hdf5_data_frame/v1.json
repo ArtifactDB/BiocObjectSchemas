@@ -1,0 +1,289 @@
+{
+    "$id": "hdf5_data_frame/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "format": "application/x-hdf5",
+        "restore": {
+            "R": "artificer.base::loadDataFrame"
+        }
+    },
+    "description": "A data frame object stored inside a group of a HDF5 file. Simple columns are stored as one-dimensional datasets in the `data` subgroup, named by their positional 0-based index in the data frame. All such datasets should have the same length. Column names are stored in `column_names`, a 1-dimensional string dataset of length equal to the number of columns. Row names, if present, are stored in a `row_names` dataset. For complex columns, the corresponding dataset is omitted and the actual contents are obtained from other files; a pointer to the resource should be stored in the corresponding entry of the `data_frame.columns` property.\n\nDerived from `data_frame/v1.json`: virtual data frame object stored in a yet-to-be-defined file format. Simple columns are stored directly in the file. For complex columns, their contents should be stored in other files, and a pointer to a resource is stored in the corresponding entry of `columns` (a placeholder column may be created in the file).",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "data_frame": {
+            "additionalProperties": false,
+            "properties": {
+                "column_data": {
+                    "description": "Location of additional metadata for each column, stored as another `data_frame`. Omitted if there is no additional per-column metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "columns": {
+                    "description": "Information about the fields in this file. This follows the same order as the columns in the file (after omitting the first column corresponding to the row names, if `row_names` is present).",
+                    "items": {
+                        "allOf": [
+                            {
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "factor",
+                                                "ordered"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "levels": {
+                                            "description": "Levels for the categorical factor. This is stored as a single-column `data_frame`. For ordered factors, the order is respected in the saved data frame.",
+                                            "properties": {
+                                                "resource": {
+                                                    "_children": {
+                                                        "contains": [
+                                                            "data_frame"
+                                                        ]
+                                                    },
+                                                    "properties": {
+                                                        "path": {
+                                                            "description": "Relative path of the resource from the root of the project directory.",
+                                                            "type": "string"
+                                                        },
+                                                        "type": {
+                                                            "description": "Type of file. Local files should be present in the same project directory.",
+                                                            "enum": [
+                                                                "local"
+                                                            ],
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "type",
+                                                        "path"
+                                                    ],
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "required": [
+                                                "resource"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    },
+                                    "required": [
+                                        "levels"
+                                    ]
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "string",
+                                                "factor",
+                                                "ordered"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "values": {
+                                            "description": "All unique (unordered) values for the covariate. This is only listed here for search purposes and may be truncated.",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "const": "other"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "resource": {
+                                            "properties": {
+                                                "path": {
+                                                    "description": "Relative path of the resource from the root of the project directory.",
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                                    "enum": [
+                                                        "local"
+                                                    ],
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "type",
+                                                "path"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    },
+                                    "required": [
+                                        "resource"
+                                    ]
+                                }
+                            }
+                        ],
+                        "properties": {
+                            "name": {
+                                "description": "Name of the column.",
+                                "type": "string"
+                            },
+                            "type": {
+                                "description": "What is the type of the column? Factors and ordered factors have an additional `levels` property specifying the levels. Dates are stored in `YYYY-MM-DD` format. Columns listed as `other` are assumed to be non-atomic and should contain a `resource` property pointing towards the file containing the column's contents.",
+                                "enum": [
+                                    "integer",
+                                    "number",
+                                    "string",
+                                    "factor",
+                                    "ordered",
+                                    "boolean",
+                                    "date",
+                                    "other"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "type"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "dimensions": {
+                    "description": "Dimensions of a two-dimensional object.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                },
+                "other_data": {
+                    "description": "Location of additional metadata for this object, typically stored as a list (via the `basic_list` schema). Ommitted if no other metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "basic_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "row_names": {
+                    "description": "Names of the rows. This is only provided to facilitate search and may be truncated. Omitted if the data frame has no row names.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "columns",
+                "dimensions"
+            ],
+            "type": "object"
+        },
+        "hdf5_data_frame": {
+            "additionalProperties": false,
+            "properties": {
+                "group": {
+                    "description": "Name of the group inside the HDF5 file that contains the contents of the data frame.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "data_frame",
+        "hdf5_data_frame",
+        "md5sum",
+        "path"
+    ],
+    "title": "HDF5 Data Frame",
+    "type": "object"
+}
