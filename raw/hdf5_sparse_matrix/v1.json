@@ -1,0 +1,52 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "hdf5_sparse_matrix/v1.json",
+    "type": "object",
+    "title": "HDF5 sparse matrix",
+    "description": "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file. The group should contain a `data` subgroup, which should in turn contain the typical contents of the compressed sparse matrix, i.e., `indices`, `indptr` and `data`. Specifically, `data` should be a 1-dimensional integer or numeric dataset contains the values of the non-zero elements; `indices` should be a 1-dimensional integer dataset containing the 0-based row/column index for each non-zero element in `data`; and `indptr` should be a 1-dimensional integer dataset of length equal to the number of columns/rows plus 1, containing pointers to the start and end of each column/row. The exact interpretation depends on the format specified in `format`. Dimnames may also be saved inside the file.",
+    "allOf": [
+        { "$ref": "../array/v1.json" },
+        { "$ref": "../_md5sum/v1.json" },
+        {
+            "properties": { 
+                "array": {
+                    "properties": {
+                        "dimensions": {
+                            "minItems": 2,
+                            "maxItems": 2
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "required": [
+        "hdf5_sparse_matrix"
+    ],
+    "properties": {
+        "hdf5_sparse_matrix": {
+            "type":"object",
+            "additionalProperties": false,
+            "properties": {
+                "format": {
+                    "type": "string",
+                    "description": "Format of the sparse matrix. For `csc_matrix` and `csr_matrix`, the attributes of the `data` group should contain at least `encoding-type`, a string set to `csc_matrix` or `csr_matrix`; and `shape`, an integer vector of length 2 containing the dimensions. For `tenx_matrix` (implicitly in compressed sparse column format), `data` should contain a `shape` dataset, an integer vector of length 2 containing the dimensions.",
+                    "enum": [ "csc_matrix", "csr_matrix", "tenx_matrix" ]
+                },
+                "dimnames": {
+                    "type": "string",
+                    "description": "Name of the group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available.\n\n(Legacy versions of this file format for matrices may have the dimnames for the fastest and second-fastest dimensions saved in `samp_data/features` and `samp_data/samples`, respectively.)"
+                }
+            },
+            "required": [
+                "format"
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "application/x-hdf5",
+        "restore": {
+            "R": "artificer.matrix::loadArray"
+        }
+    }
+}

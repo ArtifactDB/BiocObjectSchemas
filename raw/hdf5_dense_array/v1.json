@@ -1,0 +1,39 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "hdf5_dense_array/v1.json",
+    "type": "object",
+    "title": "HDF5 dense array",
+    "description": "Dense array, saved in a HDF5 file as an n-dimensional dataset. The fastest-changing dimension is the \"first\" dimension while the slowest-changing is the \"last\" dimension. In the context of assay matrices, the fastest-changing dimension usually corresponds to features while the second-fastest dimension represents the samples. The file may also contain the dimnames of the array.",
+    "allOf": [
+        { "$ref": "../array/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [
+        "hdf5_dense_array"
+    ],
+    "properties": {
+        "hdf5_dense_array": {
+            "type":"object",
+            "additionalProperties": false,
+            "properties": {
+                "dataset": {
+                    "type": "string",
+                    "description": "Name of the dataset inside the HDF5 file that contains the array."
+                },
+                "dimnames": {
+                    "type": "string",
+                    "description": "Name of the HDF5 group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available.\n\n(Legacy versions of this file format for dense matrices may have the dimnames for the fastest and second-fastest dimensions saved in `samp_data/features` and `samp_data/samples`, respectively.)"
+                }
+            },
+            "required": [
+                "dataset"
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "application/x-hdf5",
+        "restore": {
+            "R": "artificer.matrix::loadArray"
+        }
+    }
+}

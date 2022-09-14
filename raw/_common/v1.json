@@ -1,0 +1,21 @@
+{
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "The schema to use."
+        },
+        "path": {
+            "type": "string",
+            "description": "Path to the file in the project directory."
+        },
+        "is_child": {
+            "type": "boolean",
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "default": false
+        }
+    },
+    "required": [
+        "$schema",
+        "path"
+    ]
+}
