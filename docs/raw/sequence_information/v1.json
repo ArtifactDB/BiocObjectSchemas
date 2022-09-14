@@ -1,0 +1,66 @@
+{
+    "$id": "sequence_information/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.ranges::loadSeqinfo"
+        }
+    },
+    "description": "Sequence information for custom genomic ranges. This is a CSV file containing a data frame with one row per reference sequence in the custom annotation. It has at least the columns `seqnames`, `seqlengths`, `isCircular`, and `genome`. All columns can be interpreted as strings except for `isCircular`, which contains boolean values. The CSV layout should follow the standards described at https://github.com/LTLA/comservatory.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        },
+        "sequence_information": {
+            "additionalProperties": false,
+            "properties": {
+                "compression": {
+                    "default": "none",
+                    "description": "Type of compression applied to the file.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2"
+                    ],
+                    "type": "string"
+                },
+                "dimensions": {
+                    "description": "Dimensions of a two-dimensional object.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "dimensions"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "$schema",
+        "md5sum",
+        "path",
+        "sequence_information"
+    ],
+    "title": "Sequence information",
+    "type": "object"
+}
