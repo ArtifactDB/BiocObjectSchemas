@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"sequence_file/v1.json",
+    "type": "object",
+    "title": "Sequence File",
+    "description": "A file containing a collection of sequences. This is most typically used for FASTA files from a reference genome assembly, but it can also be used for experimental FASTQ files.",
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "additionalProperties": false,
+    "required": [ "sequence_file" ],
+    "properties": {
+        "sequence_file": { 
+            "type": "object",
+            "required": [
+                "format"
+            ],
+            "properties": {
+                "format":{
+                    "type":"string",
+                    "description":"The file format.",
+                    "enum": [ "FASTA", "FASTQ" ]
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of sequence in the file.",
+                    "enum": [ "DNA", "RNA", "AA" ],
+                    "default": "DNA"
+                },
+                "compression": {
+                    "type": "string",
+                    "description": "The compression format.",
+                    "enum": [ "none", "gzip", "bzip2", "bgzip" ]
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "format": {
+                                "const": "FASTQ"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "quality_encoding": {
+                                "type": "string",
+                                "description": "Encoding used for the base quality scores in a FASTQ file.",
+                                "enum": [ "phred", "solexa", "illumina" ],
+                                "default": "phred"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

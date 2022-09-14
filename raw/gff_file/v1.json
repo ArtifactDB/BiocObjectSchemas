@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"gff_file/v1.json",
+    "type": "object",
+    "title": "GFF file",
+    "description": "A file in the general feature transfer (GFF) format, containing the coordinates of annotated features in relation to a reference sequence.",
+    "allOf": [
+        { "$ref":"../_common/v1.json" },
+        { "$ref":"../_md5sum/v1.json" }
+    ],
+    "required": [ "gff_file" ],
+    "properties": {
+        "gff_file": {
+            "type": "object",
+            "required": [ 
+                "format" 
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "format":{
+                    "type":"string",
+                    "description":"The file format.",
+                    "enum": ["GFF2", "GFF3"]
+                },
+                "compression": {
+                    "type": "string",
+                    "description": "The compression format.",
+                    "enum": [ "none", "gzip", "bzip2", "bgzip" ],
+                    "default": "none"
+                }
+            }
+        }
+    }
+}

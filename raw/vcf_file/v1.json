@@ -1,0 +1,39 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"vcf_file/v1.json",
+    "type": "object",
+    "title": "VCF File",
+    "description": "A Variant Call Format file containing variant calling information.",
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "additionalProperties": false,
+    "required": [ "vcf_file" ],
+    "properties": {
+        "vcf_file": { 
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "compression": {
+                    "type": "string",
+                    "description": "The compression format.",
+                    "enum": [ "none", "gzip", "bzip2", "bgzip" ],
+                    "default": "none"
+                },
+                "header_only": {
+                    "type": "boolean",
+                    "description": "Whether this file only contains the VCF headers, but no data. This is set to `true` when another object contains the VCF data, e.g., in a `vcf_experiment`."
+                }
+            },
+            "required": [
+                "header_only"
+            ]
+        }
+    },
+    "_attributes": {
+        "restore": {
+            "R": "artificer.vcf::loadVCFHeader"
+        }
+    }
+}

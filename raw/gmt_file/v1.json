@@ -1,0 +1,48 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"gmt_file/v1.json",
+    "type": "object",
+    "title": "GMT file",
+    "description": "A file in the gene matrix transposed (GMT) format, containing feature set information. Each line corresponds to one feature set and is tab delimited. The first column contains the name of the set, the second column contains a description for the set, and the remaining columns contain the identifiers for the features in that set. If `fields` is specified, the feature columns should instead contain multiple comma-separated fields, e.g., to handle per-gene weights inside each set.",
+    "allOf": [
+        { "$ref":"../_common/v1.json" },
+        { "$ref":"../_md5sum/v1.json" }
+    ],
+    "required": [
+        "gmt_file"
+    ],
+    "properties": {
+        "gmt_file": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "compression": {
+                    "type": "string",
+                    "description": "The compression format.",
+                    "enum": [ "none", "gzip", "bzip2", "bgzip" ]
+                },
+                "fields": {
+                    "type": "array",
+                    "description": "Fields contained within the feature columns. Specifically, if this property is present, each feature column should contain a comma-separated array of fields instead of just a single feature identifier, e.g., `\"ENSG00000000003\",0.992,-1`. The number and type of fields in each column must be the same across all genes and all sets, and should correspond to the names and types specified in this `fields` array. The first field is always intepreted as the feature identifier. Strings should be double-quoted, unless they are missing, in which they may be `NA`. If the `fields` array is absent, we assume that there are no fields and that each feature column contains only the feature identifier.",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [ "name", "type" ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the field. This should be unique."
+                            },
+                            "type": {
+                                "type": "string",
+                                "description": "Type of the field.",
+                                "enum": [ "integer", "number", "string", "boolean" ]
+                            }
+                        }
+                    },
+                    "minItems": 1
+                }
+            }
+        }
+    }
+}
