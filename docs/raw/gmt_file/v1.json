@@ -1,0 +1,77 @@
+{
+    "$id": "gmt_file/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "description": "A file in the gene matrix transposed (GMT) format, containing feature set information. Each line corresponds to one feature set and is tab delimited. The first column contains the name of the set, the second column contains a description for the set, and the remaining columns contain the identifiers for the features in that set. If `fields` is specified, the feature columns should instead contain multiple comma-separated fields, e.g., to handle per-gene weights inside each set.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "gmt_file": {
+            "additionalProperties": false,
+            "properties": {
+                "compression": {
+                    "description": "The compression format.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2",
+                        "bgzip"
+                    ],
+                    "type": "string"
+                },
+                "fields": {
+                    "description": "Fields contained within the feature columns. Specifically, if this property is present, each feature column should contain a comma-separated array of fields instead of just a single feature identifier, e.g., `\"ENSG00000000003\",0.992,-1`. The number and type of fields in each column must be the same across all genes and all sets, and should correspond to the names and types specified in this `fields` array. The first field is always intepreted as the feature identifier. Strings should be double-quoted, unless they are missing, in which they may be `NA`. If the `fields` array is absent, we assume that there are no fields and that each feature column contains only the feature identifier.",
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "description": "Name of the field. This should be unique.",
+                                "type": "string"
+                            },
+                            "type": {
+                                "description": "Type of the field.",
+                                "enum": [
+                                    "integer",
+                                    "number",
+                                    "string",
+                                    "boolean"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "type"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "gmt_file",
+        "md5sum",
+        "path"
+    ],
+    "title": "GMT file",
+    "type": "object"
+}

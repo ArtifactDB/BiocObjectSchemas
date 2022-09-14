@@ -1,0 +1,89 @@
+{
+    "$id": "basic_list/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "format": "application/json",
+        "restore": {
+            "R": "artificer.base::loadBaseList"
+        }
+    },
+    "description": "A basic list stored in JSON format as an array (unnamed) or object (named). Every data element consists of an object with the `type` property, specifying the type (i.e., `integer`, `number`, `string`, `boolean`, `factor`, `ordered`, `date` or `other`). Objects with non-`other` types have a `values` property containing the actual value of the element. Objects of `other` type have a `index` property specifying the 0-based index of `children` to use for this element. `factor` and `ordered` objects have a `levels` property containing a string array of levels. See https://github.com/LTLA/uzuki for more details.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "basic_list": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "description": "Child resources referenced from this list, for nested objects of type `other`.",
+                    "items": {
+                        "properties": {
+                            "resource": {
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "compression": {
+                    "default": "none",
+                    "description": "Type of compression applied to the file.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "basic_list",
+        "md5sum",
+        "path"
+    ],
+    "title": "Basic list",
+    "type": "object"
+}

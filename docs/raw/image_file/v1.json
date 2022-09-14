@@ -1,0 +1,68 @@
+{
+    "$id": "image_file/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "artificer.spatial::loadSpatialImage"
+        }
+    },
+    "description": "An image file in one of the usual formats.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "image_file": {
+            "additionalProperties": false,
+            "properties": {
+                "format": {
+                    "description": "The file format.",
+                    "enum": [
+                        "PNG",
+                        "JPEG",
+                        "TIFF",
+                        "BMP",
+                        "GIF",
+                        "WEBP"
+                    ],
+                    "type": "string"
+                },
+                "height": {
+                    "description": "Height of the image in pixels.",
+                    "type": "integer"
+                },
+                "width": {
+                    "description": "Width of the image in pixels.",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "format",
+                "width",
+                "height"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "image_file",
+        "md5sum",
+        "path"
+    ],
+    "title": "Image file",
+    "type": "object"
+}
