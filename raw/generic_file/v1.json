@@ -1,0 +1,29 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "generic_file/v1.json",
+    "type": "object",
+    "title": "Generic File",
+    "description": "A generic file of arbitrary content and format. This should be a schema of last resort, typically for one-off files that do not warrant their own dedicated schemas.",
+    "additionalProperties": true,
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [ "generic_file" ],
+    "properties": {
+        "generic_file": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "format": {
+                    "type": "string",
+                    "description": "A MIME type to indicate how the file should be read.",
+                    "examples": [ "application/pdf", "image/png", "text/html" ]
+                }
+            },
+            "required": [
+                "format"
+            ]
+        }
+    }
+}

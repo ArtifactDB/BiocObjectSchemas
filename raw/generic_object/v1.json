@@ -1,0 +1,43 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "generic_object/v1.json",
+    "type": "object",
+    "title": "Generic Object",
+    "description": "A serialized object of some format, as a schema of last resort for saving language-specific objects. For R, this should be an RDS file (_not RDA_) containing a single arbitrary R object. For Python, this should be a pickle file.", 
+    "additionalProperties": true,
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [ "generic_object" ],
+    "properties": {
+        "generic_object": {
+            "type": "object",
+            "required": [
+                "class",
+                "language"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "language": {
+                    "type": "string",
+                    "description": "The language in which the object can be used.",
+                    "enum": [ "R", "Python" ]
+                },
+                "class": {
+                    "type": "string",
+                    "description": "The class of the object.",
+                    "examples": [
+                        "DFrame",
+                        "GRanges"
+                    ]
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "restore": {
+            "R": "base::readRDS"
+        }
+    }
+}

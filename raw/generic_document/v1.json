@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "generic_document/v1.json",
+    "type": "object",
+    "title": "Generic document",
+    "description": "A generic document allowing full-text search on its content.",
+    "required": [ "generic_document" ],
+    "allOf": [{ "$ref": "../_common/v1.json" }],
+    "properties": {
+        "generic_document": {
+            "type": "object",
+            "required": [ "content" ],
+            "additionalProperties": false,
+            "properties": {
+                "content": {
+                     "type": "string",
+                     "description": "String containing the textual content of the document, for search purposes."
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "metadata_only": true
+    }
+}
