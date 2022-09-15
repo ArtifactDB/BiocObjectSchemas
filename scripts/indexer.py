@@ -5,6 +5,7 @@ gifurl = sys.argv[3]
 
 import os
 files = os.listdir(os.path.join(dirpath, "html"))
+files.sort()
 available = []
 for i, x in enumerate(files):
     target = os.path.join(dirpath, "html", x)
