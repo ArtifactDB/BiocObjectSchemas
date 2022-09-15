@@ -1,0 +1,54 @@
+{
+    "$id": "redirection/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
+    "description": "Redirect to another resource. This is typically used create convenient short-hand identifiers that automatically redirect users to a resource with a longer name.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Source path in the project directory to redirect from. This may refer to a subdirectory.",
+            "type": "string"
+        },
+        "redirection": {
+            "properties": {
+                "targets": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "location": {
+                                "description": "Location of the redirection target. Depending on `type`, this may be either a path to another resource in the same project (relative to the root of the project directory) or it may be a full database identifier.",
+                                "type": "string"
+                            },
+                            "type": {
+                                "description": "Type of redirection target. This may be:\n\n- `\"local\"`, where the target resource lies in the same project directory as the redirection document. The path in `location` can be directly used as the path component when constructing the database identifier.\n- `\"remote\"`, which should be a fully qualified database identifier for a resource in another project directory (but the same database).",
+                                "enum": [
+                                    "local",
+                                    "remote"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "location"
+                        ],
+                        "type": "object"
+                    },
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "required": [
+        "$schema",
+        "path",
+        "redirection"
+    ],
+    "title": "Redirection"
+}
