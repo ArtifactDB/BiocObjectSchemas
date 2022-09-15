@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "bumpy_data_frame_matrix/v1.json",
+    "type": "object",
+    "title": "Bumpy Data Frame Matrix",
+    "description": "A bumpy matrix of data frames, corresponding to the BumpyDataFrameMatrix class from the [**BumpyMatrix**](https://www.bioconductor.org/packages/BumpyMatrix) package. Each entry of the matrix contains a data frame with a variable number of rows but the same columns. A concatenated data frame is created by row-wise combining all individual data frames and is referenced by the `concatenated` property.",
+    "allOf": [
+        { "$ref": "../bumpy_matrix/v1.json" }
+    ],
+    "required": [ 
+        "bumpy_data_frame_matrix"
+    ],
+    "properties": {
+        "bumpy_data_frame_matrix": {
+            "type":"object",
+            "required": [
+                "concatenated"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "concatenated": {
+                    "type": "object",
+                    "description": "Pointer to the row-wise concatenated data frame.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.bumpy::loadBumpyDataFrameMatrix"
+        }
+    }
+}
