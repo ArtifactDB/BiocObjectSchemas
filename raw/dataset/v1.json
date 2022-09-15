@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "dataset/v1.json",
+    "type": "object",
+    "title": "Dataset",
+    "description": "A dataset containing multiple summarized experiments, possibly with non-trivial relationships between the columns of different experiments. This is derived from Bioconductor's [MultiAssayExperiment](https://bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html) class. This document contains pointers to the various components including the column data, sample mapping and experiments.",
+    "allOf": [ { "$ref": "../_common/v1.json" } ],
+    "required": [ 
+        "dataset" 
+    ],
+    "properties": {
+        "dataset": {
+            "type": "object",
+            "required": [
+                "experiments",
+                "column_data",
+                "sample_mapping"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "experiments": {
+                    "type": "array",
+                    "description": "Array of pointers to the summarized experiments. Each experiment should contain column names that unique within that experiment.",
+                    "items": {
+                        "type": "object",
+                        "required": [ "name" ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the experiment."
+                            },
+                            "resource": {
+                                "_children":{
+                                    "contains": ["summarized_experiment"]
+                                }
+                            }
+                        },
+                        "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                    },
+                    "minItems": 1
+                },
+                "column_data": {
+                    "type": "object",
+                    "description": "Pointer to the column data for the dataset. This should be a data frame with one row per sample in the dataset, where each column contains sample annotations. Row names should be present and unique.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "sample_mapping": {
+                    "type": "object",
+                    "description": "Pointer to the sample mappings. This defines the relationships between columns of the summarized experiments and the samples in the dataset. The data frame should always contain three string columns:\n\n- `primary`, the sample name.\n- 'assay', the name of the experiment.\n- 'colname', the name of the column in that experiment.\n\nEach row defines a single relationship between a sample and an experiment's column.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["csv_data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "other_data": {
+                    "type": "object",
+                    "description": "Pointer to additional metadata for this object, typically stored as a list (via the `basic_list` schema).",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["basic_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                 }
+            }
+        }
+    },
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.mae::loadMultiAssayExperiment"
+        }
+    }
+}
