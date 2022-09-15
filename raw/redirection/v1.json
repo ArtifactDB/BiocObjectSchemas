@@ -1,0 +1,51 @@
+{
+    "$id": "redirection/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "Redirection",
+    "description": "Redirect to another resource. This is typically used create convenient short-hand identifiers that automatically redirect users to a resource with a longer name.",
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "The schema to use."
+        },
+        "path": {
+            "type": "string",
+            "description": "Source path in the project directory to redirect from. This may refer to a subdirectory."
+        },
+        "redirection": {
+            "type": "object",
+            "properties": {
+                "targets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "type",
+                            "location"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "Type of redirection target. This may be:\n\n- `\"local\"`, where the target resource lies in the same project directory as the redirection document. The path in `location` can be directly used as the path component when constructing the database identifier.\n- `\"remote\"`, which should be a fully qualified database identifier for a resource in another project directory (but the same database).",
+                                "enum": [ "local", "remote" ]
+                            },
+                            "location": {
+                                "type": "string",
+                                "description": "Location of the redirection target. Depending on `type`, this may be either a path to another resource in the same project (relative to the root of the project directory) or it may be a full database identifier."
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "maxItems": 1
+                }
+            }
+        }
+    },
+    "required": [
+        "$schema",
+        "path",
+        "redirection"
+    ]
+}
