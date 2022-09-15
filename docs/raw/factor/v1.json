@@ -1,0 +1,136 @@
+{
+    "$id": "factor/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.base::loadDataFrameFactor"
+        }
+    },
+    "description": "Virtual factor-like object where the unique levels are some vector-like object, corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package. Each element of the factor is a 1-based integer index that refers to a specific level. The `path` property points to a [**comservatory**](https://ltla.github.io/comservatory)-formatted CSV file containing a data frame with one `index` integer column with the indices for all factor elements. If the `names` property is present, the first column of the data frame contains the names of the factor elements.\n\nConcrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "factor": {
+            "additionalProperties": false,
+            "properties": {
+                "compression": {
+                    "default": "none",
+                    "description": "Type of compression applied to the file.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2"
+                    ],
+                    "type": "string"
+                },
+                "element_data": {
+                    "description": "Pointer to a data frame additional annotations for each element in the factor. If omitted, no additional annotations are present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "length": {
+                    "description": "Length of the factor.",
+                    "type": "integer"
+                },
+                "names": {
+                    "description": "Names of the entries. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "other_data": {
+                    "description": "Pointer to a list of additional metadata for this object.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "basic_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "length"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "factor",
+        "md5sum",
+        "path"
+    ],
+    "title": "Factor",
+    "type": "object"
+}
