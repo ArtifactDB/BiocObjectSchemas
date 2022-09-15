@@ -1,0 +1,69 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "factor/v1.json",
+    "type": "object",
+    "title": "Factor",
+    "description": "Virtual factor-like object where the unique levels are some vector-like object, corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package. Each element of the factor is a 1-based integer index that refers to a specific level. The `path` property points to a [**comservatory**](https://ltla.github.io/comservatory)-formatted CSV file containing a data frame with one `index` integer column with the indices for all factor elements. If the `names` property is present, the first column of the data frame contains the names of the factor elements.\n\nConcrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels.",
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [ 
+        "factor"
+    ],
+    "properties": {
+        "factor": {
+            "type":"object",
+            "required": [
+                "length"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "description": "Length of the factor." 
+                },
+                "names": {
+                    "type": "array",
+                    "description": "Names of the entries. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "element_data": {
+                    "type": "object",
+                    "description": "Pointer to a data frame additional annotations for each element in the factor. If omitted, no additional annotations are present.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "other_data": {
+                    "type": "object",
+                    "description": "Pointer to a list of additional metadata for this object.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["basic_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                 }
+            },
+            "allOf": [
+                { "$ref": "../_compression/v1.json" }
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.base::loadDataFrameFactor"
+        }
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "data_frame_factor/v1.json",
+    "type": "object",
+    "title": "Data Frame Factor",
+    "description": "A factor where the levels are the rows of a data frame. The `levels` property points to a `data_frame` resource containing the levels.",
+    "allOf": [
+        { "$ref": "../factor/v1.json" }
+    ],
+    "required": [ 
+        "data_frame_factor"
+    ],
+    "properties": {
+        "data_frame_factor": {
+            "type":"object",
+            "required": [
+                "levels"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "levels": {
+                    "type": "object",
+                    "description": "Location of the data frame containing the levels.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.base::loadDataFrameFactor"
+        }
+    }
+}
