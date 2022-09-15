@@ -1,17 +1,17 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "genomic_ranges_list/v1.json",
+    "$id": "data_frame_list/v1.json",
     "type": "object",
-    "title": "Genomic Ranges List",
-    "description": "A compressed list of genomic ranges, used to represent groups of genomic ranges, e.g., all exons for each gene. The concatenated object (pointed at by the `concatenated` property) should be a genomic ranges object, as defined by the `genomic_ranges` schema.", 
+    "title": "Data Frame List",
+    "description": "A compressed list of data frames, where all data frames have the same columns and can be concatenated into a single data frame for a compressed representation. The `concatenated` property will point to this data frame.",
     "allOf": [
         { "$ref": "../compressed_list/v1.json" }
     ],
     "required": [ 
-        "genomic_ranges_list" 
+        "data_frame_list" 
     ],
     "properties": {
-        "genomic_ranges_list": {
+        "data_frame_list": {
             "type":"object",
             "required": [
                 "concatenated"
@@ -20,11 +20,11 @@
             "properties": {
                 "concatenated": {
                     "type": "object",
-                    "description": "Pointer to the genomic ranges object, created by concatenating the ranges across all groups in the genomic ranges list.",
+                    "description": "Pointer to the concatenated data frame, constructed by combining all the individual data frames by row.",
                     "properties": {
                         "resource": {
                             "_children":{
-                                "contains": ["genomic_ranges"]
+                                "contains": ["data_frame"]
                             }
                         }
                     },
@@ -36,8 +36,7 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.ranges::loadGRangesList"
+            "R": "artificer.ranges::loadDataFrameList"
         }
     }
 }
-

@@ -1,0 +1,69 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "compressed_list/v1.json",
+    "type": "object",
+    "title": "Compressed List",
+    "description": "A virtual compressed list where all elements are of the same type and can be concatenated into a single object of that type. Each list element is expected to be some (conceptual) vector of subelements, such that the concatenated object is also a (conceptual) vector with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved as a CSV file under the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element and a `number` column that specifies the number of consecutive subelements of the concatenated object that belong in each list element. If `names` is provided, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.", 
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [ 
+        "compressed_list"
+    ],
+    "properties": {
+        "compressed_list": {
+            "type":"object",
+            "required": [
+                "length"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "description": "Number of entries, specifically the number of groups." 
+                },
+
+                "names": {
+                    "type": "array",
+                    "description": "Names of the entries. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+
+                "element_data": {
+                    "type": "object",
+                    "description": "Pointer to a data frame containing additional annotations for each element in the list. If omitted, no additional annotations are present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+
+                "other_data": {
+                    "type": "object",
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ],
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["basic_list"]
+                            }
+                        }
+                    },
+                    "description": "Pointer to a list containing additional metadata for this object. Omitted if no additional metadata is available."
+                 }
+            }
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.ranges::loadAtomicVectorList"
+        }
+    }
+}

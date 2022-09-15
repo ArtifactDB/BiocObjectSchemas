@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "atomic_vector_list/v1.json",
+    "type": "object",
+    "title": "Atomic Vector List",
+    "description": "A compressed list of atomic vectors of the same type. The concatenation of all vectors is stored in the resource referenced by the `concatenated` property.",
+    "allOf": [
+        { "$ref": "../compressed_list/v1.json" }
+    ],
+    "required": [ 
+        "atomic_vector_list"
+    ],
+    "properties": {
+        "atomic_vector_list": {
+            "type":"object",
+            "required": [
+                "concatenated"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "concatenated": {
+                    "type": "object",
+                    "description": "Pointer to the concatenated contents of all the atomic vectors. This is stored as a 1-column data frame. If the data frame has row names, these are used as the names of the elements of the concatenated vector.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": ["data_frame"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                 }
+            },
+            "allOf": [
+                { "$ref": "../_compression/v1.json" }
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "artificer.ranges::loadAtomicVectorList"
+        }
+    }
+}
