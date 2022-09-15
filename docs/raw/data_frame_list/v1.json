@@ -1,13 +1,13 @@
 {
-    "$id": "genomic_ranges_list/v1.json",
+    "$id": "data_frame_list/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.ranges::loadGRangesList"
+            "R": "artificer.ranges::loadDataFrameList"
         }
     },
-    "description": "A compressed list of genomic ranges, used to represent groups of genomic ranges, e.g., all exons for each gene. The concatenated object (pointed at by the `concatenated` property) should be a genomic ranges object, as defined by the `genomic_ranges` schema.\n\nDerived from `compressed_list/v1.json`: a virtual compressed list where all elements are of the same type and can be concatenated into a single object of that type. Each list element is expected to be some (conceptual) vector of subelements, such that the concatenated object is also a (conceptual) vector with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved as a CSV file under the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element and a `number` column that specifies the number of consecutive subelements of the concatenated object that belong in each list element. If `names` is provided, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.",
+    "description": "A compressed list of data frames, where all data frames have the same columns and can be concatenated into a single data frame for a compressed representation. The `concatenated` property will point to this data frame.\n\nDerived from `compressed_list/v1.json`: a virtual compressed list where all elements are of the same type and can be concatenated into a single object of that type. Each list element is expected to be some (conceptual) vector of subelements, such that the concatenated object is also a (conceptual) vector with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved as a CSV file under the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element and a `number` column that specifies the number of consecutive subelements of the concatenated object that belong in each list element. If `names` is provided, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
@@ -101,16 +101,16 @@
             ],
             "type": "object"
         },
-        "genomic_ranges_list": {
+        "data_frame_list": {
             "additionalProperties": false,
             "properties": {
                 "concatenated": {
-                    "description": "Pointer to the genomic ranges object, created by concatenating the ranges across all groups in the genomic ranges list.",
+                    "description": "Pointer to the concatenated data frame, constructed by combining all the individual data frames by row.",
                     "properties": {
                         "resource": {
                             "_children": {
                                 "contains": [
-                                    "genomic_ranges"
+                                    "data_frame"
                                 ]
                             },
                             "properties": {
@@ -161,10 +161,10 @@
     "required": [
         "$schema",
         "compressed_list",
-        "genomic_ranges_list",
+        "data_frame_list",
         "md5sum",
         "path"
     ],
-    "title": "Genomic Ranges List",
+    "title": "Data Frame List",
     "type": "object"
 }
