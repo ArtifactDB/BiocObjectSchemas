@@ -1,0 +1,189 @@
+{
+    "$id": "dataset/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "artificer.mae::loadMultiAssayExperiment"
+        }
+    },
+    "description": "A dataset containing multiple summarized experiments, possibly with non-trivial relationships between the columns of different experiments. This is derived from Bioconductor's [MultiAssayExperiment](https://bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html) class. This document contains pointers to the various components including the column data, sample mapping and experiments.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "dataset": {
+            "additionalProperties": false,
+            "properties": {
+                "column_data": {
+                    "description": "Pointer to the column data for the dataset. This should be a data frame with one row per sample in the dataset, where each column contains sample annotations. Row names should be present and unique.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "experiments": {
+                    "description": "Array of pointers to the summarized experiments. Each experiment should contain column names that unique within that experiment.",
+                    "items": {
+                        "properties": {
+                            "name": {
+                                "description": "Name of the experiment.",
+                                "type": "string"
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [
+                                        "summarized_experiment"
+                                    ]
+                                },
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "other_data": {
+                    "description": "Pointer to additional metadata for this object, typically stored as a list (via the `basic_list` schema).",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "basic_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "sample_mapping": {
+                    "description": "Pointer to the sample mappings. This defines the relationships between columns of the summarized experiments and the samples in the dataset. The data frame should always contain three string columns:\n\n- `primary`, the sample name.\n- 'assay', the name of the experiment.\n- 'colname', the name of the column in that experiment.\n\nEach row defines a single relationship between a sample and an experiment's column.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "csv_data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "experiments",
+                "column_data",
+                "sample_mapping"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "dataset",
+        "path"
+    ],
+    "title": "Dataset",
+    "type": "object"
+}
