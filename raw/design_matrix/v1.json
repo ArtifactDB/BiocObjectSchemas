@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "design_matrix/v1.json",
+    "type": "object",
+    "title": "Design matrix",
+    "description": "A design matrix stored in a HDF5 file. The matrix itself is held in the `design` float dataset, where rows represent samples and columns represent model coefficients. Coefficient names are stored in the `coefficients` string dataset while sample names, if any exist, are stored in the `samples` string dataset. If the matrix was constructed from any factors, the names of the factors are saved in the `factors` string dataset.",
+    "additionalProperties": true,
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [
+        "design_matrix"
+    ],
+    "properties": {
+        "design_matrix": {
+            "type": "object",
+            "additionalProperties": false,
+            "allOf": [{ "$ref": "../_dimensions/v1.json" }]
+        }
+    },
+    "_attributes": {
+        "format": "application/x-hdf5"
+    }
+}
