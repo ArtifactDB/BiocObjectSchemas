@@ -1,126 +1,56 @@
 {
-    "$id": "genomic_ranges_list/v1.json",
+    "$id": "bumpy_data_frame_matrix/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.ranges::loadGRangesList"
+            "R": "artificer.bumpy::loadBumpyDataFrameMatrix"
         }
     },
-    "description": "A compressed list of genomic ranges, used to represent groups of genomic ranges, e.g., all exons for each gene. The concatenated object (pointed at by the `concatenated` property) should be a genomic ranges object, as defined by the `genomic_ranges` schema.\n\nDerived from `compressed_list/v1.json`: a virtual compressed list where all elements are vector-like objects of the same type, corresponding to the CompressedList class from the [**IRanges**](https://bioconductor.org/packages/IRanges) Bioconductor package. Each list element contains a vector-like object with a variable number of subelements, which can be concatenated into a single vector-like object of the same type with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved to `path` as a CSV file using the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element, along with a `number` column that specifies the size of each vector-like object. Subelements are partitioned by assigning the specified `number` of consecutive subelements into a contiguous series of vector-like objects, each of which correspond to successive list elements. If `names` is provided, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.",
+    "description": "A bumpy matrix of data frames, corresponding to the BumpyDataFrameMatrix class from the [**BumpyMatrix**](https://www.bioconductor.org/packages/BumpyMatrix) package. Each entry of the matrix contains a data frame with a variable number of rows but the same columns. A concatenated data frame is created by row-wise combining all individual data frames and is referenced by the `concatenated` property.\n\nDerived from `bumpy_data_frame_matrix/v1.json`: a virtual \"bumpy\" matrix of vector-like objects of the same type, corresponding to the BumpyMatrix class from the [BumpyMatrix](https://www.bioconductor.org/packages/BumpyMatrix) package. Each entry of the matrix contains a vector-like object with a variable number of subelements. For efficient storage, all matrix elements are concatenated into a single object of the same type, with length equal to the total number of subelements across all vector-like objects.\n\nTo recover the bumpy matrix, we can inspect the partitioning information in the data frame, which is saved to `path` as a CSV file under the [**comservatory**](https://ltla.github.io/comservatory) specification. Each row of the data frame corresponds to an vector-like object in the bumpy matrix. The columns `row`, `column` and `number` are present in this data frame, specifying the 1-based row index, 1-based column index and length of the vector-like object. Subelements of the concatenated object are partitioned by assigning the specified `number` of consecutive subelements into a series of contiguous vector-like objects, each of which correspond to successive rows in the data frame. Matrix entries not listed in the data frame are assumed to be length-0 vector-like objects of the same type.\n\nOptionally, matrix dimnames are stored as separate data frames and referenced by `row_names` and `column_names`.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
             "type": "string"
         },
-        "compressed_list": {
+        "array": {
             "additionalProperties": false,
             "properties": {
-                "compression": {
-                    "default": "none",
-                    "description": "Type of compression applied to the file.",
+                "dimensions": {
+                    "description": "Dimensions of an n-dimensional array. Dimensions should be ordered from the fastest-changing to the slowest.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Type of data stored in this array.",
                     "enum": [
-                        "none",
-                        "gzip",
-                        "bzip2"
+                        "boolean",
+                        "number",
+                        "integer",
+                        "string",
+                        "other"
                     ],
                     "type": "string"
-                },
-                "element_data": {
-                    "description": "Pointer to a data frame containing additional annotations for each element in the list. If omitted, no additional annotations are present.",
+                }
+            },
+            "required": [
+                "dimensions"
+            ],
+            "type": "object"
+        },
+        "bumpy_data_frame_matrix": {
+            "additionalProperties": false,
+            "properties": {
+                "concatenated": {
+                    "description": "Pointer to the row-wise concatenated data frame.",
                     "properties": {
                         "resource": {
                             "_children": {
                                 "contains": [
                                     "data_frame"
-                                ]
-                            },
-                            "properties": {
-                                "path": {
-                                    "description": "Relative path of the resource from the root of the project directory.",
-                                    "type": "string"
-                                },
-                                "type": {
-                                    "description": "Type of file. Local files should be present in the same project directory.",
-                                    "enum": [
-                                        "local"
-                                    ],
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "type",
-                                "path"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "resource"
-                    ],
-                    "type": "object"
-                },
-                "length": {
-                    "description": "Number of entries, specifically the number of groups.",
-                    "type": "integer"
-                },
-                "names": {
-                    "description": "Names of the entries. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "other_data": {
-                    "description": "Pointer to a list containing additional metadata for this object. Omitted if no additional metadata is available.",
-                    "properties": {
-                        "resource": {
-                            "_children": {
-                                "contains": [
-                                    "basic_list"
-                                ]
-                            },
-                            "properties": {
-                                "path": {
-                                    "description": "Relative path of the resource from the root of the project directory.",
-                                    "type": "string"
-                                },
-                                "type": {
-                                    "description": "Type of file. Local files should be present in the same project directory.",
-                                    "enum": [
-                                        "local"
-                                    ],
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "type",
-                                "path"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "resource"
-                    ],
-                    "type": "object"
-                }
-            },
-            "required": [
-                "length"
-            ],
-            "type": "object"
-        },
-        "genomic_ranges_list": {
-            "additionalProperties": false,
-            "properties": {
-                "concatenated": {
-                    "description": "Pointer to the genomic ranges object, created by concatenating the ranges across all groups in the genomic ranges list.",
-                    "properties": {
-                        "resource": {
-                            "_children": {
-                                "contains": [
-                                    "genomic_ranges"
                                 ]
                             },
                             "properties": {
@@ -154,6 +84,90 @@
             ],
             "type": "object"
         },
+        "bumpy_matrix": {
+            "additionalProperties": false,
+            "properties": {
+                "column_names": {
+                    "description": "Pointer to a data frame containing the column names for the matrix. This should be of length equal to the number of columns. If omitted, no column names were present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "compression": {
+                    "default": "none",
+                    "description": "Type of compression applied to the file.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2"
+                    ],
+                    "type": "string"
+                },
+                "row_names": {
+                    "description": "Pointer to a data frame containing the row names for the matrix. This should be of length equal to the number of rows. If omitted, no row names were present.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "data_frame"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
         "is_child": {
             "default": false,
             "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
@@ -170,11 +184,12 @@
     },
     "required": [
         "$schema",
-        "compressed_list",
-        "genomic_ranges_list",
+        "array",
+        "bumpy_data_frame_matrix",
+        "bumpy_matrix",
         "md5sum",
         "path"
     ],
-    "title": "Genomic Ranges List",
+    "title": "Bumpy Data Frame Matrix",
     "type": "object"
 }

@@ -1,0 +1,64 @@
+{
+    "$id": "generic_object/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "base::readRDS"
+        }
+    },
+    "additionalProperties": true,
+    "description": "A serialized object of some format, as a schema of last resort for saving language-specific objects. For R, this should be an RDS file (_not RDA_) containing a single arbitrary R object. For Python, this should be a pickle file.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "generic_object": {
+            "additionalProperties": false,
+            "properties": {
+                "class": {
+                    "description": "The class of the object.",
+                    "examples": [
+                        "DFrame",
+                        "GRanges"
+                    ],
+                    "type": "string"
+                },
+                "language": {
+                    "description": "The language in which the object can be used.",
+                    "enum": [
+                        "R",
+                        "Python"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "class",
+                "language"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "generic_object",
+        "md5sum",
+        "path"
+    ],
+    "title": "Generic Object",
+    "type": "object"
+}

@@ -7,7 +7,7 @@
             "R": "artificer.ranges::loadDataFrameList"
         }
     },
-    "description": "A compressed list of data frames, where all data frames have the same columns and can be concatenated into a single data frame for a compressed representation. The `concatenated` property will point to this data frame.\n\nDerived from `compressed_list/v1.json`: a virtual compressed list where all elements are of the same type and can be concatenated into a single object of that type. Each list element is expected to be some (conceptual) vector of subelements, such that the concatenated object is also a (conceptual) vector with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved as a CSV file under the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element and a `number` column that specifies the number of consecutive subelements of the concatenated object that belong in each list element. If `names` is provided, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.",
+    "description": "A compressed list of data frames, where all data frames have the same columns and can be concatenated into a single data frame for a compressed representation. The `concatenated` property will point to this data frame.\n\nDerived from `compressed_list/v1.json`: a virtual compressed list where all elements are vector-like objects of the same type, corresponding to the CompressedList class from the [**IRanges**](https://bioconductor.org/packages/IRanges) Bioconductor package. Each list element contains a vector-like object with a variable number of subelements, which can be concatenated into a single vector-like object of the same type with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved to `path` as a CSV file using the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element, along with a `number` column that specifies the size of each vector-like object. Subelements are partitioned by assigning the specified `number` of consecutive subelements into a contiguous series of vector-like objects, each of which correspond to successive list elements. If `names` is provided, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
@@ -16,6 +16,16 @@
         "compressed_list": {
             "additionalProperties": false,
             "properties": {
+                "compression": {
+                    "default": "none",
+                    "description": "Type of compression applied to the file.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2"
+                    ],
+                    "type": "string"
+                },
                 "element_data": {
                     "description": "Pointer to a data frame containing additional annotations for each element in the list. If omitted, no additional annotations are present.",
                     "properties": {

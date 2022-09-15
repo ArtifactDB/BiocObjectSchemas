@@ -1,0 +1,43 @@
+{
+    "$id": "generic_document/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "metadata_only": true
+    },
+    "description": "A generic document allowing full-text search on its content.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "generic_document": {
+            "additionalProperties": false,
+            "properties": {
+                "content": {
+                    "description": "String containing the textual content of the document, for search purposes.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "generic_document",
+        "path"
+    ],
+    "title": "Generic document",
+    "type": "object"
+}
