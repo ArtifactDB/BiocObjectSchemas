@@ -41,7 +41,7 @@
             ],
             "type": "object"
         },
-        "delayed_array": {
+        "hdf5_delayed_array": {
             "additionalProperties": false,
             "properties": {
                 "group": {
