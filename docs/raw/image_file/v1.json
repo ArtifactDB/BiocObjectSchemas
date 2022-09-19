@@ -3,7 +3,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "restore": {
-            "R": "artificer.spatial::loadSpatialImage"
+            "R": "alabaster.spatial::loadSpatialImage"
         }
     },
     "description": "An image file in one of the usual formats.",

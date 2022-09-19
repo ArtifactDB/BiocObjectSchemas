@@ -4,7 +4,7 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "artificer.mae::loadMultiAssayExperiment"
+            "R": "alabaster.mae::loadMultiAssayExperiment"
         }
     },
     "description": "A dataset containing multiple summarized experiments, possibly with non-trivial relationships between the columns of different experiments. This is derived from Bioconductor's [MultiAssayExperiment](https://bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html) class. This document contains pointers to the various components including the column data, sample mapping and experiments.",

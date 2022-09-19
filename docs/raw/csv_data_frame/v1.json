@@ -4,7 +4,7 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.base::loadDataFrame"
+            "R": "alabaster.base::loadDataFrame"
         }
     },
     "description": "A data frame stored in a CSV file. If `data_frame.row_names` is present, the first column of the CSV file contains the row names of the data frame and should be ignored when indexing entries of `columns`. For complex columns, a placeholder column is created in the CSV and a pointer to the relevant resource is created in the corresponding entry of the `data_frame.columns` property. The CSV file may be compressed if `compression` is set. See https://ltla.github.io/comservatory for details on the expected CSV layout.\n\nDerived from `data_frame/v1.json`: virtual data frame object stored in a yet-to-be-defined file format. Simple columns are stored directly in the file. For complex columns, their contents should be stored in other files, and a pointer to a resource is stored in the corresponding entry of `columns` (a placeholder column may be created in the file).",
