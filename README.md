@@ -9,8 +9,8 @@ The aim is to portably save and read BioC objects in different language ecosyste
 
 ## Contents
 
-See the [Pages sites](https://ltla.github.io/BiocObjectSchemas) for a link to all available schemas.
-Developers may also download the bundle of the latest schemas [here](https://ltla.github.io/BiocObjectSchemas/bundle.tar.gz).
+See the [Pages sites](https://artifactdb.github.io/BiocObjectSchemas) for a link to all available schemas.
+Developers may also download the bundle of the latest schemas [here](https://artifactdb.github.io/BiocObjectSchemas/bundle.tar.gz).
 
 See [`docs/schema_conventions.md`](docs/schema_conventions.md) for instructions on writing new schemas.
 
