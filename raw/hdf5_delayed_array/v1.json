@@ -1,9 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "delayed_array/v1.json",
+    "$id": "hdf5_delayed_array/v1.json",
     "type": "object",
-    "title": "Delayed array",
-    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the specification for delayed operations at https://ltla.github.io/chihaya.",
+    "title": "HDF5 delayed array",
+    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the [**chihaya**](https://ltla.github.io/chihaya) specification for delayed operations, based on the [**DelayedArray**](https://bioconductor.org/packages/DelayedArray) Bioconductor package.", 
     "allOf": [
         { "$ref": "../array/v1.json" }
     ],
@@ -11,7 +11,7 @@
         "delayed_array"
     ],
     "properties": {
-        "delayed_array": {
+        "hdf5_delayed_array": {
             "type":"object",
             "additionalProperties": false,
             "properties": {
