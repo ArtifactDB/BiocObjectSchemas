@@ -24,7 +24,7 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.ranges::loadSeqinfo"
+            "R": "alabaster.ranges::loadSeqinfo"
         }
     }
 }

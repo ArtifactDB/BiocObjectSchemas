@@ -46,7 +46,7 @@
     "_attributes": {
         "format": "application/x-hdf5",
         "restore": {
-            "R": "artificer.matrix::loadArray"
+            "R": "alabaster.matrix::loadArray"
         }
     }
 }

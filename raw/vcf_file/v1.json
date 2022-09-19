@@ -33,7 +33,7 @@
     },
     "_attributes": {
         "restore": {
-            "R": "artificer.vcf::loadVCFHeader"
+            "R": "alabaster.vcf::loadVCFHeader"
         }
     }
 }

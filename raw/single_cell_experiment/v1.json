@@ -75,7 +75,7 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "artificer.sce::loadSingleCellExperiment"
+            "R": "alabaster.sce::loadSingleCellExperiment"
         }
     }
 }

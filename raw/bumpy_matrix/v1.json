@@ -49,7 +49,7 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.bumpy::loadBumpyDataFrameMatrix"
+            "R": "alabaster.bumpy::loadBumpyDataFrameMatrix"
         }
     }
 }

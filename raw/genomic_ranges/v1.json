@@ -76,7 +76,7 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.ranges::loadGRanges"
+            "R": "alabaster.ranges::loadGRanges"
         }
     }
 }

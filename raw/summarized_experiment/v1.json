@@ -104,7 +104,7 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "artificer.se::loadSummarizedExperiment"
+            "R": "alabaster.se::loadSummarizedExperiment"
         }
     }
 }

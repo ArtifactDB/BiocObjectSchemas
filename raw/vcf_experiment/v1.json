@@ -67,7 +67,7 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "artificer.vcf::loadVCF"
+            "R": "alabaster.vcf::loadVCF"
         }
     }
 }

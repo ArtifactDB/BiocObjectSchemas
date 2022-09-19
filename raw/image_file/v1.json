@@ -37,7 +37,7 @@
     },
     "_attributes": {
         "restore": {
-            "R": "artificer.spatial::loadSpatialImage"
+            "R": "alabaster.spatial::loadSpatialImage"
         }
     }
 }

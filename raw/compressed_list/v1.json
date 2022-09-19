@@ -66,7 +66,7 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "artificer.ranges::loadAtomicVectorList"
+            "R": "alabaster.ranges::loadAtomicVectorList"
         }
     }
 }

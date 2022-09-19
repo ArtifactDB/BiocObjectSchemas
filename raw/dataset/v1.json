@@ -81,7 +81,7 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "artificer.mae::loadMultiAssayExperiment"
+            "R": "alabaster.mae::loadMultiAssayExperiment"
         }
     }
 }

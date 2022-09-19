@@ -36,7 +36,7 @@
     "_attributes": {
         "format": "application/json",
         "restore": {
-            "R": "artificer.base::loadBaseList"
+            "R": "alabaster.base::loadBaseList"
         }
     }
 }

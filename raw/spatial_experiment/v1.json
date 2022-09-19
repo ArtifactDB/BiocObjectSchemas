@@ -88,7 +88,7 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "artificer.spatial::loadSpatialExperiment"
+            "R": "alabaster.spatial::loadSpatialExperiment"
         }
     }
 }
