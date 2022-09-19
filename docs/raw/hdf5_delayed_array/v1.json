@@ -1,5 +1,5 @@
 {
-    "$id": "delayed_array/v1.json",
+    "$id": "hdf5_delayed_array/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "format": "application/x-hdf5",
@@ -7,7 +7,7 @@
             "R": "alabaster.matrix::loadArray"
         }
     },
-    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the specification for delayed operations at https://ltla.github.io/chihaya.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the [**chihaya**](https://ltla.github.io/chihaya) specification for delayed operations, based on the [**DelayedArray**](https://bioconductor.org/packages/DelayedArray) Bioconductor package.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
@@ -70,6 +70,6 @@
         "delayed_array",
         "path"
     ],
-    "title": "Delayed array",
+    "title": "HDF5 delayed array",
     "type": "object"
 }
