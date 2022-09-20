@@ -79,7 +79,6 @@
                     "type": "object"
                 },
                 "compression": {
-                    "default": "none",
                     "description": "Type of compression applied to the file.",
                     "enum": [
                         "none",
@@ -123,6 +122,9 @@
                     "type": "object"
                 }
             },
+            "required": [
+                "compression"
+            ],
             "type": "object"
         },
         "is_child": {

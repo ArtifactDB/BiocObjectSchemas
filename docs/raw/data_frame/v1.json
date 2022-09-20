@@ -45,7 +45,7 @@
                     "type": "object"
                 },
                 "columns": {
-                    "description": "Information about the fields in this file. This follows the same order as the columns in the file (after omitting the first column corresponding to the row names, if `row_names` is present).",
+                    "description": "Information about the columnar fields in the data frame. This follows the same order as the columns in the on-disk representation.",
                     "items": {
                         "allOf": [
                             {
@@ -99,30 +99,6 @@
                                     "required": [
                                         "levels"
                                     ]
-                                }
-                            },
-                            {
-                                "if": {
-                                    "properties": {
-                                        "type": {
-                                            "enum": [
-                                                "string",
-                                                "factor",
-                                                "ordered"
-                                            ]
-                                        }
-                                    }
-                                },
-                                "then": {
-                                    "properties": {
-                                        "values": {
-                                            "description": "All unique (unordered) values for the covariate. This is only listed here for search purposes and may be truncated.",
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "type": "array"
-                                        }
-                                    }
                                 }
                             },
                             {
@@ -234,11 +210,9 @@
                     "type": "object"
                 },
                 "row_names": {
-                    "description": "Names of the rows. This is only provided to facilitate search and may be truncated. Omitted if the data frame has no row names.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
+                    "default": false,
+                    "description": "Whether the data frame has row names.",
+                    "type": "boolean"
                 }
             },
             "required": [

@@ -49,7 +49,6 @@
                     "type": "array"
                 },
                 "compression": {
-                    "default": "none",
                     "description": "Type of compression applied to the file.",
                     "enum": [
                         "none",
@@ -60,7 +59,8 @@
                 }
             },
             "required": [
-                "children"
+                "children",
+                "compression"
             ],
             "type": "object"
         },

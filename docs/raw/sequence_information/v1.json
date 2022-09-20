@@ -30,7 +30,6 @@
             "additionalProperties": false,
             "properties": {
                 "compression": {
-                    "default": "none",
                     "description": "Type of compression applied to the file.",
                     "enum": [
                         "none",
@@ -50,6 +49,7 @@
                 }
             },
             "required": [
+                "compression",
                 "dimensions"
             ],
             "type": "object"

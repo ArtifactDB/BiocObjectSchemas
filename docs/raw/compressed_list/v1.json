@@ -7,7 +7,7 @@
             "R": "alabaster.ranges::loadAtomicVectorList"
         }
     },
-    "description": "A virtual compressed list where all elements are vector-like objects of the same type, corresponding to the CompressedList class from the [**IRanges**](https://bioconductor.org/packages/IRanges) Bioconductor package. Each list element contains a vector-like object with a variable number of subelements, which can be concatenated into a single vector-like object of the same type with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved to `path` as a CSV file using the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element, along with a `number` column that specifies the size of each vector-like object. Subelements are partitioned by assigning the specified `number` of consecutive subelements into a contiguous series of vector-like objects, each of which correspond to successive list elements. If `names` is provided, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.",
+    "description": "A virtual compressed list where all elements are vector-like objects of the same type, corresponding to the CompressedList class from the [**IRanges**](https://bioconductor.org/packages/IRanges) Bioconductor package. Each list element contains a vector-like object with a variable number of subelements, which can be concatenated into a single vector-like object of the same type with length equal to the sum of the individual element lengths. The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\nThe partitioning of the concatenated object into individual list elements is described in a data frame, saved to `path` as a CSV file using the [**comservatory**](https://ltla.github.io/comservatory) specification. This data frame contains one row per list element, along with a `number` column that specifies the size of each vector-like object. Subelements are partitioned by assigning the specified `number` of consecutive subelements into a contiguous series of vector-like objects, each of which correspond to successive list elements. If the `names` property is `true`, the first column of the data frame contains the names of the list elements.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
@@ -17,7 +17,6 @@
             "additionalProperties": false,
             "properties": {
                 "compression": {
-                    "default": "none",
                     "description": "Type of compression applied to the file.",
                     "enum": [
                         "none",
@@ -65,11 +64,9 @@
                     "type": "integer"
                 },
                 "names": {
-                    "description": "Names of the entries. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
+                    "default": false,
+                    "description": "Whether the list is named. If `true`, the first column of CSV contains the names of the list elements.",
+                    "type": "boolean"
                 },
                 "other_data": {
                     "description": "Pointer to a list containing additional metadata for this object. Omitted if no additional metadata is available.",
@@ -107,6 +104,7 @@
                 }
             },
             "required": [
+                "compression",
                 "length"
             ],
             "type": "object"
