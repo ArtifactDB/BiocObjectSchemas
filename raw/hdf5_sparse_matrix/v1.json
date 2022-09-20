@@ -28,9 +28,13 @@
             "type":"object",
             "additionalProperties": false,
             "properties": {
+                "group": {
+                    "type": "string",
+                    "description": "Name of the group inside the HDF5 file that contains the sparse matrix's data."
+                },
                 "format": {
                     "type": "string",
-                    "description": "Format of the sparse matrix. For `csc_matrix` and `csr_matrix`, the attributes of the `data` group should contain at least `encoding-type`, a string set to `csc_matrix` or `csr_matrix`; and `shape`, an integer vector of length 2 containing the dimensions. For `tenx_matrix` (implicitly in compressed sparse column format), `data` should contain a `shape` dataset, an integer vector of length 2 containing the dimensions.",
+                    "description": "Format of the sparse matrix. For `csc_matrix` and `csr_matrix`, the attributes of the sparse matrix's HDF5 group should contain at least `encoding-type`, a string set to `csc_matrix` or `csr_matrix`; and `shape`, an integer vector of length 2 containing the dimensions. For `tenx_matrix` (implicitly in compressed sparse column format), the group should contain a `shape` dataset, an integer vector of length 2 containing the dimensions.",
                     "enum": [ "csc_matrix", "csr_matrix", "tenx_matrix" ]
                 },
                 "dimnames": {
@@ -39,7 +43,8 @@
                 }
             },
             "required": [
-                "format"
+                "format",
+                "group"
             ]
         }
     },
