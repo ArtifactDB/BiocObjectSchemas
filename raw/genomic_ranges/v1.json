@@ -3,7 +3,7 @@
     "$id": "genomic_ranges/v1.json",
     "type": "object",
     "title": "Genomic Ranges",
-    "description": "Genomic ranges, stored as a data frame inside a CSV file. Each row of the data frame corresponds to a genomic range. The data frame should contain at least the columns `seqnames` (character), `start` (integer), `end` (integer), and `strand` (character). If the `names` proeprty is present, the first column of the CSV file contains the names of the ranges. The CSV file should comply with the [**comservatory** specification](https://github.com/LTLA/comservatory).",
+    "description": "Genomic ranges, stored as a data frame inside a CSV file. Each row of the data frame corresponds to a genomic range. The data frame should contain at least the columns `seqnames` (character), `start` (integer), `end` (integer), and `strand` (character). If the `genomic_ranges.names` property is present, the first column of the CSV file contains the names of the ranges. The CSV file should comply with the [**comservatory** specification](https://github.com/LTLA/comservatory).",
     "allOf": [ 
         { "$ref": "../_common/v1.json" },
         { "$ref": "../_md5sum/v1.json" } 
@@ -48,13 +48,13 @@
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" } ]
                 },
+
                 "names": {
-                    "type": "array",
-                    "description": "Names of the genomic ranges. This is only provided to facilitate search and may be truncated. Omitted if the input object has no names.",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "boolean",
+                    "description": "Whether the ranges are named. If `true`, the first column of CSV contains the names of the individual ranges.",
+                    "default": false
                 },
+
                 "other_data": {
                     "type": "object",
                     "description": "Location of additional metadata for this object, typically stored as a list (via the `basic_list` schema).",

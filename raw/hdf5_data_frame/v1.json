@@ -15,6 +15,9 @@
         "hdf5_data_frame": {
             "type": "object",
             "additionalProperties": false,
+            "required": [
+                "group"
+            ],
             "properties": {
                 "group": {
                     "type": "string",
