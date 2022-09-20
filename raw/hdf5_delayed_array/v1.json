@@ -8,7 +8,7 @@
         { "$ref": "../array/v1.json" }
     ],
     "required": [
-        "delayed_array"
+        "hdf5_delayed_array"
     ],
     "properties": {
         "hdf5_delayed_array": {
