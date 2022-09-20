@@ -67,7 +67,7 @@
     "required": [
         "$schema",
         "array",
-        "delayed_array",
+        "hdf5_delayed_array",
         "path"
     ],
     "title": "HDF5 delayed array",
