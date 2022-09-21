@@ -3,7 +3,7 @@
     "$id": "hdf5_dense_array/v1.json",
     "type": "object",
     "title": "HDF5 dense array",
-    "description": "Dense array, saved in a HDF5 file as an n-dimensional dataset. The fastest-changing dimension is the \"first\" dimension while the slowest-changing is the \"last\" dimension. In the context of assay matrices, the fastest-changing dimension usually corresponds to features while the second-fastest dimension represents the samples. The file may also contain the dimnames of the array.",
+    "description": "Dense array, saved in a HDF5 file as an n-dimensional dataset. For the `array.dimensions` property, the fastest-changing dimension is the \"first\" dimension while the slowest-changing is the \"last\" dimension. (Note that this is reversed in dimensions reported by the HDF5 dataset itself, where the dimensions are listed from slowest to fastest.) In the context of assay matrices, the fastest-changing dimension usually corresponds to features while the second-fastest dimension represents the samples. The file may also contain the dimnames of the array.",
     "allOf": [
         { "$ref": "../array/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
