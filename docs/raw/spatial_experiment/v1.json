@@ -153,9 +153,6 @@
                     "type": "array"
                 }
             },
-            "required": [
-                "reduced_dimensions"
-            ],
             "type": "object"
         },
         "spatial_experiment": {

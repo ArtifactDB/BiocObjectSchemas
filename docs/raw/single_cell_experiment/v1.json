@@ -153,9 +153,6 @@
                     "type": "array"
                 }
             },
-            "required": [
-                "reduced_dimensions"
-            ],
             "type": "object"
         },
         "summarized_experiment": {
