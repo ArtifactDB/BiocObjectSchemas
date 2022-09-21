@@ -13,9 +13,6 @@
     "properties": {
         "single_cell_experiment": {
             "type": "object",
-            "required": [
-                "reduced_dimensions"
-            ],
             "additionalProperties": false,
             "properties": {
                 "reduced_dimensions": {
