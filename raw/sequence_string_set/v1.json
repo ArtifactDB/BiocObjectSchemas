@@ -25,6 +25,7 @@
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" }]
                 },
+
                 "sequence_data":{
                     "type":"object",
                     "description": "A data frame containing additional annotations for each sequence. Each row corresponds to a sequence in the FASTA/FASTQ file. Omitted if no annotations are present.",
@@ -37,6 +38,7 @@
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" }]
                 },
+
                 "other_data": {
                     "type":"object",
                     "description": "A list containing additional annotations for the object. Omitted if no annotations are present.",
@@ -48,6 +50,12 @@
                         }
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" }]
+                },
+
+                "names": {
+                    "type": "boolean",
+                    "description": "Whether the sequences were named. If `false`, placeholder names are created in the sequence file at `sequence_file`; these should be ignored for further processing.",
+                    "default": false
                 }
             }
         }

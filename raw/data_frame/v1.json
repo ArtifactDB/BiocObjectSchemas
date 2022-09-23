@@ -87,11 +87,13 @@
                         ]
                     }
                 },
+
                 "row_names": {
                     "type": "boolean",
-                    "description": "Whether the data frame has row names.",
+                    "description": "Whether the data frame has row names. If `true`, these are stored in the first column of the CSV.",
                     "default": false
                 },
+
                 "column_data": {
                     "type": "object",
                     "description": "Location of additional metadata for each column, stored as another `data_frame`. Omitted if there is no additional per-column metadata is provided.",
