@@ -63,7 +63,7 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "alabaster.string::loadDNAStringSet"
+            "R": "alabaster.string::loadXStringSet"
         }
     }
 }
