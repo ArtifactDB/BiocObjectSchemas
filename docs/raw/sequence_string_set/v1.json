@@ -12,6 +12,11 @@
         "dna_string_set": {
             "additionalProperties": false,
             "properties": {
+                "names": {
+                    "default": false,
+                    "description": "Whether the sequences were named. If `false`, placeholder names are created in the sequence file at `sequence_file`; these should be ignored for further processing.",
+                    "type": "boolean"
+                },
                 "other_data": {
                     "description": "A list containing additional annotations for the object. Omitted if no annotations are present.",
                     "properties": {

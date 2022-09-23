@@ -235,7 +235,7 @@
                 },
                 "row_names": {
                     "default": false,
-                    "description": "Whether the data frame has row names.",
+                    "description": "Whether the data frame has row names. If `true`, these are stored in the first column of the CSV.",
                     "type": "boolean"
                 }
             },
