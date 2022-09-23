@@ -4,9 +4,9 @@
     "type": "object",
     "title": "Sequence string set",
     "description": "Sequences for DNA, RNA or protein molecules, plus some extra annotations. This corresponds to a `XStringSet` object from the [**Biostrings**](https://bioconductor.org/packages/Biostrings) Bioconductor package. If the sequences are associated with quality scores, this corresponds instead to a `QualityScaledXStringSet` object.",
-    "required": [ "dna_string_set" ],
+    "required": [ "sequence_string_set" ],
     "properties": {
-        "dna_string_set": { 
+        "sequence_string_set": { 
             "type": "object",
             "required": [
                 "sequence_file"
