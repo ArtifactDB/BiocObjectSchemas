@@ -21,7 +21,8 @@
                     "items": {
                         "type": "integer"
                     },
-                    "minItems": 1,
+                    "maxItems": 2,
+                    "minItems": 2,
                     "type": "array"
                 },
                 "type": {
@@ -45,7 +46,7 @@
             "additionalProperties": false,
             "properties": {
                 "column_names": {
-                    "description": "Pointer to a data frame containing the column names for the matrix. This should be of length equal to the number of columns. If omitted, no column names were present.",
+                    "description": "Pointer to a data frame containing the column names for the bumpy matrix. This should be of length equal to the number of columns. If omitted, no column names were present.",
                     "properties": {
                         "resource": {
                             "_children": {
@@ -87,8 +88,18 @@
                     ],
                     "type": "string"
                 },
+                "num_objects": {
+                    "description": "Number of vector-like objects in the bumpy matrix, where each object is represented by a row in the data frame at `path`. If this is less than the product of the matrix dimensions, it is assumed that the entries missing from the CSV correspond to empty vector-like objects in the bumpy matrix.",
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "object_names": {
+                    "default": false,
+                    "description": "Whether the individual vector-like objects are named. If `true`, the first column of the CSV is called `names` and contains the name for the object corresponding to each row. Note that this does not represent the row or column names of the bumpy matrix itself, but instead of the individual (non-empty) vector-like objects.",
+                    "type": "boolean"
+                },
                 "row_names": {
-                    "description": "Pointer to a data frame containing the row names for the matrix. This should be of length equal to the number of rows. If omitted, no row names were present.",
+                    "description": "Pointer to a data frame containing the row names for the bumpy matrix. This should be of length equal to the number of rows. If omitted, no row names were present.",
                     "properties": {
                         "resource": {
                             "_children": {
@@ -123,7 +134,8 @@
                 }
             },
             "required": [
-                "compression"
+                "compression",
+                "num_objects"
             ],
             "type": "object"
         },
