@@ -60,6 +60,10 @@
             "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
             "type": "boolean"
         },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
         "path": {
             "description": "Path to the file in the project directory.",
             "type": "string"
@@ -69,6 +73,7 @@
         "$schema",
         "array",
         "hdf5_delayed_array",
+        "md5sum",
         "path"
     ],
     "title": "HDF5 delayed array",
