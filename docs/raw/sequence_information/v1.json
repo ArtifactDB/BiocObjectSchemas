@@ -7,6 +7,7 @@
             "R": "alabaster.ranges::loadSeqinfo"
         }
     },
+    "additionalProperties": false,
     "description": "Sequence information for custom genomic ranges. This is a CSV file containing a data frame with one row per reference sequence in the custom annotation. It has at least the columns `seqnames`, `seqlengths`, `isCircular`, and `genome`. All columns can be interpreted as strings except for `isCircular`, which contains boolean values. The CSV layout should follow the standards described at https://github.com/LTLA/comservatory.",
     "properties": {
         "$schema": {

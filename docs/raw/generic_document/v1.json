@@ -4,6 +4,7 @@
     "_attributes": {
         "metadata_only": true
     },
+    "additionalProperties": false,
     "description": "A generic document allowing full-text search on its content.",
     "properties": {
         "$schema": {

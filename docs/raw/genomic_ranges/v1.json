@@ -7,6 +7,7 @@
             "R": "alabaster.ranges::loadGRanges"
         }
     },
+    "additionalProperties": false,
     "description": "Genomic ranges, stored as a data frame inside a CSV file. Each row of the data frame corresponds to a genomic range. The data frame should contain at least the columns `seqnames` (character), `start` (integer), `end` (integer), and `strand` (character). If the `genomic_ranges.names` property is present, the first column of the CSV file contains the names of the ranges. The CSV file should comply with the [**comservatory** specification](https://github.com/LTLA/comservatory).",
     "properties": {
         "$schema": {

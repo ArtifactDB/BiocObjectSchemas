@@ -7,6 +7,7 @@
             "R": "alabaster.spatial::loadSpatialExperiment"
         }
     },
+    "additionalProperties": false,
     "description": "A spatial experiment where each row corresponds to a feature and each column corresponds to a spatial location. This file contains pointers to spatial-specific components including the coordinates and image files. Each spatial location is assigned to a sample via a `sample_id` column in the column data; this is guaranteed to have the same levels as the `sample_id` values in the `image_data` property.\n\nDerived from `single_cell_experiment/v1.json`: a single cell experiment where each row corresponds to a feature and each column corresponds to a single cell. This file contains pointers to single-cell-specific components including reduced dimension results and alternative experiments.\n\nDerived from `summarized_experiment/v1.json`: a summarized experiment where each row corresponds to a feature and each column corresponds to an experimental sample. The layout of this data structure is based on Bioconductor's [SummarizedExperiment](https://bioconductor.org/packages/SummarizedExperiment) class. This metadata document contains pointers to the various components of the summarized experiment, including the row data, column data and assays.",
     "properties": {
         "$schema": {

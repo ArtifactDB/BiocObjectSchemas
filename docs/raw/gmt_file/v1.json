@@ -1,6 +1,7 @@
 {
     "$id": "gmt_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
     "description": "A file in the gene matrix transposed (GMT) format, containing feature set information. Each line corresponds to one feature set and is tab delimited. The first column contains the name of the set, the second column contains a description for the set, and the remaining columns contain the identifiers for the features in that set. If `fields` is specified, the feature columns should instead contain multiple comma-separated fields, e.g., to handle per-gene weights inside each set.",
     "properties": {
         "$schema": {

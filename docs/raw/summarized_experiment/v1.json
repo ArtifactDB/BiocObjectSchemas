@@ -7,6 +7,7 @@
             "R": "alabaster.se::loadSummarizedExperiment"
         }
     },
+    "additionalProperties": false,
     "description": "A summarized experiment where each row corresponds to a feature and each column corresponds to an experimental sample. The layout of this data structure is based on Bioconductor's [SummarizedExperiment](https://bioconductor.org/packages/SummarizedExperiment) class. This metadata document contains pointers to the various components of the summarized experiment, including the row data, column data and assays.",
     "properties": {
         "$schema": {

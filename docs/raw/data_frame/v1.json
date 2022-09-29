@@ -1,6 +1,7 @@
 {
     "$id": "data_frame/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
     "description": "Virtual data frame object stored in a yet-to-be-defined file format. Simple columns are stored directly in the file. For complex columns, their contents should be stored in other files, and a pointer to a resource is stored in the corresponding entry of `columns` (a placeholder column may be created in the file).",
     "properties": {
         "$schema": {

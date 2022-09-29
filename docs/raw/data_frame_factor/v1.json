@@ -7,6 +7,7 @@
             "R": "alabaster.base::loadDataFrameFactor"
         }
     },
+    "additionalProperties": false,
     "description": "A factor where the levels are the rows of a data frame. The `levels` property points to a `data_frame` resource containing the levels.\n\nDerived from `factor/v1.json`: virtual factor-like object where the unique levels are some vector-like object, corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package. Each element of the factor is a 1-based integer index that refers to a specific level. The `path` property points to a [**comservatory**](https://ltla.github.io/comservatory)-formatted CSV file containing a data frame with one `index` integer column with the indices for all factor elements. If the `factor.names` property is present, the first column of the data frame contains the names of the factor elements.\n\nConcrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels.",
     "properties": {
         "$schema": {

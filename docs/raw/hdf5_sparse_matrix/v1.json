@@ -7,6 +7,7 @@
             "R": "alabaster.matrix::loadArray"
         }
     },
+    "additionalProperties": false,
     "description": "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file. The group should contain a `data` subgroup, which should in turn contain the typical contents of the compressed sparse matrix, i.e., `indices`, `indptr` and `data`. Specifically, `data` should be a 1-dimensional integer or numeric dataset contains the values of the non-zero elements; `indices` should be a 1-dimensional integer dataset containing the 0-based row/column index for each non-zero element in `data`; and `indptr` should be a 1-dimensional integer dataset of length equal to the number of columns/rows plus 1, containing pointers to the start and end of each column/row. The exact interpretation depends on the format specified in `format`. Dimnames may also be saved inside the file.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {

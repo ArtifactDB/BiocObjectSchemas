@@ -7,6 +7,7 @@
             "R": "alabaster.mae::loadMultiAssayExperiment"
         }
     },
+    "additionalProperties": false,
     "description": "A dataset containing multiple summarized experiments, possibly with non-trivial relationships between the columns of different experiments. This is derived from Bioconductor's [MultiAssayExperiment](https://bioconductor.org/packages/release/bioc/html/MultiAssayExperiment.html) class. This document contains pointers to the various components including the sample data, sample mapping and experiments.",
     "properties": {
         "$schema": {

@@ -7,6 +7,7 @@
             "R": "alabaster.matrix::loadArray"
         }
     },
+    "additionalProperties": false,
     "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the [**chihaya**](https://ltla.github.io/chihaya) specification for delayed operations, based on the [**DelayedArray**](https://bioconductor.org/packages/DelayedArray) Bioconductor package.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {

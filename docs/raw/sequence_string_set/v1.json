@@ -7,8 +7,22 @@
             "R": "alabaster.string::loadXStringSet"
         }
     },
+    "additionalProperties": false,
     "description": "Sequences for DNA, RNA or protein molecules, plus some extra annotations. This corresponds to a `XStringSet` object from the [**Biostrings**](https://bioconductor.org/packages/Biostrings) Bioconductor package. If the sequences are associated with quality scores, this corresponds instead to a `QualityScaledXStringSet` object.",
     "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        },
         "sequence_string_set": {
             "additionalProperties": false,
             "properties": {
@@ -127,6 +141,8 @@
         }
     },
     "required": [
+        "$schema",
+        "path",
         "sequence_string_set"
     ],
     "title": "Sequence string set",

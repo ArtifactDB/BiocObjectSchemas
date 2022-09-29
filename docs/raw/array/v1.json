@@ -1,6 +1,7 @@
 {
     "$id": "array/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
     "description": "Some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {

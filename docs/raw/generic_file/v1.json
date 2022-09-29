@@ -1,7 +1,7 @@
 {
     "$id": "generic_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
-    "additionalProperties": true,
+    "additionalProperties": false,
     "description": "A generic file of arbitrary content and format. This should be a schema of last resort, typically for one-off files that do not warrant their own dedicated schemas.",
     "properties": {
         "$schema": {

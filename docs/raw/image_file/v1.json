@@ -6,6 +6,7 @@
             "R": "alabaster.spatial::loadSpatialImage"
         }
     },
+    "additionalProperties": false,
     "description": "An image file in one of the usual formats.",
     "properties": {
         "$schema": {

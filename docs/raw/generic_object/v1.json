@@ -6,7 +6,7 @@
             "R": "base::readRDS"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "description": "A serialized object of some format, as a schema of last resort for saving language-specific objects. For R, this should be an RDS file (_not RDA_) containing a single arbitrary R object. For Python, this should be a pickle file.",
     "properties": {
         "$schema": {
