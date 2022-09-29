@@ -54,7 +54,7 @@ def fuse(args, handler=None):
             # parent class. The first object is assumed to contain metadata for
             # the derived class, hence the i > 0 check.
             if "$id" in x and i > 0 and "$id" in args[0]:
-                approved = ["properties", "required"]
+                approved = ["properties", "required", "additionalProperties"]
                 if "allOf" in x:
                     approved.append("allOf")
                 desc = x["description"]

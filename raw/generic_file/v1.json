@@ -4,7 +4,6 @@
     "type": "object",
     "title": "Generic File",
     "description": "A generic file of arbitrary content and format. This should be a schema of last resort, typically for one-off files that do not warrant their own dedicated schemas.",
-    "additionalProperties": true,
     "allOf": [
         { "$ref": "../_common/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
