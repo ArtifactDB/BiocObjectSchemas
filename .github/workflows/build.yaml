@@ -52,7 +52,7 @@ jobs:
 
     - name: Organize JSON files
       run: |
-        tar -czvf public/bundle.tar.gz resolved
+        (cd resolved && tar -czvf ../bundle.tar.gz *)
         mv resolved public/raw
 
     - name: Publish to GitHub Pages
@@ -63,3 +63,9 @@ jobs:
         folder: public
         target-folder: docs
         clean: true 
+
+    - name: Publish release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: bundle.tar.gz
