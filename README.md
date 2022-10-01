@@ -9,9 +9,15 @@ The aim is to portably save and read BioC objects in different language ecosyste
 
 ## Contents
 
-See the [Pages sites](https://artifactdb.github.io/BiocObjectSchemas) for a link to all available schemas.
-Developers may also download the bundle of the latest schemas [here](https://artifactdb.github.io/BiocObjectSchemas/bundle.tar.gz).
+See the [Pages site](https://artifactdb.github.io/BiocObjectSchemas) for all available schemas in human-readable form.
+
+Check the [Releases page](https://github.com/ArtifactDB/BiocObjectSchemas/releases) for versioned releases of the schemas.
 
 See [`docs/schema_conventions.md`](docs/schema_conventions.md) for instructions on writing new schemas.
 
 See [`docs/elastic_search_mapping.md`](docs/elastic_search_mapping.md) for converting schemas into Elasticsearch mappings.
+
+## Schema customization 
+
+To customize these schemas, simply [fork](https://github.com/ArtifactDB/BiocObjectSchemas/fork) this repository and modify the schemas in `raw/`.
+The GitHub Action will then validate and build the resolved schemas for use in downstream applications.
