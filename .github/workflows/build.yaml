@@ -1,5 +1,7 @@
 on: [push, pull_request]
 
+name: Check and build schemas
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,16 +23,15 @@ jobs:
     - name: Install Python packages
       run: |
         pip install json-schema-for-humans
+        pip install jsonschema
 
     - name: Resolve schemas
-      run: |
-        python3 scripts/resolver.py raw resolved
+      run: python3 scripts/resolver.py raw resolved
 
-    - name: Archive resolved schemas
-      uses: actions/upload-artifact@v3
-      with:
-        name: resolved-schemas
-        path: resolved
+    - name: Validate schemas
+      run: |
+        wget http://json-schema.org/draft-07/schema -O schema
+        python3 scripts/validator.py resolved schema
 
     - name: Create human-readable pages
       run: |
