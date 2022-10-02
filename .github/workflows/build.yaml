@@ -10,50 +10,11 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
+    - name: Build schemas
+      uses: ArtifactDB/build-schemas-action@v0.1.0
       with:
-        python-version: '3.9'
-
-    - uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: python-packages
-
-    - name: Install Python packages
-      run: |
-        pip install json-schema-for-humans
-        pip install jsonschema
-
-    - name: Resolve schemas
-      run: python3 scripts/resolver.py raw resolved
-
-    - name: Validate schemas
-      run: |
-        wget http://json-schema.org/draft-07/schema -O schema
-        python3 scripts/validator.py resolved schema
-
-    - name: Create human-readable pages
-      run: |
-        all_json=$(find resolved -type f -name "*.json")
-        output=public/html
-        mkdir -p $output
-        for x in ${all_json}
-        do
-            base=$(basename $x | sed "s/.json/.html/")
-            dir=$(dirname $x | xargs basename)
-            mkdir -p $output/$dir
-            tmp=${output}/${dir}/tmp-${base}.json
-            python3 scripts/nest_allOf.py ${x} ${tmp}
-            generate-schema-doc ${tmp} ${output}/${dir}/${base}
-            rm ${tmp}
-        done
-        python3 scripts/indexer.py "Bioconductor schemas" public "https://i.imgur.com/VgP2ONn.gif" > public/index.html
-
-    - name: Organize JSON files
-      run: |
-        (cd resolved && tar -czvf ../bundle.tar.gz *)
-        mv resolved public/raw
+        docs: public
+        title: 'Bioconductor object schemas'
 
     - name: Publish to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.3
