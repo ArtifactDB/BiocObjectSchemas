@@ -36,7 +36,7 @@ mkdir raw
 cd raw
 for x in $(ls ../original/raw) 
 do
-    ln -s ../original/raw/$x $x
+    ln -s ../original/raw/$x
 done
 git add raw
 
