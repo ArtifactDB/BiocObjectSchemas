@@ -27,7 +27,14 @@ jobs:
         target-folder: docs
         clean: true 
 
-    - name: Bundle the release
+    - name: Upload resolved schemas
+      uses: actions/upload-artifact@v3
+      if: github.ref == 'refs/heads/master'
+      with:
+        name: latest
+        path: resolved
+
+    - name: Bundle resolved schemas 
       if: startsWith(github.ref, 'refs/tags/')
       run: tar -czvf bundle.tar.gz resolved
 
