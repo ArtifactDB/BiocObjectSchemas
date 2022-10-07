@@ -4,6 +4,7 @@
     "title": "Redirection",
     "description": "Redirect to another resource. This is typically used create convenient short-hand identifiers that automatically redirect users to a resource with a longer name.",
     "additionalProperties": false,
+    "type": "object",
     "properties": {
         "$schema": {
             "type": "string",
