@@ -50,5 +50,6 @@
         "path",
         "redirection"
     ],
-    "title": "Redirection"
+    "title": "Redirection",
+    "type": "object"
 }
