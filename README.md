@@ -38,6 +38,7 @@ for x in $(ls ../original/raw)
 do
     ln -s ../original/raw/$x
 done
+cd -
 git add raw
 
 # Copying the GitHub action.

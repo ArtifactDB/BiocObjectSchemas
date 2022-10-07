@@ -9,6 +9,8 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
+      with:
+        submodules: true
 
     - name: Build schemas
       uses: ArtifactDB/build-schemas-action@v0.2.0
