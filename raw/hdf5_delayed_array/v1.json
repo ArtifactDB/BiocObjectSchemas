@@ -3,7 +3,7 @@
     "$id": "hdf5_delayed_array/v1.json",
     "type": "object",
     "title": "HDF5 delayed array",
-    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the [**chihaya**](https://ltla.github.io/chihaya) specification for delayed operations, based on the [**DelayedArray**](https://bioconductor.org/packages/DelayedArray) Bioconductor package.\n\nFor a signed integer dataset, missing values are represented by -2147483648.\n\nA string dataset may contain a `missing` attribute. This should be a scalar string dataset that contains the string used to represent missing values. If no attribute exists, it is assumed that all strings are non-missing. Note that any string dataset in a `dimnames` operation should only contain non-missing strings.", 
+    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the [**chihaya**](https://ltla.github.io/chihaya) specification for delayed operations, based on the [**DelayedArray**](https://bioconductor.org/packages/DelayedArray) Bioconductor package.\n\nFor integer and boolean datasets, missing values are represented by -2147483648.\n\nA string dataset may contain a `missing-value-placeholder` attribute. This should be a scalar string dataset that contains the string used to represent missing values. If no attribute exists, it is assumed that all strings are non-missing. Note that any string dataset in a `dimnames` operation should only contain non-missing strings.", 
     "allOf": [
         { "$ref": "../array/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
