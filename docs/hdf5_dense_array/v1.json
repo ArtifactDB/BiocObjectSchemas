@@ -50,7 +50,7 @@
                     "type": "string"
                 },
                 "dimnames": {
-                    "description": "Name of the HDF5 group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available.\n\n(Legacy versions of this file format for dense matrices may have the dimnames for the fastest and second-fastest dimensions saved in `samp_data/features` and `samp_data/samples`, respectively.)",
+                    "description": "Name of the HDF5 group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available. Each dataset should not contain any missing values, so each string can be interpreted as-is.",
                     "type": "string"
                 }
             },
