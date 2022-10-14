@@ -3,7 +3,7 @@
     "$id": "hdf5_dense_array/v1.json",
     "type": "object",
     "title": "HDF5 dense array",
-    "description": "Dense array, saved in a HDF5 file as an n-dimensional dataset. For the `array.dimensions` property, the fastest-changing dimension is the \"first\" dimension while the slowest-changing is the \"last\" dimension. (Note that this is reversed in dimensions reported by the HDF5 dataset itself, where the dimensions are listed from slowest to fastest.) In the context of assay matrices, the fastest-changing dimension usually corresponds to features while the second-fastest dimension represents the samples. The file may also contain the dimnames of the array.",
+    "description": "Dense array, saved in a HDF5 file as an n-dimensional dataset. For the `array.dimensions` property, the fastest-changing dimension is the \"first\" dimension while the slowest-changing is the \"last\" dimension. (Note that this is reversed in dimensions reported by the HDF5 dataset itself, where the dimensions are listed from slowest to fastest.) In the context of matrices, the fastest-changing dimension corresponds to the rows and the slowest-changing dimension corresponds to the columns. The file may also contain the dimnames of the array.\n\nFor a signed integer dataset, missing values are represented by -2147483648.\n\nA string dataset may contain a `missing` attribute. This should be a scalar string dataset that contains the string used to represent missing values. If no attribute exists, it is assumed that all strings are non-missing.",
     "allOf": [
         { "$ref": "../array/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
@@ -22,7 +22,7 @@
                 },
                 "dimnames": {
                     "type": "string",
-                    "description": "Name of the HDF5 group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available.\n\n(Legacy versions of this file format for dense matrices may have the dimnames for the fastest and second-fastest dimensions saved in `samp_data/features` and `samp_data/samples`, respectively.)"
+                    "description": "Name of the HDF5 group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available. Each dataset should not contain any missing values, so each string can be interpreted as-is."
                 }
             },
             "required": [
