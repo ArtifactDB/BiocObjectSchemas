@@ -1,0 +1,69 @@
+{
+    "$id": "simple_list/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
+    "description": "Virtual class representing a simple list of objects. The exact representation of the list on disk is left to concrete subclasses, as long as it supports external references to child resources. These external references should be used for complex objects that are not accommodated by the list representation itself. Each external reference should be an index into the `simple_list.children` array.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "basic_list": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "description": "Complex objects inside the list that cannot be accommodated by the on-disk representation. It is assumed that the representation contains external references indicating the position of each object inside the list; these references should be 0-based indices into this array.",
+                    "items": {
+                        "properties": {
+                            "resource": {
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "children"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "basic_list",
+        "path"
+    ],
+    "title": "Simple list",
+    "type": "object"
+}
