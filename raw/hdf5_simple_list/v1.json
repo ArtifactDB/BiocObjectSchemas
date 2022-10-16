@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "hdf5_simple_list/v1.json",
+    "type": "object",
+    "title": "HDF5 simple list",
+    "description": "A simple list stored inside a group of a HDF5 file. This follows the [**uzuki2**](https://github.com/LTLA/uzuki2) specification, which provides a representation for atomic vectors, factors, null objects and nested lists. All other objects are stored as external references, indexing into the `simple_list.children` array.",
+    "allOf": [
+        { "$ref": "../simple_list/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [
+        "hdf5_simple_list"
+    ],
+    "properties": {
+        "hdf5_simple_list": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "group"
+            ],
+            "properties": {
+                "group": {
+                    "type": "string",
+                    "description": "Name of the group inside the HDF5 file that contains the contents of the list."
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "format": "application/x-hdf5",
+        "restore": {
+            "R": "alabaster.base::loadBaseList"
+        }
+    }
+}
+
