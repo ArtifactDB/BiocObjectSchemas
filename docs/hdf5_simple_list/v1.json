@@ -14,7 +14,33 @@
             "description": "The schema to use.",
             "type": "string"
         },
-        "basic_list": {
+        "hdf5_simple_list": {
+            "additionalProperties": false,
+            "properties": {
+                "group": {
+                    "description": "Name of the group inside the HDF5 file that contains the contents of the list.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "group"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        },
+        "simple_list": {
             "additionalProperties": false,
             "properties": {
                 "children": {
@@ -54,40 +80,14 @@
                 "children"
             ],
             "type": "object"
-        },
-        "hdf5_simple_list": {
-            "additionalProperties": false,
-            "properties": {
-                "group": {
-                    "description": "Name of the group inside the HDF5 file that contains the contents of the list.",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "group"
-            ],
-            "type": "object"
-        },
-        "is_child": {
-            "default": false,
-            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
-            "type": "boolean"
-        },
-        "md5sum": {
-            "description": "MD5 checksum for the file.",
-            "type": "string"
-        },
-        "path": {
-            "description": "Path to the file in the project directory.",
-            "type": "string"
         }
     },
     "required": [
         "$schema",
-        "basic_list",
         "hdf5_simple_list",
         "md5sum",
-        "path"
+        "path",
+        "simple_list"
     ],
     "title": "HDF5 simple list",
     "type": "object"
