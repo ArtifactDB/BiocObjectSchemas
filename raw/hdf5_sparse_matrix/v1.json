@@ -3,7 +3,7 @@
     "$id": "hdf5_sparse_matrix/v1.json",
     "type": "object",
     "title": "HDF5 sparse matrix",
-    "description": "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file. The group should contain a `data` subgroup, which should in turn contain the typical contents of the compressed sparse matrix, i.e., `indices`, `indptr` and `data`. Specifically, `data` should be a 1-dimensional integer or numeric dataset contains the values of the non-zero elements; `indices` should be a 1-dimensional integer dataset containing the 0-based row/column index for each non-zero element in `data`; and `indptr` should be a 1-dimensional integer dataset of length equal to the number of columns/rows plus 1, containing pointers to the start and end of each column/row. The exact interpretation depends on the format specified in `format`. Dimnames may also be saved inside the file.\n\nIf `data` is an integer dataset, missing values are represented by -2147483648.",
+    "description": "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file. The HDF5 group should contain a `data` subgroup, which should in turn contain the typical contents of the compressed sparse matrix, i.e., `indices`, `indptr` and `data`. Specifically, `data` should be a 1-dimensional integer or numeric dataset contains the values of the non-zero elements; `indices` should be a 1-dimensional integer dataset containing the 0-based row/column index for each non-zero element in `data`; and `indptr` should be a 1-dimensional integer dataset of length equal to the number of columns/rows plus 1, containing pointers to the start and end of each column/row. The exact interpretation depends on the format specified in `format`.\n\nDimnames may also be saved inside the same HDF5 file, as string datasets in another group. In such cases, the `hdf5_sparse_matrix.dimnames` property should be present and contain the name of that group.\n\nIf `data` is an integer dataset, missing values are represented by -2147483648.",
     "allOf": [
         { "$ref": "../array/v1.json" },
         { "$ref": "../_md5sum/v1.json" },
@@ -39,7 +39,7 @@
                 },
                 "dimnames": {
                     "type": "string",
-                    "description": "Name of the group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after its dimension, from fastest-changing (`\"0\"`) to slowest-changing, and should have length equal to the extent of that dimension. If this property is not provided, it can be assumed that no dimnames are available. Each dataset should not contain any missing values, so each string can be interpreted as-is."
+                    "description": "Name of the group containing the dimnames. This group should contain zero or one string datasets for each dimension. The name of each string dataset is based on its dimension - `\"0\"` for rows, `\"1\"` for columns - and should have length equal to the extent of that dimension. If this property is not present, it can be assumed that no dimnames are available. Each dataset should not contain any missing values, so each string can be interpreted as-is."
                 }
             },
             "required": [

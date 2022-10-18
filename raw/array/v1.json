@@ -21,7 +21,7 @@
                         "type": "integer"
                     },
                     "minItems": 1,
-                    "description": "Dimensions of an n-dimensional array. Dimensions should be ordered from the fastest-changing to the slowest."
+                    "description": "Dimensions of an n-dimensional array."
                 },
                 "type": {
                     "type": "string",
