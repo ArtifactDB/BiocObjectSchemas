@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "json_simple_list/v1.json",
+    "type": "object",
+    "title": "JSON simple list",
+    "description": "A simple list stored inside a (possibly compressed) JSON file. This follows the [**uzuki2**](https://github.com/LTLA/uzuki2) specification, which provides a representation for atomic vectors, factors, null objects and nested lists. All other objects are stored as external references, indexing into the `simple_list.children` array.",
+    "allOf": [
+        { "$ref": "../simple_list/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "required": [
+        "json_simple_list"
+    ],
+    "properties": {
+        "json_simple_list": {
+            "type": "object",
+            "additionalProperties": false,
+            "allOf": [ { "$ref": "../_compression/v1.json" } ]
+        }
+    },
+    "_attributes": {
+        "format": "application/json",
+        "restore": {
+            "R": "alabaster.base::loadBaseList"
+        }
+    }
+}
+
