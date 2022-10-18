@@ -1,0 +1,99 @@
+{
+    "$id": "json_simple_list/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "format": "application/json",
+        "restore": {
+            "R": "alabaster.base::loadBaseList"
+        }
+    },
+    "additionalProperties": false,
+    "description": "A simple list stored inside a (possibly compressed) JSON file. This follows the [**uzuki2**](https://github.com/LTLA/uzuki2) specification, which provides a representation for atomic vectors, factors, null objects and nested lists. All other objects are stored as external references, indexing into the `simple_list.children` array.\n\nDerived from `simple_list/v1.json`: virtual class representing a simple list of objects. The exact representation of the list on disk is left to concrete subclasses, as long as it supports external references to child resources. These external references should be used for complex objects that are not accommodated by the list representation itself. Each external reference should be an index into the `simple_list.children` array.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "json_simple_list": {
+            "additionalProperties": false,
+            "properties": {
+                "compression": {
+                    "description": "Type of compression applied to the file.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "compression"
+            ],
+            "type": "object"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        },
+        "simple_list": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "description": "Complex objects inside the list that cannot be accommodated by the on-disk representation. It is assumed that the representation contains external references indicating the position of each object inside the list; these references should be 0-based indices into this array.",
+                    "items": {
+                        "properties": {
+                            "resource": {
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "children"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "$schema",
+        "json_simple_list",
+        "md5sum",
+        "path",
+        "simple_list"
+    ],
+    "title": "JSON simple list",
+    "type": "object"
+}
