@@ -12,7 +12,7 @@
             "additionalProperties": false,
             "properties": {
                 "dimensions": {
-                    "description": "Dimensions of an n-dimensional array. Dimensions should be ordered from the fastest-changing to the slowest.",
+                    "description": "Dimensions of an n-dimensional array.",
                     "items": {
                         "type": "integer"
                     },
