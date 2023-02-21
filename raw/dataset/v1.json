@@ -20,14 +20,15 @@
             "properties": {
                 "experiments": {
                     "type": "array",
-                    "description": "Array of pointers to the summarized experiments. Each experiment should contain column names that unique within that experiment.",
+                    "description": "Array of pointers to the summarized experiments. Each experiment should contain column names that are unique within that experiment.",
                     "items": {
                         "type": "object",
                         "required": [ "name" ],
                         "properties": {
                             "name": {
                                 "type": "string",
-                                "description": "Name of the experiment."
+                                "description": "Name of the experiment. This should be a non-empty string. Experiment names should also be unique within `experiments`.",
+                                "minLength": 1
                             },
                             "resource": {
                                 "_children":{

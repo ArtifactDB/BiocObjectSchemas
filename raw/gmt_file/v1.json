@@ -31,7 +31,8 @@
                         "properties": {
                             "name": {
                                 "type": "string",
-                                "description": "Name of the field. This should be unique."
+                                "description": "Name of the field. This should be non-empty and unique across all `fields`.",
+                                "minLength": 1
                             },
                             "type": {
                                 "type": "string",
