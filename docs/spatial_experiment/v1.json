@@ -31,12 +31,13 @@
                     "items": {
                         "properties": {
                             "name": {
-                                "description": "Name of the alternative experiment",
+                                "description": "Name of the alternative experiment. Each alternative experiment should have a non-empty name. Names should be unique across all `alternative_experiments`.",
                                 "examples": [
                                     "CITE-seq",
                                     "spike-ins",
                                     "HTO"
                                 ],
+                                "minLength": 1,
                                 "type": "string"
                             },
                             "resource": {
@@ -74,7 +75,7 @@
                     "type": "array"
                 },
                 "main_experiment_name": {
-                    "description": "Name of the main experiment. This is analogous to the names of the alternative experiments. This may be omitted, in which case the main experiment is not named.",
+                    "description": "Name of the main experiment. This should be different from any value in `alternative_experiments.name`. If omitted, the main experiment is unnamed; if a name is necessary, users are advised to represent the main experiment with an empty string, as this is guaranteed to avoid overlaps with any value in `alternative_experiments.name`.",
                     "examples": [
                         "RNA-seq"
                     ],
@@ -85,12 +86,13 @@
                     "items": {
                         "properties": {
                             "name": {
-                                "description": "Name of the reduced dimensions",
+                                "description": "Name of the reduced dimensions. Each reduced dimension result should have a non-empty name. Names should be unique across `reduced_dimensions`.",
                                 "examples": [
                                     "PCA",
                                     "TSNE",
                                     "UMAP"
                                 ],
+                                "minLength": 1,
                                 "type": "string"
                             },
                             "resource": {
@@ -284,7 +286,8 @@
                     "items": {
                         "properties": {
                             "name": {
-                                "description": "Name of the assay.",
+                                "description": "Name of the assay. Each assay must have a non-empty name. Assay names should not be duplicated within `assays`.",
+                                "minLength": 1,
                                 "type": "string"
                             },
                             "resource": {

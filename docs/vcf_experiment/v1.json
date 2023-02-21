@@ -31,7 +31,8 @@
                     "items": {
                         "properties": {
                             "name": {
-                                "description": "Name of the assay.",
+                                "description": "Name of the assay. Each assay must have a non-empty name. Assay names should not be duplicated within `assays`.",
+                                "minLength": 1,
                                 "type": "string"
                             },
                             "resource": {

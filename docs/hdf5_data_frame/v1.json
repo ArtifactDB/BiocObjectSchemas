@@ -147,7 +147,8 @@
                         ],
                         "properties": {
                             "name": {
-                                "description": "Name of the column.",
+                                "description": "Name of the column. Each column must have a non-empty name. Column names should not be duplicated within `columns`.",
+                                "minLength": 1,
                                 "type": "string"
                             },
                             "type": {
