@@ -38,8 +38,8 @@
                             },
                             "type": {
                                 "type": "string",
-                                "description": "What is the type of the column? Factors and ordered factors have an additional `levels` property specifying the levels. Dates are stored in `YYYY-MM-DD` format. Columns listed as `other` are assumed to be non-atomic and should contain a `resource` property pointing towards the file containing the column's contents.",
-                                "enum": [ "integer", "number", "string", "factor", "ordered", "boolean", "date", "other" ]
+                                "description": "What is the type of the column? Factors and ordered factors have an additional `levels` property specifying the levels. Dates are stored in `YYYY-MM-DD` format. Date-times should follow RFC 3339 Section 5.6. Columns listed as `other` are assumed to be non-atomic and should contain a `resource` property pointing towards the file containing the column's contents.",
+                                "enum": [ "integer", "number", "string", "factor", "ordered", "boolean", "date", "date-time", "other" ]
                             }
                         },
                         "allOf": [
