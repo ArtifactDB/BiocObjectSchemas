@@ -100,12 +100,13 @@
                     "type": "object"
                 },
                 "sequence_file": {
-                    "description": "Biological sequences in FASTA or FASTQ format. The nature of the sequence should be consistent with `type`.",
+                    "description": "Biological sequences in FASTA or FASTQ format. The nature of the sequence and the presence/type of quality scores is determined from the `sequence_file`'s own metadata.",
                     "properties": {
                         "resource": {
                             "_children": {
                                 "contains": [
-                                    "sequence_file"
+                                    "fasta_file",
+                                    "fastq_file"
                                 ]
                             },
                             "properties": {
@@ -132,19 +133,9 @@
                         "resource"
                     ],
                     "type": "object"
-                },
-                "type": {
-                    "description": "Type of sequence in the file.",
-                    "enum": [
-                        "DNA",
-                        "RNA",
-                        "AA"
-                    ],
-                    "type": "string"
                 }
             },
             "required": [
-                "type",
                 "sequence_file"
             ],
             "type": "object"
