@@ -1,0 +1,94 @@
+{
+    "$id": "bed_file/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
+    "description": "A file in the browser extensible data (BED) format, containing a collection of genomic intervals.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "bed_file": {
+            "properties": {
+                "compression": {
+                    "description": "The compression format.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2",
+                        "bgzip"
+                    ],
+                    "type": "string"
+                },
+                "format": {
+                    "default": "BED",
+                    "description": "Format of the BED file. If BED, the exact format is determined by the number of columns inside the file (from 3 to 12).",
+                    "enum": [
+                        "BED",
+                        "BED15"
+                    ],
+                    "type": "string"
+                },
+                "index": {
+                    "description": "Tabix file to index the intervals. If present, this assumes that the intervals in this BED file are sorted by their genomic position.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "tabix_file"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "compression"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "bed_file",
+        "md5sum",
+        "path"
+    ],
+    "title": "BED File",
+    "type": "object"
+}

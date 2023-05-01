@@ -29,6 +29,40 @@
                         "GFF3"
                     ],
                     "type": "string"
+                },
+                "index": {
+                    "description": "Tabix file to index the features. If present, this assumes that the features in this GFF file are sorted by their genomic position.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "tabix_file"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
                 }
             },
             "required": [

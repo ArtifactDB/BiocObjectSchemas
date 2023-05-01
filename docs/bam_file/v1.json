@@ -1,0 +1,98 @@
+{
+    "$id": "bam_file/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
+    "description": "A file in the binary alignment map (BAM) format, containing sequence alignment data.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "bam_file": {
+            "allOf": [
+                {
+                    "if": {
+                        "required": [
+                            "index"
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "sorted": {
+                                "const": "coordinate"
+                            }
+                        }
+                    }
+                }
+            ],
+            "properties": {
+                "index": {
+                    "description": "Index of the BAM file. If this is present, `sorted` must be set to \"coordinate\".",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "bam_file_index"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
+                },
+                "sorted": {
+                    "default": "none",
+                    "description": "Whether and how the BAM file has been sorted.",
+                    "enum": [
+                        "name",
+                        "coordinate",
+                        "none"
+                    ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "bam_file",
+        "md5sum",
+        "path"
+    ],
+    "title": "BAM File",
+    "type": "object"
+}

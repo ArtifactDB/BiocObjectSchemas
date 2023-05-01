@@ -1,0 +1,34 @@
+{
+    "$id": "tabix_file/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
+    "description": "A tabix file for indexing various tab-delimited genome position files, e.g., BED.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        },
+        "tabix_file": {}
+    },
+    "required": [
+        "$schema",
+        "md5sum",
+        "path",
+        "tabix_file"
+    ],
+    "title": "Tabix File",
+    "type": "object"
+}

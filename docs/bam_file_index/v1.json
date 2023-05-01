@@ -1,0 +1,34 @@
+{
+    "$id": "bam_file_index/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "additionalProperties": false,
+    "description": "An index file (BAI) for a coordinate-sorted BAM file containing sequence alignment data.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "bam_file_index": {},
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "bam_file_index",
+        "md5sum",
+        "path"
+    ],
+    "title": "BAM File Index",
+    "type": "object"
+}
