@@ -1,19 +1,19 @@
 {
-    "$id": "bam_file_index/v1.json",
+    "$id": "faidx_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "restore": {
-            "R": "alabaster.files::loadBamIndexWrapper"
+            "R": "alabaster.files::loadFaidxWrapper"
         }
     },
     "additionalProperties": false,
-    "description": "An index file (BAI) for a coordinate-sorted BAM file containing sequence alignment data.",
+    "description": "An index file for biological sequences in FASTA or FASTQ format. This is typically produced by `samtools faidx`.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
             "type": "string"
         },
-        "bam_file_index": {
+        "faidx_index": {
             "properties": {
                 "other_data": {
                     "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
@@ -67,10 +67,10 @@
     },
     "required": [
         "$schema",
-        "bam_file_index",
+        "faidx_file",
         "md5sum",
         "path"
     ],
-    "title": "BAM File Index",
+    "title": "FASTA Index File",
     "type": "object"
 }
