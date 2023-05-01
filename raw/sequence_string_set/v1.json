@@ -18,11 +18,11 @@
             "properties": {
                 "sequence_file": {
                     "type":"object",
-                    "description": "Biological sequences in FASTA or FASTQ format. The nature of the sequence is described in the sequence file's own metadata.",
+                    "description": "Biological sequences in FASTA or FASTQ format. The nature of the sequence and the presence/type of quality scores is determined from the `sequence_file`'s own metadata.",
                     "properties": {
                         "resource": {
                             "_children":{
-                                "contains": ["sequence_file"]
+                                "contains": ["fasta_file", "fastq_file"]
                             }
                         }
                     },
