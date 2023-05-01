@@ -60,5 +60,10 @@
                 }
             ]
         }
+    },
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadBamWrapper"
+        }
     }
 }

@@ -66,5 +66,10 @@
                 }
             ]
         }
+    },
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadGffWrapper"
+        }
     }
 }

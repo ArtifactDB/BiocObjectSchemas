@@ -45,5 +45,10 @@
                 }
             }
         }
+    },
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadFastqWrapper"
+        }
     }
 }
