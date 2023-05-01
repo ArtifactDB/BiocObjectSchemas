@@ -26,7 +26,7 @@
                     "properties": {
                         "resource": {
                             "_children":{
-                                "contains": ["bam_file_index"]
+                                "contains": ["bam_index_file"]
                             }
                         }
                     },

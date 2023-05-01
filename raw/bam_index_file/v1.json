@@ -1,17 +1,17 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id":"bam_file_index/v1.json",
+    "$id":"bam_index_file/v1.json",
     "type": "object",
-    "title": "BAM File Index",
-    "description": "An index file (BAI) for a coordinate-sorted BAM file containing sequence alignment data.",
+    "title": "BAM Index File",
+    "description": "An index file (BAI) for a coordinate-sorted BAM file containing sequence alignment data. This is typically produced by `samtools index`.",
     "allOf": [
         { "$ref": "../_common/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
     ],
     "additionalProperties": false,
-    "required": [ "bam_file_index" ],
+    "required": [ "bam_index_file" ],
     "properties": {
-        "bam_file_index": {
+        "bam_index_file": {
             "properties": {
                 "other_data": {
                     "type": "object",
