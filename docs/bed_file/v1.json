@@ -9,6 +9,20 @@
             "type": "string"
         },
         "bed_file": {
+            "allOf": [
+                {
+                    "if": {
+                        "required": [
+                            "index"
+                        ]
+                    },
+                    "then": {
+                        "compression": {
+                            "const": "bgzip"
+                        }
+                    }
+                }
+            ],
             "properties": {
                 "compression": {
                     "description": "The compression format.",
@@ -21,8 +35,7 @@
                     "type": "string"
                 },
                 "format": {
-                    "default": "BED",
-                    "description": "Format of the BED file. If BED, the exact format is determined by the number of columns inside the file (from 3 to 12).",
+                    "description": "Format of the BED file. If \"BED\", the exact format is determined by the number of columns inside the file (from 3 to 12).",
                     "enum": [
                         "BED",
                         "BED15"
@@ -30,7 +43,7 @@
                     "type": "string"
                 },
                 "index": {
-                    "description": "Tabix file to index the intervals. If present, this assumes that the intervals in this BED file are sorted by their genomic position.",
+                    "description": "Tabix file to index the intervals. If present, the intervals in this BED file must be sorted by their genomic position, and `compression` must be set to \"bgzip\".",
                     "properties": {
                         "resource": {
                             "_children": {
@@ -62,9 +75,44 @@
                         "resource"
                     ],
                     "type": "object"
+                },
+                "other_data": {
+                    "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "simple_list"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
                 }
             },
             "required": [
+                "format",
                 "compression"
             ],
             "type": "object"
