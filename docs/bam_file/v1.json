@@ -14,25 +14,9 @@
             "type": "string"
         },
         "bam_file": {
-            "allOf": [
-                {
-                    "if": {
-                        "required": [
-                            "index"
-                        ]
-                    },
-                    "then": {
-                        "properties": {
-                            "sorted": {
-                                "const": "coordinate"
-                            }
-                        }
-                    }
-                }
-            ],
             "properties": {
                 "index": {
-                    "description": "Index of the BAM file. If this is present, `sorted` must be set to \"coordinate\".",
+                    "description": "Index of the BAM file. If this is present, the BAM file should be coordinate-sorted.",
                     "properties": {
                         "resource": {
                             "_children": {
@@ -98,16 +82,6 @@
                         "resource"
                     ],
                     "type": "object"
-                },
-                "sorted": {
-                    "default": "unsorted",
-                    "description": "Whether and how the BAM file has been sorted.",
-                    "enum": [
-                        "name",
-                        "coordinate",
-                        "unsorted"
-                    ],
-                    "type": "string"
                 }
             },
             "type": "object"
