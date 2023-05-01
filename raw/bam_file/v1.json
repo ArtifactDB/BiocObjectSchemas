@@ -1,0 +1,52 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"bam_file/v1.json",
+    "type": "object",
+    "title": "BAM File",
+    "description": "A file in the binary alignment map (BAM) format, containing sequence alignment data.",
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "additionalProperties": false,
+    "required": [ "bam_file" ],
+    "properties": {
+        "bam_file": { 
+            "type": "object",
+            "properties": {
+                "sorted": {
+                    "type": "string",
+                    "description": "Whether and how the BAM file has been sorted.",
+                    "enum": [ "name", "coordinate", "none" ],
+                    "default": "none"
+                },
+                "index": {
+                    "type": "object",
+                    "description": "Index of the BAM file. If this is present, `sorted` must be set to \"coordinate\".",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["bam_file_index"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" }]
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "required": ["index"]
+                    },
+                    "then": {
+                        "properties": {
+                            "sorted": {
+                                "const": "coordinate"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
