@@ -15,6 +15,7 @@
         "gmt_file": {
             "type": "object",
             "additionalProperties": false,
+            "required": [ "compression" ],
             "properties": {
                 "compression": {
                     "type": "string",
