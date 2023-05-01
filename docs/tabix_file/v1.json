@@ -1,6 +1,11 @@
 {
     "$id": "tabix_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadTabixWrapper"
+        }
+    },
     "additionalProperties": false,
     "description": "A tabix file for indexing various tab-delimited genome position files, e.g., BED.",
     "properties": {
