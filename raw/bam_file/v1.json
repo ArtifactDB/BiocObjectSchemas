@@ -14,15 +14,9 @@
         "bam_file": { 
             "type": "object",
             "properties": {
-                "sorted": {
-                    "type": "string",
-                    "description": "Whether and how the BAM file has been sorted.",
-                    "enum": [ "name", "coordinate", "unsorted" ],
-                    "default": "unsorted"
-                },
                 "index": {
                     "type": "object",
-                    "description": "Index of the BAM file. If this is present, `sorted` must be set to \"coordinate\".",
+                    "description": "Index of the BAM file. If this is present, the BAM file should be coordinate-sorted.",
                     "properties": {
                         "resource": {
                             "_children":{
@@ -44,21 +38,7 @@
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" } ]
                 }
-            },
-            "allOf": [
-                {
-                    "if": {
-                        "required": ["index"]
-                    },
-                    "then": {
-                        "properties": {
-                            "sorted": {
-                                "const": "coordinate"
-                            }
-                        }
-                    }
-                }
-            ]
+            }
         }
     },
     "_attributes": {
