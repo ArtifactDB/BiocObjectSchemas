@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"faidx_file/v1.json",
+    "type": "object",
+    "title": "FASTA Index File",
+    "description": "An index file for biological sequences in FASTA or FASTQ format. This is typically produced by `samtools faidx`.",
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "additionalProperties": false,
+    "required": [ "faidx_file" ],
+    "properties": {
+        "faidx_index": {
+            "properties": {
+                "other_data": {
+                    "type": "object",
+                    "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["simple_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadFaidxWrapper"
+        }
+    }
+}

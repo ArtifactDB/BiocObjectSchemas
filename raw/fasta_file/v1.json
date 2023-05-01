@@ -36,10 +36,37 @@
                         }
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+
+                "index": {
+                    "type": "object",
+                    "description": "Index file for the sequences. If present, `compression` should be `\"none\"` or \"bgzip\".",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["faidx_file"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" }]
                 }
-            }
+            },
+
+            "allOf": [
+                {
+                    "if": {
+                        "required": ["index"]
+                    },
+                    "then": {
+                        "compression": {
+                            "enum": [ "none", "bgzip" ]
+                        }
+                    }
+                }
+            ]
         }
     },
+
     "_attributes": {
         "restore": {
             "R": "alabaster.files::loadFastaWrapper"
