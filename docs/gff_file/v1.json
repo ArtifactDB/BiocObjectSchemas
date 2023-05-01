@@ -1,6 +1,11 @@
 {
     "$id": "gff_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadGffWrapper"
+        }
+    },
     "additionalProperties": false,
     "description": "A file in the general feature transfer (GFF) format, containing the coordinates of annotated features in relation to a reference sequence.",
     "properties": {

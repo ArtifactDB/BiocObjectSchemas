@@ -1,6 +1,11 @@
 {
     "$id": "bigwig_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadBigWigWrapper"
+        }
+    },
     "additionalProperties": false,
     "description": "A bigWig file containing dense and continuous data across genome regions.",
     "properties": {

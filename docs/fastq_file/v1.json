@@ -1,6 +1,11 @@
 {
     "$id": "fastq_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadFastqWrapper"
+        }
+    },
     "additionalProperties": false,
     "description": "A FASTQ file containing a collection of biological sequences with quality scores, typically corresponding to experimental data.",
     "properties": {

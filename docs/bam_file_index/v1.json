@@ -1,6 +1,11 @@
 {
     "$id": "bam_file_index/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadBamIndexWrapper"
+        }
+    },
     "additionalProperties": false,
     "description": "An index file (BAI) for a coordinate-sorted BAM file containing sequence alignment data.",
     "properties": {

@@ -1,6 +1,11 @@
 {
     "$id": "bed_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadBedWrapper"
+        }
+    },
     "additionalProperties": false,
     "description": "A file in the browser extensible data (BED) format, containing a collection of genomic intervals.",
     "properties": {

@@ -1,6 +1,11 @@
 {
     "$id": "bigbed_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadBigBedWrapper"
+        }
+    },
     "additionalProperties": false,
     "description": "A bigBed file containing indexed genomic intervals.",
     "properties": {
