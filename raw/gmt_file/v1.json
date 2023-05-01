@@ -42,6 +42,18 @@
                         }
                     },
                     "minItems": 1
+                },
+                "other_data": {
+                    "type": "object",
+                    "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["simple_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
                 }
             }
         }
