@@ -45,6 +45,23 @@
                             }
                         }
                     }
+                },
+                {
+                    "else": {
+                        "properties": {
+                            "compression": {
+                                "enum": [
+                                    "none",
+                                    "bgzip"
+                                ]
+                            }
+                        }
+                    },
+                    "if": {
+                        "required": [
+                            "index"
+                        ]
+                    }
                 }
             ],
             "properties": {
@@ -65,6 +82,40 @@
                         "FASTQ"
                     ],
                     "type": "string"
+                },
+                "index": {
+                    "description": "Index on the FASTA or FASTQ file, usually created with `samtools faidx`. If this is supplied, `compression` must either be none or bgzip.",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "sequence_file_index"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
                 },
                 "type": {
                     "default": "DNA",
