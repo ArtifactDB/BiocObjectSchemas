@@ -13,7 +13,8 @@
         "gff_file": {
             "type": "object",
             "required": [ 
-                "format" 
+                "format",
+                "compression"
             ],
             "additionalProperties": false,
             "properties": {
@@ -25,12 +26,11 @@
                 "compression": {
                     "type": "string",
                     "description": "The compression format.",
-                    "enum": [ "none", "gzip", "bzip2", "bgzip" ],
-                    "default": "none"
+                    "enum": [ "none", "gzip", "bzip2", "bgzip" ]
                 },
                 "index": {
                     "type": "object",
-                    "description": "Tabix file to index the features. If present, this assumes that the features in this GFF file are sorted by their genomic position.",
+                    "description": "Tabix file to index the features. If present, the features in this GFF file must be sorted by their genomic position, and `compression` must be set to \"bgzip\".",
                     "properties": {
                         "resource": {
                             "_children":{
@@ -40,7 +40,19 @@
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" }]
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "required": [ "index" ]
+                    },
+                    "then": {
+                        "compression": {
+                            "const": "bgzip"
+                        }
+                    }
+                }
+            ]
         }
     }
 }
