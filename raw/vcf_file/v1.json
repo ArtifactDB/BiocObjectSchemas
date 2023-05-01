@@ -24,6 +24,18 @@
                 "header_only": {
                     "type": "boolean",
                     "description": "Whether this file only contains the VCF headers, but no data. This is set to `true` when another object contains the VCF data, e.g., in a `vcf_experiment`."
+                },
+                "index": {
+                    "type": "object",
+                    "description": "Tabix file to index the variants. If present, this assumes that the variants in this VCF file are sorted by their genomic position.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["tabix_file"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" }]
                 }
             },
             "required": [

@@ -27,6 +27,18 @@
                     "description": "Format of the BED file. If BED, the exact format is determined by the number of columns inside the file (from 3 to 12).",
                     "enum": [ "BED", "BED15" ],
                     "default": "BED"
+                },
+                "index": {
+                    "type": "object",
+                    "description": "Tabix file to index the intervals. If present, this assumes that the intervals in this BED file are sorted by their genomic position.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["tabix_file"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" }]
                 }
             }
         }
