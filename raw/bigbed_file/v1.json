@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"bigbed_file/v1.json",
+    "type": "object",
+    "title": "bigBed File",
+    "description": "A bigBed file containing indexed genomic intervals.",
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "additionalProperties": false,
+    "required": [ "bigbed_file" ],
+    "properties": {
+        "bigbed_file": { 
+            "type": "object",
+            "properties": {}
+        }
+    }
+}
