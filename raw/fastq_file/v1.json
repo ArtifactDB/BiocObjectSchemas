@@ -52,7 +52,7 @@
                     "properties": {
                         "resource": {
                             "_children":{
-                                "contains": ["faidx_file"]
+                                "contains": ["fa_index_file"]
                             }
                         }
                     },

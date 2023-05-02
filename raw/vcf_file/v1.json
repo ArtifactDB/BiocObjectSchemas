@@ -30,7 +30,7 @@
                     "properties": {
                         "resource": {
                             "_children":{
-                                "contains": ["tabix_file"]
+                                "contains": ["tabix_index_file"]
                             }
                         }
                     },

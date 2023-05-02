@@ -1,17 +1,17 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id":"faidx_file/v1.json",
+    "$id":"tabix_index_file/v1.json",
     "type": "object",
-    "title": "FASTA Index File",
-    "description": "An index file for biological sequences in FASTA or FASTQ format. This is typically produced by `samtools faidx`.",
+    "title": "Tabix File",
+    "description": "A tabix file for indexing various tab-delimited genome position files, e.g., BED.",
     "allOf": [
         { "$ref": "../_common/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
     ],
     "additionalProperties": false,
-    "required": [ "faidx_file" ],
+    "required": [ "tabix_index_file" ],
     "properties": {
-        "faidx_file": {
+        "tabix_index_file": {
             "properties": {
                 "other_data": {
                     "type": "object",
@@ -30,7 +30,7 @@
     },
     "_attributes": {
         "restore": {
-            "R": "alabaster.files::loadFaidxWrapper"
+            "R": "alabaster.files::loadTabixIndexWrapper"
         }
     }
 }
