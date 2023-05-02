@@ -57,6 +57,19 @@
                         }
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" }]
+                },
+
+                "gzindex": {
+                    "type": "object",
+                    "description": "Index file for the block Gzip compression. If present, `compression` should be \"bgzip\".",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["bgzip_index_file"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" }]
                 }
             },
 
@@ -66,8 +79,22 @@
                         "required": ["index"]
                     },
                     "then": {
-                        "compression": {
-                            "enum": [ "none", "bgzip" ]
+                        "properties": {
+                            "compression": {
+                                "enum": [ "none", "bgzip" ]
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "required": ["gzindex"]
+                    },
+                    "then": {
+                        "properties": {
+                            "compression": {
+                                "const": "bgzip"
+                            }
                         }
                     }
                 }

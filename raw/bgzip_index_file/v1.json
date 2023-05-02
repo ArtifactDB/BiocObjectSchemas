@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id":"bgzip_index_file/v1.json",
+    "type": "object",
+    "title": "Block Gzip Index File",
+    "description": "An index file for block Gzip-compressed files. This is usually produced by running `samtools faidx` on a bgzip-compressed FASTA file.",
+    "allOf": [
+        { "$ref": "../_common/v1.json" },
+        { "$ref": "../_md5sum/v1.json" }
+    ],
+    "additionalProperties": false,
+    "required": [ "bgzip_index_file" ],
+    "properties": {
+        "bgzip_index_file": {
+            "properties": {
+                "other_data": {
+                    "type": "object",
+                    "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["simple_list"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "restore": {
+            "R": "alabaster.files::loadBgzipIndexWrapper"
+        }
+    }
+}
