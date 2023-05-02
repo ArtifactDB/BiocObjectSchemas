@@ -3,7 +3,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "restore": {
-            "R": "alabaster.files::loadFaidxWrapper"
+            "R": "alabaster.files::loadFaIndexWrapper"
         }
     },
     "additionalProperties": false,
