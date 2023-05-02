@@ -81,11 +81,6 @@
                     ],
                     "type": "object"
                 },
-                "num_records": {
-                    "description": "Number of genomic intervals in this file.",
-                    "minimum": 0,
-                    "type": "integer"
-                },
                 "other_data": {
                     "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
                     "properties": {
@@ -122,7 +117,6 @@
                 }
             },
             "required": [
-                "num_records",
                 "format",
                 "compression"
             ],

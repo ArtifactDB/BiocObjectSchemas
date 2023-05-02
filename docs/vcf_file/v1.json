@@ -91,11 +91,6 @@
                     ],
                     "type": "object"
                 },
-                "num_records": {
-                    "description": "Number of records in this file, including unaligned sequences.",
-                    "minimum": 0,
-                    "type": "integer"
-                },
                 "other_data": {
                     "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
                     "properties": {
@@ -132,9 +127,8 @@
                 }
             },
             "required": [
-                "num_records",
-                "compression",
-                "header_only"
+                "header_only",
+                "compression"
             ],
             "type": "object"
         }
