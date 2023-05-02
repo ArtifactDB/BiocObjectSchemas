@@ -1,5 +1,5 @@
 {
-    "$id": "tabix_file/v1.json",
+    "$id": "tabix_index_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "restore": {
@@ -26,7 +26,7 @@
             "description": "Path to the file in the project directory.",
             "type": "string"
         },
-        "tabix_file": {
+        "tabix_index_file": {
             "properties": {
                 "other_data": {
                     "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
@@ -69,7 +69,7 @@
         "$schema",
         "md5sum",
         "path",
-        "tabix_file"
+        "tabix_index_file"
     ],
     "title": "Tabix File",
     "type": "object"

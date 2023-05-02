@@ -1,5 +1,5 @@
 {
-    "$id": "faidx_file/v1.json",
+    "$id": "fa_index_file/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "_attributes": {
         "restore": {
@@ -13,7 +13,7 @@
             "description": "The schema to use.",
             "type": "string"
         },
-        "faidx_file": {
+        "fa_index_file": {
             "properties": {
                 "other_data": {
                     "description": "Location of additional metadata for this file, typically stored as a list (via the `simple_list` schema). Ommitted if no other metadata is provided.",
@@ -67,7 +67,7 @@
     },
     "required": [
         "$schema",
-        "faidx_file",
+        "fa_index_file",
         "md5sum",
         "path"
     ],

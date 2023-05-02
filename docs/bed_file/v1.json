@@ -53,7 +53,7 @@
                         "resource": {
                             "_children": {
                                 "contains": [
-                                    "tabix_file"
+                                    "tabix_index_file"
                                 ]
                             },
                             "properties": {

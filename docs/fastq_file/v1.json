@@ -48,7 +48,7 @@
                         "resource": {
                             "_children": {
                                 "contains": [
-                                    "faidx_file"
+                                    "fa_index_file"
                                 ]
                             },
                             "properties": {
