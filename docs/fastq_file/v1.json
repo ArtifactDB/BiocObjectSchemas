@@ -135,10 +135,10 @@
                 }
             },
             "required": [
+                "num_records",
                 "type",
                 "compression",
-                "quality_encoding",
-                "num_records"
+                "quality_encoding"
             ],
             "type": "object"
         },

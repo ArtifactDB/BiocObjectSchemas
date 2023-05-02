@@ -126,9 +126,9 @@
                 }
             },
             "required": [
+                "num_records",
                 "type",
-                "compression",
-                "num_records"
+                "compression"
             ],
             "type": "object"
         },
