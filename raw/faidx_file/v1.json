@@ -11,7 +11,7 @@
     "additionalProperties": false,
     "required": [ "faidx_file" ],
     "properties": {
-        "faidx_index": {
+        "faidx_file": {
             "properties": {
                 "other_data": {
                     "type": "object",
