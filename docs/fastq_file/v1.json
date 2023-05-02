@@ -22,11 +22,27 @@
                         ]
                     },
                     "then": {
-                        "compression": {
-                            "enum": [
-                                "none",
-                                "bgzip"
-                            ]
+                        "properties": {
+                            "compression": {
+                                "enum": [
+                                    "none",
+                                    "bgzip"
+                                ]
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "required": [
+                            "gzindex"
+                        ]
+                    },
+                    "then": {
+                        "properties": {
+                            "compression": {
+                                "const": "bgzip"
+                            }
                         }
                     }
                 }
@@ -41,6 +57,40 @@
                         "bgzip"
                     ],
                     "type": "string"
+                },
+                "gzindex": {
+                    "description": "Index file for the block Gzip compression. If present, `compression` should be \"bgzip\".",
+                    "properties": {
+                        "resource": {
+                            "_children": {
+                                "contains": [
+                                    "bgzip_index_file"
+                                ]
+                            },
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path of the resource from the root of the project directory.",
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "Type of file. Local files should be present in the same project directory.",
+                                    "enum": [
+                                        "local"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "resource"
+                    ],
+                    "type": "object"
                 },
                 "index": {
                     "description": "Index file for the sequences. If present, `compression` should be `\"none\"` or \"bgzip\".",
