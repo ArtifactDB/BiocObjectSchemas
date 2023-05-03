@@ -51,10 +51,8 @@
                     "type": "string"
                 },
                 "format": {
-                    "description": "Format of the sparse matrix.\n\nThe `tenx_matrix` is a compressed sparse column format where `indices` contains row indices and `indptr` contains the column index pointers. The group should contain a `shape` dataset, an integer vector of length 2 containing the number of rows and columns.\n\nThe `csc_matrix` is a compressed sparse column format that has been transposed. (The transposition is a result of the `csc_matrix` format originally being defined in a framework where the interpretation of the rows and columns is flipped.) Thus, `indices` contains the column indices and `indptr` contains the row index pointers. The HDF5 group should contain an `encoding-type` attribute set to the `\"csc_matrix\"` scalar string; and a `shape` attribute, set to an integer vector of length 2 containing the number of columns followed by the number of rows (again, the reversed order is a result of the transposition).\n\nThe `csr_matrix` is a compressed sparse row format that has been transposed. (See explanation for the `csc_matrix`.) Thus, `indices` contains the row indices and `indptr` contains the column index pointers. The HDF5 group should contain an `encoding-type` attribute set to the `\"csr_matrix\"` scalar string; and a `shape` attribute, set to an integer vector of length 2 containing the number of columns followed by the number of rows.",
+                    "description": "Format of the sparse matrix.\n\nThe `tenx_matrix` is a compressed sparse column format where `indices` contains row indices and `indptr` contains the column index pointers. The group should contain a `shape` dataset, an integer vector of length 2 containing the number of rows and columns.",
                     "enum": [
-                        "csc_matrix",
-                        "csr_matrix",
                         "tenx_matrix"
                     ],
                     "type": "string"
