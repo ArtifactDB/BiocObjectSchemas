@@ -41,7 +41,7 @@
                     "type": "string"
                 },
                 "format": {
-                    "description": "The file format.",
+                    "description": "The file format. This is technically unnecessary as GFF2 does not have an initial comment line specifying the GFF version, whereas GFF3 does; nonetheless, this `format` property is still required here, to avoid any ambiguity. Note that the GTF format is the same as GFF2.",
                     "enum": [
                         "GFF2",
                         "GFF3"
