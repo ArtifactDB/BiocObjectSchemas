@@ -50,8 +50,8 @@
             },
 
             "required": [
-                "format",
-                "group"
+                "along",
+                "components"
             ]
         }
     },
