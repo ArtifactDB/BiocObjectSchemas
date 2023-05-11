@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "amalgamated_array/v1.json",
+    "type": "object",
+    "title": "Amalgamated array",
+    "description": "An amalgalm of multiple arrays, combined into a single object for downstream use. This is typically used to combine data from different samples or conditions into a single array, e.g., to store in a consolidated SummarizedExperiment object. The key feature of this schema is that the individual component matrices are still represented by separate files; this means that it can be very cheap to add or remove components by just modifying the metadata rather than making a new copy of the entire dataset.",
+    "allOf": [
+        { "$ref": "../array/v1.json" }
+    ],
+
+    "required": [
+        "amalgamated_array"
+    ],
+
+    "properties": {
+        "amalgamated_array": {
+            "type":"object",
+            "additionalProperties": false,
+            "properties": {
+                "along": {
+                    "type": "integer",
+                    "description": "Index of the dimension on which the various component arrays are combined. This should be a non-negative value that is less than the length of `array.dimensions`.",
+                    "minimum": 0
+                },
+
+                "components": {
+                    "type": "array",
+                    "description": "Components of the amalgamated array. Each component should be an array of the same dimensionality, with the same extents for all dimensions other than `extent`. The amalgamated array is formed by combining the component arrays in the order listed here; the sum of extents of dimension `along` across components should be equal to the corresponding entry of `array.dimensions`.",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the component. Typically used to specify the sample or condition of origin."
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [ 
+                                        "hdf5_dense_array",
+                                        "hdf5_sparse_matrix"
+                                    ]
+                                }
+                            }
+                        },
+                        "allOf": [ { "$ref": "../_resource/v1.json" } ],
+                        "required": [ "name", "resource" ]
+                    }
+                }
+            },
+
+            "required": [
+                "format",
+                "group"
+            ]
+        }
+    },
+    "_attributes": {
+        "format": "application/x-hdf5",
+        "restore": {
+            "R": "alabaster.matrix::loadArray"
+        }
+    }
+}
