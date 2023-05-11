@@ -68,8 +68,8 @@
                 }
             },
             "required": [
-                "format",
-                "group"
+                "along",
+                "components"
             ],
             "type": "object"
         },
