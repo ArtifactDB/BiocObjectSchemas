@@ -1,0 +1,122 @@
+{
+    "$id": "amalgamated_array/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "_attributes": {
+        "metadata_only": true,
+        "restore": {
+            "R": "alabaster.matrix::loadArray"
+        }
+    },
+    "additionalProperties": false,
+    "description": "An amalgalm of multiple arrays, combined into a single object for downstream use. This is typically used to combine data from different samples or conditions into a single array, e.g., to store in a consolidated SummarizedExperiment object. The key feature of this schema is that the individual component matrices are still represented by separate files; this means that it can be very cheap to add or remove components by just modifying the metadata rather than making a new copy of the entire combined array.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "amalgamated_array": {
+            "additionalProperties": false,
+            "properties": {
+                "along": {
+                    "description": "Index of the dimension on which the various component arrays are combined. This should be a non-negative value that is less than the length of `array.dimensions`. For matrices, a value of 0 indicates that the arrays are combined by row, while a value of 1 indicates a combination by column.",
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "components": {
+                    "description": "Components of the amalgamated array. Each component should be an array of the same dimensionality, with the same extents for all dimensions other than `extent`. The amalgamated array is formed by combining the component arrays in the order listed here; the sum of extents of dimension `along` across components should be equal to the corresponding entry of `array.dimensions`.",
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "description": "Name of the component. Typically used to specify the sample or condition of origin.",
+                                "type": "string"
+                            },
+                            "resource": {
+                                "_children": {
+                                    "contains": [
+                                        "hdf5_dense_array",
+                                        "hdf5_sparse_matrix"
+                                    ]
+                                },
+                                "properties": {
+                                    "path": {
+                                        "description": "Relative path of the resource from the root of the project directory.",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of file. Local files should be present in the same project directory.",
+                                        "enum": [
+                                            "local"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "path"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "resource"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "format",
+                "group"
+            ],
+            "type": "object"
+        },
+        "array": {
+            "additionalProperties": false,
+            "properties": {
+                "dimensions": {
+                    "description": "Dimensions of an n-dimensional array.",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Type of data stored in this array.",
+                    "enum": [
+                        "boolean",
+                        "number",
+                        "integer",
+                        "string",
+                        "other"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "dimensions"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "amalgamated_array",
+        "array",
+        "path"
+    ],
+    "title": "Amalgamated array",
+    "type": "object"
+}
