@@ -8,7 +8,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "An amalgalm of multiple arrays, combined into a single object for downstream use. This is typically used to combine data from different samples or conditions into a single array, e.g., to store in a consolidated SummarizedExperiment object. The key feature of this schema is that the individual component matrices are still represented by separate files; this means that it can be very cheap to add or remove components by just modifying the metadata rather than making a new copy of the entire combined array.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "description": "An amalgam of multiple arrays, combined into a single object for downstream use. This is typically used to combine data from different samples or conditions into a single array, e.g., to store in a consolidated SummarizedExperiment object. The key feature of this schema is that the individual component matrices are still represented by separate files; this means that it can be very cheap to add or remove components by just modifying the metadata rather than making a new copy of the entire combined array.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
