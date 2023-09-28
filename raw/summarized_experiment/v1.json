@@ -105,7 +105,8 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "alabaster.se::loadSummarizedExperiment"
+            "R": "alabaster.se::loadSummarizedExperiment",
+            "python": "dolomite_se.load_summarized_experiment"
         }
     }
 }

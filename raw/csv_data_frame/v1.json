@@ -23,7 +23,8 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "alabaster.base::loadDataFrame"
+            "R": "alabaster.base::loadDataFrame",
+            "python": "dolomite_base.load_csv_data_frame"
         }
     }
 }

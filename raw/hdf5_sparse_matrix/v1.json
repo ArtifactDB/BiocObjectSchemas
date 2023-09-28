@@ -51,7 +51,8 @@
     "_attributes": {
         "format": "application/x-hdf5",
         "restore": {
-            "R": "alabaster.matrix::loadArray"
+            "R": "alabaster.matrix::loadArray",
+            "python": "dolomite_matrix.load_hdf5_sparse_matrix"
         }
     }
 }
