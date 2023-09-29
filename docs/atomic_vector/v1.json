@@ -1,0 +1,80 @@
+{
+    "$schema": "atomic_vector/v1.json",
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "alabaster.base::loadSimpleVector",
+            "python": "dolomite_base.load_simple_vector"
+        }
+    },
+    "additionalProperties": false,
+    "description": "Vector of atomic values, stored in a (possibly compressed) text file in the [standard CSV format](https://github.com/ArtifactDB/comservatory). If the vector is unnamed, the file should have a single column containing the vector elements. If the vector is named, the fil should contain two columns; the first (string) column contains the names of the vector elements and the second column contains the vector elements themselves. In both cases, the headers are ignored.",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "atomic_vector": {
+            "additionalProperties": false,
+            "properties": {
+                "compression": {
+                    "description": "Type of compression applied to the file.",
+                    "enum": [
+                        "none",
+                        "gzip",
+                        "bzip2"
+                    ],
+                    "type": "string"
+                },
+                "length": {
+                    "description": "Length of the vector.",
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "names": {
+                    "default": false,
+                    "description": "Whether the vector contains names.",
+                    "type": "boolean"
+                },
+                "type": {
+                    "description": "Type of the column.\n\n- Integers, (floating-point) numbers, strings and booleans are their usual selves.\n- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.",
+                    "enum": [
+                        "integer",
+                        "number",
+                        "string",
+                        "boolean",
+                        "date",
+                        "date-time"
+                    ]
+                }
+            },
+            "required": [
+                "compression",
+                "length",
+                "type"
+            ],
+            "type": "object"
+        },
+        "is_child": {
+            "default": false,
+            "description": "Is this a child document, only to be interpreted in the context of the parent document from which it is linked? This may have implications for search and metadata requirements.",
+            "type": "boolean"
+        },
+        "md5sum": {
+            "description": "MD5 checksum for the file.",
+            "type": "string"
+        },
+        "path": {
+            "description": "Path to the file in the project directory.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "atomic_vector",
+        "md5sum",
+        "path"
+    ],
+    "title": "Atomic vector",
+    "type": "object"
+}
