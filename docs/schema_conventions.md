@@ -6,6 +6,8 @@ All schemas should follow the [JSON schema standard](https://json-schema.org/).
 
 The `title` and `description` properties should be present.
 These should be strings providing an informative title and description of the artifact.
+For long descriptions, it may be preferable to provide an array of strings in the `_description` property;
+these will be joined into a single `description` string by the [schema resolving action](https://github.com/ArtifactDB/build-schemas-action).
 
 The `properties` should define the `$schema`, `path` and `is_child` properties.
 this is most easily done by including one of the [`_common` subschemas](../raw/_common/v1.json) in an `allOf`.

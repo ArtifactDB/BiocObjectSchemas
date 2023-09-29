@@ -3,7 +3,13 @@
     "$id": "data_frame/v1.json",
     "type": "object",
     "title": "Data Frame",
-    "description": "Virtual data frame object stored in a yet-to-be-defined file format. Simple columns are stored directly in the file. For complex columns, their contents should be stored in other files, and a pointer to a resource is stored in the corresponding entry of `columns` (a placeholder column may be created in the file).",
+    "_description": [
+        "Virtual data frame object stored in a yet-to-be-defined file format.",
+        "Columns with simple types are stored directly in the file.",
+        "For columns with non-obvious types (e.g., nested data frames), their contents should be stored in other files,",
+        "and a pointer to a resource should be stored in the corresponding entry of `columns`",
+        "(a placeholder column may be created in the file, depending on the format)."
+    ],
     "allOf": [
         { "$ref": "../_common/v1.json" }
     ],
@@ -23,7 +29,10 @@
             "properties": {
                 "columns": {
                     "type": "array",
-                    "description": "Information about the columnar fields in the data frame. This follows the same order as the columns in the on-disk representation.",
+                    "_description": [
+                        "Information about the columnar fields in the data frame.",
+                        "This should be in the same order as the columns in the on-disk representation."
+                    ],
                     "items": {
                         "type": "object",
                         "required": [
@@ -33,12 +42,23 @@
                         "properties": {
                             "name": {
                                 "type": "string",
-                                "description": "Name of the column. Each column must have a non-empty name. Column names should not be duplicated within `columns`.",
+                                "_description": [
+                                    "Name of the column.",
+                                    "Each column must have a non-empty name.",
+                                    "Column names should not be duplicated within `columns`."
+                                ],
                                 "minLength": 1
                             },
                             "type": {
                                 "type": "string",
-                                "description": "What is the type of the column? Factors and ordered factors have an additional `levels` property specifying the levels. Dates are stored in `YYYY-MM-DD` format. Date-times should follow RFC 3339 Section 5.6. Columns listed as `other` are assumed to be non-atomic and should contain a `resource` property pointing towards the file containing the column's contents.",
+                                "_description": [
+                                    "Type of the column.\n\n",
+                                    "- Integers, (floating-point) numbers, strings and booleans are their usual selves.\n",
+                                    "- Factors and ordered factors have an additional `levels` property specifying the levels.\n",
+                                    "- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n",
+                                    "- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.\n",
+                                    "- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.\n"
+                                ],
                                 "enum": [ "integer", "number", "string", "factor", "ordered", "boolean", "date", "date-time", "other" ]
                             }
                         },
@@ -58,7 +78,11 @@
                                     "properties": {
                                         "levels": {
                                             "type": "object",
-                                            "description": "Levels for the categorical factor. This is stored as a single-column `data_frame`. For ordered factors, the order is respected in the saved data frame.",
+                                            "_description": [
+                                                "Levels for the categorical factor.",
+                                                "This is stored as a single-column `data_frame`.",
+                                                "For ordered factors, the order is respected in the saved data frame."
+                                            ],
                                             "properties": {
                                                 "resource": {
                                                     "_children":{
@@ -91,13 +115,19 @@
 
                 "row_names": {
                     "type": "boolean",
-                    "description": "Whether the data frame has row names. If `true`, these are stored in the first column of the CSV.",
+                    "_description": [
+                        "Whether the data frame has row names.",
+                        "If `true`, these are stored in the first column of the CSV."
+                    ],
                     "default": false
                 },
 
                 "column_data": {
                     "type": "object",
-                    "description": "Location of additional metadata for each column, stored as another `data_frame`. Omitted if there is no additional per-column metadata is provided.",
+                    "_description": [
+                        "Location of additional metadata for each column, stored as another `data_frame`.",
+                        "Omitted if no additional per-column metadata is present."
+                    ],
                     "properties": {
                         "resource": {
                             "_children":{
@@ -109,7 +139,10 @@
                 },
                 "other_data": {
                     "type": "object",
-                    "description": "Location of additional metadata for this object, typically stored as a list (via the `basic_list` schema). Ommitted if no other metadata is provided.",
+                    "_description": [
+                        "Location of additional metadata for this object, typically stored as a list.",
+                        "Omitted if no other metadata is present."
+                    ],
                     "properties": {
                         "resource": {
                             "_children":{
