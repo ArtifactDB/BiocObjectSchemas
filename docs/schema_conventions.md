@@ -225,16 +225,17 @@ Developers may define an `_attributes` field at the top level of their schemas.
 This should be a JSON object and may contain any number of these fields:
 
 - `restore`, a JSON object containing restoration commands for one of more languages.
-  For R, we expect a string containing a namespaced function that will be called by `alabaster.base::loadObject()`.
-  This attribute is used by the _alabaster.\*_ framework to determine how to load artifacts back into an R session.
+  - For R, we expect a string containing a namespaced function that will be called by `alabaster.base::loadObject()`.
+  - For Python, we expect a string containing a namespaced function that will be called by `dolomite_base.load_object()`.
 - `metadata_only`, a boolean indicating whether this schema describes a metadata-only artifact.
   If `true`, the `path` should point to the JSON metadata file rather than another file.
-  This attribute is used by the _alabaster.\*_ framework to determine whether MD5 checksums need to be computed/validated.
+  This attribute is used to determine whether MD5 checksums need to be computed/validated.
   Defaults to `false` if not specified.
 - `format`, a string containing the expected MIME type for artifacts of this type.
   This is largely ceremonial.
 
-For example, the schema below tells us that we need to use `alabaster.blah::loadBlah` to obtain an R object from this artifact.
+For example, the schema below tells us that we need to use `alabaster.blah::loadBlah` to obtain an R object from this artifact,
+and to use `dolomite_blah.load_blah` to obtain an equivalent Python object.
 
 ```json
 {
@@ -266,7 +267,8 @@ For example, the schema below tells us that we need to use `alabaster.blah::load
     },
     "_attributes": {
         "restore": {
-            "R": "alabaster.blah::loadBlah"
+            "R": "alabaster.blah::loadBlah",
+            "python": "dolomite_blah.load_blah"
         }
     }
 }
