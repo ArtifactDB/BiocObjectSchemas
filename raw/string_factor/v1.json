@@ -32,6 +32,14 @@
                         }
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                },
+                "ordered": {
+                    "type": "boolean",
+                    "_description": [
+                        "Whether the levels are ordered.",
+                        "If true, the ordering within the vector from `levels` is taken as-is."
+                    ],
+                    "default": false
                 }
             }
         }
