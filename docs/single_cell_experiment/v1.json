@@ -4,7 +4,8 @@
     "_attributes": {
         "metadata_only": true,
         "restore": {
-            "R": "alabaster.sce::loadSingleCellExperiment"
+            "R": "alabaster.sce::loadSingleCellExperiment",
+            "python": "dolomite_sce.load_single_cell_experiment"
         }
     },
     "additionalProperties": false,
