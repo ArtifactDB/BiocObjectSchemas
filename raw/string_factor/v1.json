@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "string_factor/v1.json",
+    "type": "object",
+    "title": "String Factor",
+    "_description": [
+        "A factor where the levels are strings, roughly equivalent to base R's `factor`.",
+        "The `levels` property points to a `atomic_vector` resource containing the levels as unique strings."
+    ],
+    "allOf": [
+        { "$ref": "../factor/v1.json" }
+    ],
+    "required": [ 
+        "string_factor"
+    ],
+    "properties": {
+        "string_factor": {
+            "type":"object",
+            "required": [
+                "levels"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "levels": {
+                    "type": "object",
+                    "description": "Location of the atomic vector containing the (string) levels.",
+                    "properties": {
+                        "resource": {
+                            "_children":{
+                                "contains": ["atomic_vector"]
+                            }
+                        }
+                    },
+                    "allOf": [ { "$ref": "../_resource/v1.json" } ]
+                }
+            }
+        }
+    },
+    "_attributes": {
+        "format": "text/csv",
+        "restore": {
+            "R": "alabaster.base::loadFactor",
+            "python": "dolomite_base.load_factor"
+        }
+    }
+}
