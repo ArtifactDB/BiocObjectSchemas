@@ -38,9 +38,27 @@
                     "default": false
                 }
             },
+
             "allOf": [
                 { "$ref": "../_compression/v1.json" },
-                { "$ref": "../_string_format/v1.json" }
+                { "$ref": "../_string_format/v1.json" },
+
+                {
+                    "if": {
+                        "not": {
+                            "properties": {
+                                "type": {
+                                    "const": "string"
+                                }
+                            }
+                        }
+                    }, 
+                    "then": {
+                        "not": {
+                            "required": [ "format" ]
+                        }
+                    }
+                }
             ]
         }
     },

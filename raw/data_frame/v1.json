@@ -35,6 +35,7 @@
                     ],
                     "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "required": [
                             "name",
                             "type"
@@ -69,65 +70,87 @@
                                     "- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.\n"
                                 ],
                                 "enum": [ "integer", "number", "string", "factor", "ordered", "boolean", "date", "date-time", "other" ]
+                            },
+
+                            "levels": {
+                                "type": "object",
+                                "_description": [
+                                    "Levels for a categorical factor.",
+                                    "These are stored as a vector of unique non-missing strings.",
+                                    "For ordered factors, the order is respected in the saved data frame.\n\n",
+                                    "Older instances of `data_frame` instances store the levels in a 1-column data frame.",
+                                    "This column can simply be treated as the vector of strings."
+                                ],
+                                "properties": {
+                                    "resource": {
+                                        "_children":{
+                                            "contains": [
+                                                "data_frame", 
+                                                "atomic_vector"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "allOf": [{ "$ref": "../_resource/v1.json" }]
                             }
                         },
+
                         "allOf": [
                             { "$ref": "../_string_format/v1.json" },
+                            { "$ref": "../_factor_ordered/v1.json" },
+                            { "$ref": "../_resource_raw/v1.json" },
+
                             {
                                 "if": {
-                                    "properties": {
-                                        "type": {
-                                            "enum": ["factor", "ordered"]
+                                    "not": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "string"
+                                            }
                                         }
                                     }
                                 },
                                 "then": {
-                                    "required": [
-                                        "levels"
-                                    ],
-                                    "properties": {
-                                        "levels": {
-                                            "type": "object",
-                                            "_description": [
-                                                "Levels for a categorical factor.",
-                                                "These are stored as a vector of unique non-missing strings.",
-                                                "For ordered factors, the order is respected in the saved data frame.\n\n",
-                                                "Older instances of `data_frame` instances store the levels in a 1-column data frame.",
-                                                "This column can simply be treated as the vector of strings."
-                                            ],
-                                            "properties": {
-                                                "resource": {
-                                                    "_children":{
-                                                        "contains": [
-                                                            "data_frame", 
-                                                            "atomic_vector"
-                                                        ]
-                                                    }
-                                                }
-                                            },
-                                            "allOf": [{ "$ref": "../_resource/v1.json" }]
-                                        }
+                                    "not": {
+                                        "required": [ "format" ]
                                     }
                                 }
                             },
+
                             {
                                 "if": {
-                                    "properties": {
-                                        "type": {
-                                            "const": "factor"
+                                    "not": {
+                                        "properties": {
+                                            "type": {
+                                                "enum": ["factor", "ordered"]
+                                            }
                                         }
                                     }
                                 },
                                 "then": {
-                                    "properties": {
-                                        "ordered": {
-                                            "type": "boolean",
-                                            "description": "Whether to assume that the levels are ordered.",
-                                            "default": false
-                                        }
+                                    "not": {
+                                        "required": [ "levels" ]
                                     }
                                 }
                             },
+
+                            {
+                                "if": {
+                                    "not": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "factor"
+                                            }
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "not": {
+                                        "required": [ "ordered" ]
+                                    }
+                                }
+                            },
+
                             {
                                 "if": {
                                     "properties": {
@@ -137,10 +160,14 @@
                                     }
                                 },
                                 "then": {
-                                    "allOf": [
-                                        { "$ref": "../_resource/v1.json" }
-                                    ]
+                                    "required": [ "resource" ]
+                                },
+                                "else": {
+                                    "not": {
+                                        "required": [ "resource" ]
+                                    }
                                 }
+
                             }
                         ]
                     }

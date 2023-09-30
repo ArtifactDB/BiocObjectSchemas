@@ -32,13 +32,11 @@
                         }
                     },
                     "allOf": [ { "$ref": "../_resource/v1.json" } ]
-                },
-                "ordered": {
-                    "type": "boolean",
-                    "description": "Whether to assume that the levels are ordered.",
-                    "default": false
                 }
-            }
+            },
+            "allOf": [
+                { "$ref": "../_factor_ordered/v1.json" }
+            ]
         }
     },
     "_attributes": {
