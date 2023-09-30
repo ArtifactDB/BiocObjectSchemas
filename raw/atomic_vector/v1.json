@@ -1,5 +1,7 @@
 {
-    "$schema": "atomic_vector/v1.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "atomic_vector_list/v1.json",
+    "type": "object",
     "title": "Atomic vector",
     "_description": [
         "Vector of atomic values, stored in a (possibly compressed) text file in the [standard CSV format](https://github.com/ArtifactDB/comservatory).",
@@ -8,7 +10,6 @@
         "the first (string) column contains the names of the vector elements and the second column contains the vector elements themselves.",
         "In both cases, the headers are ignored."
     ],
-    "type": "object",
     "allOf": [
         { "$ref": "../_common/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
@@ -28,13 +29,8 @@
                     "minimum": 0
                 },
                 "type": {
-                    "_description": [
-                        "Type of the column.\n\n",
-                        "- Integers, (floating-point) numbers, strings and booleans are their usual selves.\n",
-                        "- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n",
-                        "- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.\n"
-                    ],
-                    "enum": [ "integer", "number", "string", "boolean", "date", "date-time" ]
+                    "description": "Type of the column.",
+                    "enum": [ "integer", "number", "string", "boolean" ]
                 },
                 "names": {
                     "type": "boolean",
@@ -43,7 +39,8 @@
                 }
             },
             "allOf": [
-                { "$ref": "../_compression/v1.json" }
+                { "$ref": "../_compression/v1.json" },
+                { "$ref": "../_string_format/v1.json" }
             ]
         }
     },

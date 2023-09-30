@@ -1,0 +1,18 @@
+{
+    "if": {
+        "properties": {
+            "type": {
+                "const": "factor"
+            }
+        }
+    },
+    "then": {
+        "properties": {
+            "ordered": {
+                "type": "boolean",
+                "description": "Whether to assume that the levels are ordered.",
+                "default": false
+            }
+        }
+    }
+}

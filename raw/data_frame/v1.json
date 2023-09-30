@@ -53,22 +53,26 @@
                                 "type": "string",
                                 "_description": [
                                     "Type of the column.\n\n",
-                                    "- Integers, (floating-point) numbers, strings and booleans are their usual selves.\n",
+                                    "- Integers, (floating-point) numbers and booleans are their usual selves.\n",
+                                    "- Strings have an optional `format` property that restrict their contents, e.g., for dates or times.\n",
                                     "- The `factor` type is represented as an integer, to be used as a 1-based index into a vector of string levels.",
                                     "  This type has an additional `levels` property specifying the levels, as well as an `ordered` property indicating whether they are ordered.\n",
-                                    "  - The `ordered` type is a soft-deprecated alias for the `factor` type with the `ordered` property set to `true`;",
-                                    "    the latter should generally be preferred.\n",
                                     "  - Older instances of `data_frame` representations store `factor` and `ordered` types as strings instead of integers.",
                                     "    All such strings are guaranteed to belong to the string levels in `levels`.",
                                     "    This representation is soft-deprecated; the integer representation should be preferred for efficiency.\n",
-                                    "- The `date` type is represented as a string of integers and dashes, following the `YYYY-MM-DD` format.\n",
-                                    "- The `date-time` type is a string following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.\n",
+                                    "- The `ordered` type is a soft-deprecated alias for the `factor` type with the `ordered` property set to `true`;",
+                                    "  the latter should generally be preferred.\n",
+                                    "- The `date` type is a soft-deprecated alias for the `string` type with `format` property set to `date`.",
+                                    "  The latter should generally be preferred.\n",
+                                    "- The `date-time` type is a soft-deprecated alias for the `string` type with `format` property set to `date-time`.",
+                                    "  The latter should generally be preferred.\n",
                                     "- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.\n"
                                 ],
                                 "enum": [ "integer", "number", "string", "factor", "ordered", "boolean", "date", "date-time", "other" ]
                             }
                         },
                         "allOf": [
+                            { "$ref": "../_string_format/v1.json" },
                             {
                                 "if": {
                                     "properties": {
@@ -118,7 +122,7 @@
                                     "properties": {
                                         "ordered": {
                                             "type": "boolean",
-                                            "description": "Whether the levels of the factor are in some order.",
+                                            "description": "Whether to assume that the levels are ordered.",
                                             "default": false
                                         }
                                     }

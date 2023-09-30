@@ -1,0 +1,22 @@
+{
+    "if": {
+        "properties": {
+            "type": {
+                "const": "string"
+            }
+        }
+    },
+    "then": {
+        "properties": {
+            "format": {
+                "type": "string",
+                "_description": [
+                    "Formatting constraints for string types.\n\n",
+                    "- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n",
+                    "- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.\n"
+                ],
+                "enum": [ "date", "date-time" ]
+            }
+        }
+    }
+}

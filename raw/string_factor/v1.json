@@ -35,10 +35,7 @@
                 },
                 "ordered": {
                     "type": "boolean",
-                    "_description": [
-                        "Whether the levels are ordered.",
-                        "If true, the ordering within the vector from `levels` is taken as-is."
-                    ],
+                    "description": "Whether to assume that the levels are ordered.",
                     "default": false
                 }
             }
