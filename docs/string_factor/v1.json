@@ -126,26 +126,6 @@
         },
         "string_factor": {
             "additionalProperties": false,
-            "allOf": [
-                {
-                    "if": {
-                        "properties": {
-                            "type": {
-                                "const": "factor"
-                            }
-                        }
-                    },
-                    "then": {
-                        "properties": {
-                            "ordered": {
-                                "default": false,
-                                "description": "Whether to assume that the levels are ordered.",
-                                "type": "boolean"
-                            }
-                        }
-                    }
-                }
-            ],
             "properties": {
                 "levels": {
                     "description": "Location of the atomic vector containing the (string) levels.",
@@ -180,6 +160,11 @@
                         "resource"
                     ],
                     "type": "object"
+                },
+                "ordered": {
+                    "default": false,
+                    "description": "Whether to assume that the levels are ordered.",
+                    "type": "boolean"
                 }
             },
             "required": [

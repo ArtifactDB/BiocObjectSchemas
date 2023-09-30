@@ -53,24 +53,6 @@
                                 "if": {
                                     "properties": {
                                         "type": {
-                                            "const": "factor"
-                                        }
-                                    }
-                                },
-                                "then": {
-                                    "properties": {
-                                        "ordered": {
-                                            "default": false,
-                                            "description": "Whether to assume that the levels are ordered.",
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "if": {
-                                    "properties": {
-                                        "type": {
                                             "const": "string"
                                         }
                                     }
@@ -140,6 +122,24 @@
                                     "required": [
                                         "levels"
                                     ]
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "const": "factor"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "ordered": {
+                                            "default": false,
+                                            "description": "Whether to assume that the levels are ordered.",
+                                            "type": "boolean"
+                                        }
+                                    }
                                 }
                             },
                             {
