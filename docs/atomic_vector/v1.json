@@ -4,8 +4,8 @@
     "_attributes": {
         "format": "text/csv",
         "restore": {
-            "R": "alabaster.base::loadSimpleVector",
-            "python": "dolomite_base.load_simple_vector"
+            "R": "alabaster.base::loadAtomicVector",
+            "python": "dolomite_base.load_atomic_vector"
         }
     },
     "additionalProperties": false,
