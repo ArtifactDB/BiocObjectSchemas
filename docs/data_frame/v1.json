@@ -2,6 +2,92 @@
     "$id": "data_frame/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "additionalProperties": false,
+    "allOf": [
+        {
+            "if": {
+                "anyOf": [
+                    {
+                        "properties": {
+                            "version": {
+                                "const": 1
+                            }
+                        }
+                    },
+                    {
+                        "not": {
+                            "required": [
+                                "version"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "properties": {
+                    "data_frame": {
+                        "properties": {
+                            "columns": {
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "not": {
+                                                "required": [
+                                                    "format"
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "not": {
+                                                "required": [
+                                                    "ordered"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "version": {
+                        "minimum": 2
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "data_frame": {
+                        "properties": {
+                            "columns": {
+                                "items": {
+                                    "allOf": [
+                                        {
+                                            "not": {
+                                                "properties": {
+                                                    "type": {
+                                                        "enum": [
+                                                            "ordered",
+                                                            "date-time",
+                                                            "date"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
     "description": "Virtual data frame object stored in a yet-to-be-defined file format. Columns with simple types are stored directly in the file. For columns with non-obvious types (e.g., nested data frames), their contents should be stored in other files, and a pointer to a resource should be stored in the corresponding entry of `columns` (a placeholder column may be created in the file, depending on the format).",
     "properties": {
         "$schema": {
@@ -290,6 +376,11 @@
         "path": {
             "description": "Path to the file in the project directory.",
             "type": "string"
+        },
+        "version": {
+            "default": 1,
+            "description": "Minor version of this schema. Later versions are back-compatible but older versions may not be forward-compatible.",
+            "type": "integer"
         }
     },
     "required": [

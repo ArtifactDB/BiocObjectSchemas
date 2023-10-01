@@ -9,6 +9,92 @@
         }
     },
     "additionalProperties": false,
+    "allOf": [
+        {
+            "if": {
+                "anyOf": [
+                    {
+                        "properties": {
+                            "version": {
+                                "const": 1
+                            }
+                        }
+                    },
+                    {
+                        "not": {
+                            "required": [
+                                "version"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "properties": {
+                    "data_frame": {
+                        "properties": {
+                            "columns": {
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "not": {
+                                                "required": [
+                                                    "format"
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "not": {
+                                                "required": [
+                                                    "ordered"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "version": {
+                        "minimum": 2
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "data_frame": {
+                        "properties": {
+                            "columns": {
+                                "items": {
+                                    "allOf": [
+                                        {
+                                            "not": {
+                                                "properties": {
+                                                    "type": {
+                                                        "enum": [
+                                                            "ordered",
+                                                            "date-time",
+                                                            "date"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
     "description": "A data frame stored in a CSV file. If the `data_frame.row_names` property is present and truthy, the first column of the CSV file contains the row names of the data frame as non-missing strings; this should be ignored when indexing entries of the `data_frames.columns` property. For complex columns, a placeholder column is created in the CSV and a pointer to the relevant resource is created in the corresponding entry of the `data_frame.columns` property. The CSV file may be compressed if the `csv_data_frame.compression` property is set to `\"gzip\"`.\n\nSee [here](https://ltla.github.io/comservatory) for specific details on the expected formatting of the CSV.\n\nDerived from `data_frame/v1.json`: virtual data frame object stored in a yet-to-be-defined file format. Columns with simple types are stored directly in the file. For columns with non-obvious types (e.g., nested data frames), their contents should be stored in other files, and a pointer to a resource should be stored in the corresponding entry of `columns` (a placeholder column may be created in the file, depending on the format).",
     "properties": {
         "$schema": {
@@ -319,6 +405,11 @@
         "path": {
             "description": "Path to the file in the project directory.",
             "type": "string"
+        },
+        "version": {
+            "default": 1,
+            "description": "Minor version of this schema. Later versions are back-compatible but older versions may not be forward-compatible.",
+            "type": "integer"
         }
     },
     "required": [

@@ -63,6 +63,11 @@
         "path": {
             "description": "Path to the file in the project directory.",
             "type": "string"
+        },
+        "version": {
+            "default": 1,
+            "description": "Minor version of this schema. Later versions are back-compatible but older versions may not be forward-compatible.",
+            "type": "integer"
         }
     },
     "required": [
