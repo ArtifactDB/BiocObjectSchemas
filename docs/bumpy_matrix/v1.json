@@ -8,7 +8,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "A virtual \"bumpy\" matrix of vector-like objects of the same type, corresponding to the BumpyMatrix class from the [BumpyMatrix](https://www.bioconductor.org/packages/BumpyMatrix) package. Each entry of the matrix contains a vector-like object with a variable number of subelements. For efficient storage, all matrix elements are concatenated into a single object of the same type, with length equal to the total number of subelements across all vector-like objects.\n\nTo recover the bumpy matrix, we can inspect the partitioning information in the data frame, which is saved to `path` as a CSV file under the [**comservatory**](https://ltla.github.io/comservatory) specification. Each row of the data frame corresponds to an vector-like object in the bumpy matrix. The columns `row`, `column` and `number` are present in this data frame, specifying the 1-based row index, 1-based column index and length of the vector-like object. Subelements of the concatenated object are partitioned by assigning the specified `number` of consecutive subelements into a series of contiguous vector-like objects, each of which correspond to successive rows in the data frame. Matrix entries not listed in the data frame are assumed to be length-0 vector-like objects of the same type.\n\nIf row or column names are present on the bumpy matrix, they can be stored as separate data frames. These child objects should be referenced by the `bumpy_matrix.row_names` and `bumpy_matrix.column_names` properties.\n\nConcrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "description": "A virtual \"bumpy\" matrix of vector-like objects of the same type, corresponding to the BumpyMatrix class from the [BumpyMatrix](https://www.bioconductor.org/packages/BumpyMatrix) package. Each entry of the matrix contains a vector-like object with a variable number of subelements.For efficient storage, all matrix elements are concatenated into a single object of the same type, with length equal to the total number of subelements across all vector-like objects.\n\n To reconstitute the bumpy matrix, we can inspect the partitioning information in the data frame, which is saved to `path` as a CSV file under the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1). Each row of the data frame corresponds to an vector-like object in the bumpy matrix. The columns `row`, `column` and `number` are present in this data frame, specifying the 1-based row index, 1-based column index and length of the vector-like object. Subelements of the concatenated object are partitioned by assigning the specified `number` of consecutive subelements into a series of contiguous vector-like objects, each of which correspond to successive rows in the data frame.Matrix entries not listed in the data frame are assumed to be length-0 vector-like objects of the same type.\n\n If row or column names are present on the bumpy matrix, they are in separate files.These child objects should be referenced by the `bumpy_matrix.row_names` and `bumpy_matrix.column_names` properties.\n\n Concrete subclasses are expected to provide a `concatenated` property that points to the concatenated object.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
@@ -47,12 +47,13 @@
             "additionalProperties": false,
             "properties": {
                 "column_names": {
-                    "description": "Pointer to a data frame containing the column names for the bumpy matrix. This should be of length equal to the number of columns. If omitted, no column names were present.",
+                    "description": "Pointer to a string vector containing the column names for the bumpy matrix. This should be of length equal to the number of columns.If omitted, no column names were present.\n\n In minor version 1, this is instead a 1-column data frame where the only column contains the column names.",
                     "properties": {
                         "resource": {
                             "_children": {
                                 "contains": [
-                                    "data_frame"
+                                    "data_frame",
+                                    "atomic_vector"
                                 ]
                             },
                             "properties": {
@@ -100,12 +101,13 @@
                     "type": "boolean"
                 },
                 "row_names": {
-                    "description": "Pointer to a data frame containing the row names for the bumpy matrix. This should be of length equal to the number of rows. If omitted, no row names were present.",
+                    "description": "Pointer to a string vector containing the row names for the bumpy matrix. This should be of length equal to the number of rows.If omitted, no row names were present.\n\n In minor version 1, this is instead a 1-column data frame where the only column contains the row names.",
                     "properties": {
                         "resource": {
                             "_children": {
                                 "contains": [
-                                    "data_frame"
+                                    "data_frame",
+                                    "atomic_vector"
                                 ]
                             },
                             "properties": {
@@ -152,6 +154,12 @@
         "path": {
             "description": "Path to the file in the project directory.",
             "type": "string"
+        },
+        "version": {
+            "default": 1,
+            "description": "Minor version of this schema.",
+            "maximum": 2,
+            "type": "integer"
         }
     },
     "required": [
