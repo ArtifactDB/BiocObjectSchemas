@@ -5,22 +5,11 @@
     "allOf": [
         {
             "if": {
-                "anyOf": [
-                    {
-                        "properties": {
-                            "version": {
-                                "const": 1
-                            }
-                        }
-                    },
-                    {
-                        "not": {
-                            "required": [
-                                "version"
-                            ]
-                        }
+                "properties": {
+                    "version": {
+                        "const": 1
                     }
-                ]
+                }
             },
             "then": {
                 "properties": {
@@ -28,7 +17,7 @@
                         "properties": {
                             "columns": {
                                 "items": {
-                                    "anyOf": [
+                                    "allOf": [
                                         {
                                             "not": {
                                                 "required": [
@@ -57,7 +46,10 @@
                     "version": {
                         "minimum": 2
                     }
-                }
+                },
+                "required": [
+                    "version"
+                ]
             },
             "then": {
                 "properties": {
