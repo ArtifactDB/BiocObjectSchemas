@@ -275,3 +275,78 @@ and to use `dolomite_blah.load_blah` to obtain an equivalent Python object.
     }
 }
 ```
+
+## Conditional properties
+
+Conditional properties (i.e., where a `properties` definition is nested inside an `if`/`then`) should generally be avoided. 
+Different conditions could have inconsistent types for the same property, breaking downstream tools like Elasticsearch.
+It also precludes the use of `"additionalProperties": false`, which means that the validator cannot easily check for naming mistakes.
+So, instead of doing this:
+
+```json
+{
+    "properties": {
+        "type": {
+            "type": "string",
+            "enum": [ "car", "plane", "horse" ]
+        }
+    }
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "type": {
+                        "const": "car"
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "wheels": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    ]
+}
+```
+
+We should do this:
+
+```json
+{
+    "properties": {
+        "type": {
+            "type": "string",
+            "enum": [ "car", "plane", "horse" ]
+        },
+        "wheels": {
+            "type": "string"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "not": {
+                    "properties": {
+                        "type": {
+                            "const": "car"
+                        }
+                    }
+                }
+            },
+            "then": {
+                "not": {
+                    "required": [ "wheels" ]
+                }
+            }
+        }
+    ]
+    "additionalProperties": false
+}
+```
+
+Now the condition's only role is to enable or disable the `wheels` property rather than defining it.
+This approach ensures that `wheels` is present at the top-level `properties` and forces us to consider the consistency of the definition across all possible `type`s.
+It also allows us to disable additional properties for stricter validation, given that all of them have been listed in `properties`.
