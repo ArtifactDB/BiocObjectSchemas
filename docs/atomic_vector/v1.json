@@ -17,20 +17,26 @@
         },
         "atomic_vector": {
             "additionalProperties": false,
-            "else": {
-                "not": {
-                    "required": [
-                        "format"
-                    ]
-                }
-            },
-            "if": {
-                "properties": {
-                    "type": {
-                        "const": "string"
+            "allOf": [
+                {
+                    "if": {
+                        "not": {
+                            "properties": {
+                                "type": {
+                                    "const": "string"
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "not": {
+                            "required": [
+                                "format"
+                            ]
+                        }
                     }
                 }
-            },
+            ],
             "properties": {
                 "compression": {
                     "description": "Type of compression applied to the file.",
@@ -41,7 +47,14 @@
                     ],
                     "type": "string"
                 },
-                "format": true,
+                "format": {
+                    "description": "Formatting constraints for string types.\n\n- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.",
+                    "enum": [
+                        "date",
+                        "date-time"
+                    ],
+                    "type": "string"
+                },
                 "length": {
                     "description": "Length of the vector.",
                     "minimum": 0,
@@ -67,18 +80,6 @@
                 "length",
                 "type"
             ],
-            "then": {
-                "properties": {
-                    "format": {
-                        "description": "Formatting constraints for string types.\n\n- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.",
-                        "enum": [
-                            "date",
-                            "date-time"
-                        ],
-                        "type": "string"
-                    }
-                }
-            },
             "type": "object"
         },
         "is_child": {

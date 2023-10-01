@@ -51,159 +51,135 @@
                         "additionalProperties": false,
                         "allOf": [
                             {
-                                "else": {
+                                "if": {
+                                    "not": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "not": {
+                                        "required": [
+                                            "format"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "if": {
+                                    "not": {
+                                        "properties": {
+                                            "type": {
+                                                "enum": [
+                                                    "factor",
+                                                    "ordered"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "then": {
                                     "not": {
                                         "required": [
                                             "levels"
                                         ]
                                     }
-                                },
+                                }
+                            },
+                            {
                                 "if": {
-                                    "properties": {
-                                        "type": {
-                                            "enum": [
-                                                "factor",
-                                                "ordered"
-                                            ]
+                                    "not": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "factor"
+                                            }
                                         }
                                     }
                                 },
                                 "then": {
-                                    "properties": {
-                                        "levels": {
-                                            "description": "Levels for a categorical factor. These are stored as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved data frame.\n\n Older instances of `data_frame` instances store the levels in a 1-column data frame. This column can simply be treated as the vector of strings.",
-                                            "properties": {
-                                                "resource": {
-                                                    "_children": {
-                                                        "contains": [
-                                                            "data_frame",
-                                                            "atomic_vector"
-                                                        ]
-                                                    },
-                                                    "properties": {
-                                                        "path": {
-                                                            "description": "Relative path of the resource from the root of the project directory.",
-                                                            "type": "string"
-                                                        },
-                                                        "type": {
-                                                            "description": "Type of file. Local files should be present in the same project directory.",
-                                                            "enum": [
-                                                                "local"
-                                                            ],
-                                                            "type": "string"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "type",
-                                                        "path"
-                                                    ],
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "required": [
-                                                "resource"
-                                            ],
-                                            "type": "object"
-                                        }
-                                    },
-                                    "required": [
-                                        "levels"
-                                    ]
-                                }
-                            },
-                            {
-                                "else": {
                                     "not": {
                                         "required": [
                                             "ordered"
                                         ]
                                     }
-                                },
+                                }
+                            },
+                            {
                                 "if": {
-                                    "properties": {
-                                        "type": {
-                                            "const": "factor"
+                                    "not": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "other"
+                                            }
                                         }
                                     }
                                 },
                                 "then": {
-                                    "properties": {
-                                        "ordered": {
-                                            "default": false,
-                                            "description": "Whether to assume that the levels are ordered.",
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "else": {
                                     "not": {
                                         "required": [
                                             "resource"
                                         ]
                                     }
-                                },
-                                "if": {
-                                    "properties": {
-                                        "type": {
-                                            "const": "other"
-                                        }
-                                    }
-                                },
-                                "then": {
-                                    "properties": {
-                                        "resource": {
-                                            "properties": {
-                                                "path": {
-                                                    "description": "Relative path of the resource from the root of the project directory.",
-                                                    "type": "string"
-                                                },
-                                                "type": {
-                                                    "description": "Type of file. Local files should be present in the same project directory.",
-                                                    "enum": [
-                                                        "local"
-                                                    ],
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "type",
-                                                "path"
-                                            ],
-                                            "type": "object"
-                                        }
-                                    },
-                                    "required": [
-                                        "resource"
-                                    ]
                                 }
                             }
                         ],
-                        "else": {
-                            "not": {
-                                "required": [
-                                    "format"
-                                ]
-                            }
-                        },
-                        "if": {
-                            "properties": {
-                                "type": {
-                                    "const": "string"
-                                }
-                            }
-                        },
                         "properties": {
-                            "format": true,
-                            "levels": true,
+                            "format": {
+                                "description": "Formatting constraints for string types.\n\n- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.",
+                                "enum": [
+                                    "date",
+                                    "date-time"
+                                ],
+                                "type": "string"
+                            },
+                            "levels": {
+                                "description": "Levels for a categorical factor. These are stored as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved data frame.\n\n Older instances of `data_frame` instances store the levels in a 1-column data frame. This column can simply be treated as the vector of strings.",
+                                "properties": {
+                                    "resource": {
+                                        "_children": {
+                                            "contains": [
+                                                "data_frame",
+                                                "atomic_vector"
+                                            ]
+                                        },
+                                        "properties": {
+                                            "path": {
+                                                "description": "Relative path of the resource from the root of the project directory.",
+                                                "type": "string"
+                                            },
+                                            "type": {
+                                                "description": "Type of file. Local files should be present in the same project directory.",
+                                                "enum": [
+                                                    "local"
+                                                ],
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "type",
+                                            "path"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "resource"
+                                ],
+                                "type": "object"
+                            },
                             "name": {
                                 "description": "Name of the column. Each column must have a non-empty name. Column names should not be duplicated within `columns`.",
                                 "minLength": 1,
                                 "type": "string"
                             },
-                            "ordered": true,
-                            "resource": true,
+                            "ordered": {
+                                "default": false,
+                                "description": "Whether to assume that the levels are ordered.",
+                                "type": "boolean"
+                            },
                             "type": {
                                 "description": "Type of the column.\n\n- Integers, (floating-point) numbers and booleans are their usual selves.\n- Strings have an optional `format` property that restrict their contents, e.g., for dates or times.\n - The `factor` type is represented as an integer, to be used as a 1-based index into a vector of string levels.  This type has an additional `levels` property specifying the levels, as well as an `ordered` property indicating whether they are ordered.\n   - Older instances of `data_frame` representations store `factor` and `ordered` types as strings instead of integers.     All such strings are guaranteed to belong to the string levels in `levels`.    This representation is soft-deprecated; the integer representation should be preferred for efficiency.\n - The `ordered` type is a soft-deprecated alias for the `factor` type with the `ordered` property set to `true`;  the latter should generally be preferred.\n - The `date` type is a soft-deprecated alias for the `string` type with `format` property set to `date`.  The latter should generally be preferred.\n - The `date-time` type is a soft-deprecated alias for the `string` type with `format` property set to `date-time`.  The latter should generally be preferred.\n- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.",
                                 "enum": [
@@ -224,18 +200,6 @@
                             "name",
                             "type"
                         ],
-                        "then": {
-                            "properties": {
-                                "format": {
-                                    "description": "Formatting constraints for string types.\n\n- Dates are strings consisting of integers and dashes, following the `YYYY-MM-DD` format.\n- Date-times are strings following RFC 3339 Section 5.6, i.e., the Internet Date/Time format.",
-                                    "enum": [
-                                        "date",
-                                        "date-time"
-                                    ],
-                                    "type": "string"
-                                }
-                            }
-                        },
                         "type": "object"
                     },
                     "type": "array"
