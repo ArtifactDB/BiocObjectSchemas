@@ -350,3 +350,61 @@ We should do this:
 Now the condition's only role is to enable or disable the `wheels` property rather than defining it.
 This approach ensures that `wheels` is present at the top-level `properties` and forces us to consider the consistency of the definition across all possible `type`s.
 It also allows us to disable additional properties for stricter validation, given that all of them have been listed in `properties`.
+
+## Versioning
+
+The version in the schema name (e.g., `data_frame/v1.json`) should be treated as a major version number.
+Different major versions indicate that the schemas are not back-compatible,
+i.e., documents generated under an older schema may not validate against a newer schema.
+Within a given schema file, changes should always be backwards compatible.
+Any document listing a particular schema in its `$schema` should always validate against the latest version of that schema.
+
+Each schema may contain a `version` integer property, which allows documents to record the "minor version number" of their schema.
+The `maximum` of this value can be treated as the most recent minor version.
+It can be valuable to add `version`-dependent checks inside each schema to document the expectations for that minor version, as demonstrated in the example below.
+Note that the absence of a `"required": [ "version" ]` clause in the first condition is intentional;
+this handles the case where a `version` is not provided in the document (and can be assumed to be 1).
+
+```json
+{
+    "properties": {
+        "version": {
+            "type": "integer",
+            "default": 1,
+            "maximum": 3
+        },
+        "some_new_property": {
+            "type": "string"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "version": {
+                        "const": 1
+                    }
+                }
+            },
+            "then": {
+                "not": {
+                    "required": [ "some_new_property" ]
+                }
+            }
+        },
+        {
+            "if": {
+                "required": [ "version" ],
+                "properties": {
+                    "version": {
+                        "minimum": 2
+                    }
+                }
+            },
+            "then": {
+                "required": [ "some_new_property" ]
+            }
+        }
+    ]
+}
+```
