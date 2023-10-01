@@ -114,21 +114,24 @@
                                 }
                             },
                             {
-                                "if": {
-                                    "not": {
-                                        "properties": {
-                                            "type": {
-                                                "const": "other"
-                                            }
-                                        }
-                                    }
-                                },
-                                "then": {
+                                "else": {
                                     "not": {
                                         "required": [
                                             "resource"
                                         ]
                                     }
+                                },
+                                "if": {
+                                    "properties": {
+                                        "type": {
+                                            "const": "other"
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "resource"
+                                    ]
                                 }
                             }
                         ],
@@ -224,7 +227,6 @@
                         },
                         "required": [
                             "name",
-                            "resource",
                             "type"
                         ],
                         "type": "object"
