@@ -3,7 +3,11 @@
     "$id": "sequence_information/v1.json",
     "type": "object",
     "title": "Sequence information",
-    "description": "Sequence information for custom genomic ranges. This is a CSV file containing a data frame with one row per reference sequence in the custom annotation. It has at least the columns `seqnames`, `seqlengths`, `isCircular`, and `genome`. All columns can be interpreted as strings except for `isCircular`, which contains boolean values. The CSV layout should follow the standards described at https://github.com/LTLA/comservatory.", 
+    "_description": [
+        "Sequence information for custom genomic ranges, stored in a CSV file following the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1).",
+        "This contains a data frame with one row per reference sequence in the custom annotation.",
+        "It has at least the columns `seqnames` (string), `seqlengths` (integer), `isCircular` (boolean), and `genome` (string)."
+    ],
     "allOf": [
         { "$ref": "../_common/v1.json" },
         { "$ref": "../_md5sum/v1.json" }
