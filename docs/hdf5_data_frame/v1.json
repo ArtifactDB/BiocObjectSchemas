@@ -394,7 +394,8 @@
         },
         "version": {
             "default": 1,
-            "description": "Minor version of this schema. Later versions are back-compatible but older versions may not be forward-compatible.",
+            "description": "Minor version of this schema.",
+            "maximum": 2,
             "type": "integer"
         }
     },
