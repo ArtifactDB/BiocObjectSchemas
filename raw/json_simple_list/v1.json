@@ -21,8 +21,8 @@
     "_attributes": {
         "format": "application/json",
         "restore": {
-            "R": "alabaster.base::loadBaseList"
+            "R": "alabaster.base::loadBaseList",
+            "python": "dolomite_base.load_json_simple_list"
         }
     }
 }
-
