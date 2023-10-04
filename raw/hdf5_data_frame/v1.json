@@ -18,7 +18,7 @@
         "Each dataset may have a `missing-value-placeholder` attribute, containing a scalar value of the same type.",
         "Any value equal to this placeholder should be treated as missing.",
         "If no attribute exists, it can be assumed that no values are missing.",
-        "(In minor version 1 of the `data_frame` specification, no placeholder was present; missing integers and booleans were represented by -2147483648 instead.)\n\n",
+        "(In `hdf5_data_frame.version = 1`, no placeholder was present; missing integers and booleans were represented by -2147483648 instead.)\n\n",
         "Column names are stored in `column_names`, a 1-dimensional string dataset of length equal to the number of columns.",
         "Row names, if present, are stored in a `row_names` dataset of the same length at the number of rows.",
         "Neither should contain any missing values.\n\n",
@@ -43,6 +43,12 @@
                 "group": {
                     "type": "string",
                     "description": "Name of the group inside the HDF5 file that contains the contents of the data frame."
+                },
+                "version": {
+                    "type": "integer",
+                    "description": "Minor version of this format.",
+                    "default": 1,
+                    "maximum": 2
                 }
             }
         }
@@ -54,4 +60,3 @@
         }
     }
 }
-
