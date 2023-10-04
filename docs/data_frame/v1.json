@@ -2,18 +2,24 @@
     "$id": "data_frame/v1.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "additionalProperties": false,
-    "allOf": [
-        {
-            "if": {
-                "properties": {
-                    "version": {
-                        "const": 1
-                    }
-                }
-            },
-            "then": {
-                "properties": {
-                    "data_frame": {
+    "description": "Virtual data frame object stored in a yet-to-be-defined file format. Columns with simple types are stored directly in the file. For columns with non-obvious types (e.g., nested data frames), their contents should be stored in other files, and a pointer to a resource should be stored in the corresponding entry of `columns` (a placeholder column may be created in the file, depending on the format).",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "data_frame": {
+            "additionalProperties": false,
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "version": {
+                                "const": 1
+                            }
+                        }
+                    },
+                    "then": {
                         "properties": {
                             "columns": {
                                 "items": {
@@ -37,23 +43,19 @@
                             }
                         }
                     }
-                }
-            }
-        },
-        {
-            "if": {
-                "properties": {
-                    "version": {
-                        "minimum": 2
-                    }
                 },
-                "required": [
-                    "version"
-                ]
-            },
-            "then": {
-                "properties": {
-                    "data_frame": {
+                {
+                    "if": {
+                        "properties": {
+                            "version": {
+                                "minimum": 2
+                            }
+                        },
+                        "required": [
+                            "version"
+                        ]
+                    },
+                    "then": {
                         "properties": {
                             "columns": {
                                 "items": {
@@ -77,17 +79,7 @@
                         }
                     }
                 }
-            }
-        }
-    ],
-    "description": "Virtual data frame object stored in a yet-to-be-defined file format. Columns with simple types are stored directly in the file. For columns with non-obvious types (e.g., nested data frames), their contents should be stored in other files, and a pointer to a resource should be stored in the corresponding entry of `columns` (a placeholder column may be created in the file, depending on the format).",
-    "properties": {
-        "$schema": {
-            "description": "The schema to use.",
-            "type": "string"
-        },
-        "data_frame": {
-            "additionalProperties": false,
+            ],
             "properties": {
                 "column_data": {
                     "description": "Location of additional metadata for each column, stored as another `data_frame`. Omitted if no additional per-column metadata is present.",
@@ -217,7 +209,7 @@
                                 "type": "string"
                             },
                             "levels": {
-                                "description": "Levels for a categorical factor. These are stored as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved data frame.\n\n Older instances (minor version 1) of `data_frame` instances store the levels in a 1-column data frame; this column can simply be treated as the vector of strings.",
+                                "description": "Levels for a categorical factor. These are stored as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved data frame.\n\n Older instances (`version = 1`) store the levels in a 1-column data frame; this column can simply be treated as the vector of strings.",
                                 "properties": {
                                     "resource": {
                                         "_children": {
@@ -282,7 +274,7 @@
                                 "type": "object"
                             },
                             "type": {
-                                "description": "Type of the column.\n\n- Integers, (floating-point) numbers and booleans are their usual selves.\n- Strings have an optional `format` property that restrict their contents, e.g., for dates or times.\n   This is only available in minor version 2 or higher. - The `factor` type is represented as an integer, to be used as a 1-based index into a vector of string levels.  This type has an additional `levels` property specifying the levels, as well as an `ordered` property indicating whether they are ordered.\n   - Older instances (minor version 1) of `data_frame` representations store `factor` and `ordered` types as strings instead of integers.     All such strings are guaranteed to belong to the string levels in `levels`.    This representation is deprecated and the integer representation should be used in minor version 2 and higher.\n - The `ordered` type is a deprecated alias for the `factor` type with the `ordered` property set to `true`;  the latter should be used in minor version 2 or higher\n - The `date` type is a soft-deprecated alias for the `string` type with `format` property set to `date`;  the latter should be used in minor version 2 or higher\n - The `date-time` type is a soft-deprecated alias for the `string` type with `format` property set to `date-time`;  the latter should be used in minor version 2 or higher\n- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.",
+                                "description": "Type of the column.\n\n- Integers, (floating-point) numbers and booleans are their usual selves.\n- Strings have an optional `format` property that restrict their contents, e.g., for dates or times.\n   This is only available in `version >= 2`. - The `factor` type is represented as an integer, to be used as a 1-based index into a vector of string levels.  This type has an additional `levels` property specifying the levels, as well as an `ordered` property indicating whether they are ordered.\n   - Older instances (`data_frame.version = 1`) store `factor` and `ordered` types as strings instead of integers.     All such strings are guaranteed to belong to the string levels in `levels`.    This representation is deprecated and the integer representation should be used in `version > 2`.\n - The `ordered` type is a deprecated alias for the `factor` type with the `ordered` property set to `true`;  the latter should be used in `version >= 2`.\n - The `date` type is a soft-deprecated alias for the `string` type with `format` property set to `date`;  the latter should be used in `version >= 2`.\n - The `date-time` type is a soft-deprecated alias for the `string` type with `format` property set to `date-time`;  the latter should be used in `version >= 2`.\n- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.",
                                 "enum": [
                                     "integer",
                                     "number",
@@ -352,6 +344,12 @@
                     "default": false,
                     "description": "Whether the data frame has row names. If `true`, these are stored in the first column of the CSV.",
                     "type": "boolean"
+                },
+                "version": {
+                    "default": 1,
+                    "description": "Minor version of this format.",
+                    "maximum": 2,
+                    "type": "integer"
                 }
             },
             "required": [
@@ -368,12 +366,6 @@
         "path": {
             "description": "Path to the file in the project directory.",
             "type": "string"
-        },
-        "version": {
-            "default": 1,
-            "description": "Minor version of this schema.",
-            "maximum": 2,
-            "type": "integer"
         }
     },
     "required": [

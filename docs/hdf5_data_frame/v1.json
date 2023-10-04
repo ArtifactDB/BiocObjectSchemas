@@ -8,18 +8,24 @@
         }
     },
     "additionalProperties": false,
-    "allOf": [
-        {
-            "if": {
-                "properties": {
-                    "version": {
-                        "const": 1
-                    }
-                }
-            },
-            "then": {
-                "properties": {
-                    "data_frame": {
+    "description": "A data frame object stored inside a group of a HDF5 file.Atomic columns are stored as one-dimensional datasets in the `data` subgroup, named by their positional 0-based index in the data frame.\n\n - Boolean columns are stored as integer HDF5 datasets, where a value of 1 is truthy and a value of zero is falsey.  These can be distinguished from integer columns by inspecting the `data_frame.columns.type` property.\n - Integer columns can be represented by any integer HDF5 datatype at the discretion of the data generator.  However, it is advisable to use a data type that is representable by a 32-bit signed integer, for maximum compatibility with downstream clients.\n - Floating-point columns can be represented by any floating-point datatype at the discretion of the data generator.  IEEE special values like Inf and NaN are allowed.\n - String columns can be represented by any string datatype (fixed or variable, ASCII or UTF-8) at the discretion of the data generator.  The character encoding specified in the dataset's type should be respected.\n\nAll datasets representing atomic columns should have the same length.\n\n Each dataset may have a `missing-value-placeholder` attribute, containing a scalar value of the same type. Any value equal to this placeholder should be treated as missing. If no attribute exists, it can be assumed that no values are missing.(In `hdf5_data_frame.version = 1`, no placeholder was present; missing integers and booleans were represented by -2147483648 instead.)\n\n Column names are stored in `column_names`, a 1-dimensional string dataset of length equal to the number of columns. Row names, if present, are stored in a `row_names` dataset of the same length at the number of rows.Neither should contain any missing values.\n\n For non-atomic columns, the corresponding dataset is omitted and the actual contents are obtained from other files; a pointer to the resource should be stored in the corresponding entry of the `data_frame.columns` property.\n\nDerived from `data_frame/v1.json`: virtual data frame object stored in a yet-to-be-defined file format. Columns with simple types are stored directly in the file. For columns with non-obvious types (e.g., nested data frames), their contents should be stored in other files, and a pointer to a resource should be stored in the corresponding entry of `columns` (a placeholder column may be created in the file, depending on the format).",
+    "properties": {
+        "$schema": {
+            "description": "The schema to use.",
+            "type": "string"
+        },
+        "data_frame": {
+            "additionalProperties": false,
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "version": {
+                                "const": 1
+                            }
+                        }
+                    },
+                    "then": {
                         "properties": {
                             "columns": {
                                 "items": {
@@ -43,23 +49,19 @@
                             }
                         }
                     }
-                }
-            }
-        },
-        {
-            "if": {
-                "properties": {
-                    "version": {
-                        "minimum": 2
-                    }
                 },
-                "required": [
-                    "version"
-                ]
-            },
-            "then": {
-                "properties": {
-                    "data_frame": {
+                {
+                    "if": {
+                        "properties": {
+                            "version": {
+                                "minimum": 2
+                            }
+                        },
+                        "required": [
+                            "version"
+                        ]
+                    },
+                    "then": {
                         "properties": {
                             "columns": {
                                 "items": {
@@ -83,17 +85,7 @@
                         }
                     }
                 }
-            }
-        }
-    ],
-    "description": "A data frame object stored inside a group of a HDF5 file.Atomic columns are stored as one-dimensional datasets in the `data` subgroup, named by their positional 0-based index in the data frame.\n\n - Boolean columns are stored as integer HDF5 datasets, where a value of 1 is truthy and a value of zero is falsey.  These can be distinguished from integer columns by inspecting the `data_frame.columns.type` property.\n - Integer columns can be represented by any integer HDF5 datatype at the discretion of the data generator.  However, it is advisable to use a data type that is representable by a 32-bit signed integer, for maximum compatibility with downstream clients.\n - Floating-point columns can be represented by any floating-point datatype at the discretion of the data generator.  IEEE special values like Inf and NaN are allowed.\n - String columns can be represented by any string datatype (fixed or variable, ASCII or UTF-8) at the discretion of the data generator.  The character encoding specified in the dataset's type should be respected.\n\nAll datasets representing atomic columns should have the same length.\n\n Each dataset may have a `missing-value-placeholder` attribute, containing a scalar value of the same type. Any value equal to this placeholder should be treated as missing. If no attribute exists, it can be assumed that no values are missing.(In minor version 1 of the `data_frame` specification, no placeholder was present; missing integers and booleans were represented by -2147483648 instead.)\n\n Column names are stored in `column_names`, a 1-dimensional string dataset of length equal to the number of columns. Row names, if present, are stored in a `row_names` dataset of the same length at the number of rows.Neither should contain any missing values.\n\n For non-atomic columns, the corresponding dataset is omitted and the actual contents are obtained from other files; a pointer to the resource should be stored in the corresponding entry of the `data_frame.columns` property.\n\nDerived from `data_frame/v1.json`: virtual data frame object stored in a yet-to-be-defined file format. Columns with simple types are stored directly in the file. For columns with non-obvious types (e.g., nested data frames), their contents should be stored in other files, and a pointer to a resource should be stored in the corresponding entry of `columns` (a placeholder column may be created in the file, depending on the format).",
-    "properties": {
-        "$schema": {
-            "description": "The schema to use.",
-            "type": "string"
-        },
-        "data_frame": {
-            "additionalProperties": false,
+            ],
             "properties": {
                 "column_data": {
                     "description": "Location of additional metadata for each column, stored as another `data_frame`. Omitted if no additional per-column metadata is present.",
@@ -223,7 +215,7 @@
                                 "type": "string"
                             },
                             "levels": {
-                                "description": "Levels for a categorical factor. These are stored as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved data frame.\n\n Older instances (minor version 1) of `data_frame` instances store the levels in a 1-column data frame; this column can simply be treated as the vector of strings.",
+                                "description": "Levels for a categorical factor. These are stored as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved data frame.\n\n Older instances (`version = 1`) store the levels in a 1-column data frame; this column can simply be treated as the vector of strings.",
                                 "properties": {
                                     "resource": {
                                         "_children": {
@@ -288,7 +280,7 @@
                                 "type": "object"
                             },
                             "type": {
-                                "description": "Type of the column.\n\n- Integers, (floating-point) numbers and booleans are their usual selves.\n- Strings have an optional `format` property that restrict their contents, e.g., for dates or times.\n   This is only available in minor version 2 or higher. - The `factor` type is represented as an integer, to be used as a 1-based index into a vector of string levels.  This type has an additional `levels` property specifying the levels, as well as an `ordered` property indicating whether they are ordered.\n   - Older instances (minor version 1) of `data_frame` representations store `factor` and `ordered` types as strings instead of integers.     All such strings are guaranteed to belong to the string levels in `levels`.    This representation is deprecated and the integer representation should be used in minor version 2 and higher.\n - The `ordered` type is a deprecated alias for the `factor` type with the `ordered` property set to `true`;  the latter should be used in minor version 2 or higher\n - The `date` type is a soft-deprecated alias for the `string` type with `format` property set to `date`;  the latter should be used in minor version 2 or higher\n - The `date-time` type is a soft-deprecated alias for the `string` type with `format` property set to `date-time`;  the latter should be used in minor version 2 or higher\n- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.",
+                                "description": "Type of the column.\n\n- Integers, (floating-point) numbers and booleans are their usual selves.\n- Strings have an optional `format` property that restrict their contents, e.g., for dates or times.\n   This is only available in `version >= 2`. - The `factor` type is represented as an integer, to be used as a 1-based index into a vector of string levels.  This type has an additional `levels` property specifying the levels, as well as an `ordered` property indicating whether they are ordered.\n   - Older instances (`data_frame.version = 1`) store `factor` and `ordered` types as strings instead of integers.     All such strings are guaranteed to belong to the string levels in `levels`.    This representation is deprecated and the integer representation should be used in `version > 2`.\n - The `ordered` type is a deprecated alias for the `factor` type with the `ordered` property set to `true`;  the latter should be used in `version >= 2`.\n - The `date` type is a soft-deprecated alias for the `string` type with `format` property set to `date`;  the latter should be used in `version >= 2`.\n - The `date-time` type is a soft-deprecated alias for the `string` type with `format` property set to `date-time`;  the latter should be used in `version >= 2`.\n- Columns listed as `other` are assumed to be non-simple and should contain a `resource` property pointing to column's contents.",
                                 "enum": [
                                     "integer",
                                     "number",
@@ -358,6 +350,12 @@
                     "default": false,
                     "description": "Whether the data frame has row names. If `true`, these are stored in the first column of the CSV.",
                     "type": "boolean"
+                },
+                "version": {
+                    "default": 1,
+                    "description": "Minor version of this format.",
+                    "maximum": 2,
+                    "type": "integer"
                 }
             },
             "required": [
@@ -372,6 +370,12 @@
                 "group": {
                     "description": "Name of the group inside the HDF5 file that contains the contents of the data frame.",
                     "type": "string"
+                },
+                "version": {
+                    "default": 1,
+                    "description": "Minor version of this format.",
+                    "maximum": 2,
+                    "type": "integer"
                 }
             },
             "required": [
@@ -391,12 +395,6 @@
         "path": {
             "description": "Path to the file in the project directory.",
             "type": "string"
-        },
-        "version": {
-            "default": 1,
-            "description": "Minor version of this schema.",
-            "maximum": 2,
-            "type": "integer"
         }
     },
     "required": [
