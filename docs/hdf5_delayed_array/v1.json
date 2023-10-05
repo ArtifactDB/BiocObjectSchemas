@@ -8,7 +8,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the [**chihaya**](https://ltla.github.io/chihaya) specification for delayed operations, based on the [**DelayedArray**](https://bioconductor.org/packages/DelayedArray) Bioconductor package.\n\nFor integer and boolean datasets, missing values are represented by -2147483648.\n\nA string dataset may contain a `missing-value-placeholder` attribute. This should be a scalar string dataset that contains the string used to represent missing values. If no attribute exists, it is assumed that all strings are non-missing. Note that any string dataset in a `dimnames` operation should only contain non-missing strings.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "description": "Delayed array saved in a group of a HDF5 file as an n-dimensional dataset. This follows the [**chihaya**](https://ltla.github.io/chihaya) specification (version 1) for delayed operations, based on the [**DelayedArray**](https://bioconductor.org/packages/DelayedArray) Bioconductor package.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
