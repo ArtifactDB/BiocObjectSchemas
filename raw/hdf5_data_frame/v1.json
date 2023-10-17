@@ -56,7 +56,8 @@
     "_attributes": {
         "format": "application/x-hdf5",
         "restore": {
-            "R": "alabaster.base::loadDataFrame"
+            "R": "alabaster.base::loadDataFrame",
+            "python": "dolomite_base.load_hdf5_data_frame"
         }
     }
 }
