@@ -11,10 +11,10 @@
         "The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\n",
         "The partitioning of the concatenated object into individual list elements is described in a data frame,",
         "saved to `path` as a CSV file using the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1).",
-        "This data frame contains one row per list element, along with a `number` column that specifies the size of each vector-like object.",
+        "This data frame contains one row per list element and has a `number` column that specifies the size of each vector-like object.",
         "Subelements are partitioned by assigning the specified `number` of consecutive subelements into a contiguous series of vector-like objects,",
         "each of which correspond to successive list elements.",
-        "If the `names` property is `true`, the first column of the data frame contains the names of the list elements.\n\n",
+        "If the `names` property is `true`, `number` should be the second column, where the first column of the data frame contains the names of the list elements.\n\n",
         "Concrete subclasses are expected to provide a `concatenated` property that points to the concatenated object."
     ],
     "allOf": [
