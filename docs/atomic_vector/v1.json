@@ -9,7 +9,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "Vector of atomic values, stored in a (possibly compressed) CSV file in the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1). If the vector is unnamed, the file should have a single column containing the vector elements. If the vector is named, the fil should contain two columns; the first (string) column contains the names of the vector elements and the second column contains the vector elements themselves. In both cases, the headers are ignored.",
+    "description": "Vector of atomic values, stored in a (possibly compressed) CSV file in the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1). If the vector is unnamed, the file should have a single column containing the vector elements. If the vector is named, the file should contain two columns; the first (string) column contains the names of the vector elements and the second column contains the vector elements themselves. In both cases, the headers are ignored.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
