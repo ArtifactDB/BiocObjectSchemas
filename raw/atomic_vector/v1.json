@@ -29,7 +29,7 @@
                     "minimum": 0
                 },
                 "type": {
-                    "description": "Type of the column.",
+                    "description": "Type of the vector.",
                     "enum": [ "integer", "number", "string", "boolean" ]
                 },
                 "names": {
