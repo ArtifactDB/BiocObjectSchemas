@@ -48,7 +48,7 @@
                     "type": "integer",
                     "description": "Minor version of this format.",
                     "default": 1,
-                    "maximum": 2
+                    "maximum": 3
                 }
             }
         }
