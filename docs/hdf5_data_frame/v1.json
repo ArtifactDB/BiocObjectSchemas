@@ -375,7 +375,7 @@
                 "version": {
                     "default": 1,
                     "description": "Minor version of this format.",
-                    "maximum": 2,
+                    "maximum": 3,
                     "type": "integer"
                 }
             },
