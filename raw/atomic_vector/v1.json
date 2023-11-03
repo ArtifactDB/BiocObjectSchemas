@@ -4,11 +4,10 @@
     "type": "object",
     "title": "Atomic vector",
     "_description": [
-        "Vector of atomic values, stored in a (possibly compressed) CSV file in the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1).",
+        "Vector of atomic values, stored in a CSV file (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/atomic_vector/v1.md) for a detailed specification).",
         "If the vector is unnamed, the file should have a single column containing the vector elements.",
         "If the vector is named, the file should contain two columns;",
-        "the first (string) column contains the names of the vector elements and the second column contains the vector elements themselves.",
-        "In both cases, the headers are ignored."
+        "the first (string) column contains the names of the vector elements and the second column contains the vector elements themselves."
     ],
     "allOf": [
         { "$ref": "../_common/v1.json" },

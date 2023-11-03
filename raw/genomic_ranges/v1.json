@@ -4,7 +4,7 @@
     "type": "object",
     "title": "Genomic Ranges",
     "_description": [
-        "Genomic ranges, stored in a CSV file following the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1).",
+        "Genomic ranges, stored in a CSV file (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/genomic_ranges/v1.md) for a detailed specification).",
         "Each row of the CSV corresponds to a genomic range.",
         "The file should contain at least the columns `seqnames` (character), `start` (integer), `end` (integer), and `strand` (string, one of `-`, `+` or `*`).",
         "Both `start` and `end` are 1-based positions where `end` is inclusive, i.e., the genomic interval is defined as `[start, end]`.",

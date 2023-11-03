@@ -4,24 +4,10 @@
     "type": "object",
     "title": "HDF5 sparse matrix",
     "_description": [
-        "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file.",
-        "The HDF5 group should contain the typical contents of the compressed sparse matrix, i.e., `indices`, `indptr` and `data`.",
-        "Specifically, `data` should be a 1-dimensional integer or numeric dataset containing the values of the non-zero elements;",
-        "`indices` should be a 1-dimensional integer dataset containing the 0-based row/column index for each non-zero element in `data`;",
-        "and `indptr` should be a 1-dimensional integer dataset of length equal to the number of columns/rows plus 1, containing pointers to the start and end of each column/row.",
-        "The exact interpretation of these datasets depends on the format specified in `format`.\n\n",
+        "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/hdf5_sparse_matrix/v1.md) for a detailed specification).",
+        "Dimnames may also be saved inside the same HDF5 file, as string datasets in a group specified by the `hdf5_sparse_matrix.dimnames` property.\n\n",
         "The `array.dimensions` property should have exactly two elements.",
-        "The first entry should be the number of rows, while the second entry should be the number of columns.\n\n",
-        "Dimnames may also be saved inside the same HDF5 file, as string datasets in another group.",
-        "In such cases, the `hdf5_sparse_matrix.dimnames` property should be present and contain the name of that group.\n\n",
-        "Boolean `data` are stored as integer HDF5 datasets, where a value of 1 is truthy and a value of zero is falsey.",
-        "These can be distinguished from integer columns by inspecting the `array.type` property.\n\n",
-        "Integer `data` can be represented by any integer HDF5 datatype at the discretion of the data generator.",
-        "However, it is advisable to use a data type that is representable by a 32-bit signed integer, for maximum compatibility with downstream clients.\n\n",
-        "The `data` dataset may have a `missing-value-placeholder` attribute, containing a scalar value of the same type.",
-        "Any value equal to this placeholder should be treated as missing.",
-        "If no attribute exists, it can be assumed that no values are missing.",
-        "(In `hdf5_sparse_matrix.version = 1`, no placeholder was present; missing integers and booleans were represented by -2147483648 instead.)"
+        "The first entry should be the number of rows, while the second entry should be the number of columns."
     ],
     "allOf": [
         { "$ref": "../array/v1.json" },

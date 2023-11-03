@@ -4,7 +4,7 @@
     "type": "object",
     "title": "CSV Data Frame",
     "_description": [
-        "A data frame stored in a CSV file in the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1).",
+        "A data frame stored in a CSV file (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/csv_data_frame/v1.md) for a detailed specification).",
         "If the `data_frame.row_names` property is present and truthy, the first column of the CSV file contains the row names of the data frame as non-missing strings;",
         "this should be ignored when indexing entries of the `data_frames.columns` property.",
         "For non-simple columns, a placeholder column is created in the CSV and a pointer to the relevant resource is created in the corresponding entry of the `data_frame.columns` property.",

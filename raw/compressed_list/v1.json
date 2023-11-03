@@ -10,7 +10,7 @@
         "which can be concatenated into a single vector-like object of the same type with length equal to the sum of the individual element lengths.",
         "The use of a concatenated object improves storage efficiency as list elements can be compressed into a single file.\n\n",
         "The partitioning of the concatenated object into individual list elements is described in a data frame,",
-        "saved to `path` as a CSV file using the [**comservatory**](https://artifactdb.github.io/comservatory) specification (version 1).",
+        "saved to `path` as a CSV file; see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/compressed_list/v1.md) for a detailed specification.",
         "This data frame contains one row per list element and has a `number` column that specifies the size of each vector-like object.",
         "Subelements are partitioned by assigning the specified `number` of consecutive subelements into a contiguous series of vector-like objects,",
         "each of which correspond to successive list elements.",
