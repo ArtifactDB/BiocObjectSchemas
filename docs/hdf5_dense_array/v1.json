@@ -9,7 +9,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "Dense array, saved in a HDF5 file as an N-dimensional dataset for positive N (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/hdf5_dense_array/v1.md) for a detailed specification.) The file may also contain the dimnames of the array, stored in a separate HDF5 group as listed in the `hdf5_dense_array.dimnames` property.\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
+    "description": "Dense array, saved in a HDF5 file as an N-dimensional dataset for positive N (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/hdf5_dense_array/v1.md) for a detailed specification.)\n\nDerived from `array/v1.json`: some kind of multi-dimensional array, where we store metadata about the dimensions and type of data. The exact implementation of the array is left to concrete subclasses.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
@@ -51,12 +51,12 @@
                     "type": "string"
                 },
                 "dimnames": {
-                    "description": "Name of the HDF5 group containing the dimnames. This group should contain zero or one string datasets for each dimension. Each string dataset is numbered after a dimension of the dense array (ordered from fastest- to slowest-changing) and should have length equal to the extent of that dimension, i.e., the dataset named `\"0\"` should have length equal to the first entry of `array.dimensions`. If this property is not provided, it can be assumed that no dimnames are available. Each dataset should not contain any missing values, so each string can be interpreted as-is.",
+                    "description": "Name of the HDF5 group containing the dimnames. Only used for older `hdf5_dense_array` instances, and is ignored if a version number attribute is present in the HDF5 dataset named by `dataset` (in such cases, the dimension names are referenced by the `dimension-names` attribute on the dataset).",
                     "type": "string"
                 },
                 "version": {
                     "default": 1,
-                    "description": "Minor version of this format.",
+                    "description": "Minor version of this format. Only used for older `hdf5_dense_array` instances, and is ignored if a version number attribute is present in the HDF5 dataset named by `dataset`.",
                     "maximum": 2,
                     "type": "integer"
                 }

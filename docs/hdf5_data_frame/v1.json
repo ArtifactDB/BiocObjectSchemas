@@ -216,7 +216,7 @@
                                 "type": "string"
                             },
                             "levels": {
-                                "description": "Levels for a categorical factor. These are stored as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved data frame.\n\n Older instances (`version = 1`) store the levels in a 1-column data frame; this column can simply be treated as the vector of strings.",
+                                "description": "Levels for a categorical factor, used by file formats that cannot store the levels internally (e.g., CSVs). This property points to a separate resource containing the levels as a vector of unique non-missing strings.For ordered factors, the order is respected in the saved vector.\n\n Older instances (`version = 1`) store the levels in a 1-column data frame;this column can simply be treated as the vector of strings.\n\n For file formats that are capable of storing the levels internally (e.g., HDF5), this property is not required and may be ignored.",
                                 "properties": {
                                     "resource": {
                                         "_children": {
@@ -374,7 +374,7 @@
                 },
                 "version": {
                     "default": 1,
-                    "description": "Minor version of this format.",
+                    "description": "Minor version of this format. Only used for older `hdf5_data_frame` instances, and is ignored if a version number attribute is present in the HDF5 group named by `group`.",
                     "maximum": 3,
                     "type": "integer"
                 }
