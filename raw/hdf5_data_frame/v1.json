@@ -32,7 +32,10 @@
                 },
                 "version": {
                     "type": "integer",
-                    "description": "Minor version of this format.",
+                    "_description": [
+                        "Minor version of this format.",
+                        "Only used for older `hdf5_data_frame` instances, and is ignored if a version number attribute is present in the HDF5 group named by `group`."
+                    ],
                     "default": 1,
                     "maximum": 3
                 }

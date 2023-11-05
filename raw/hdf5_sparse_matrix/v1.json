@@ -4,10 +4,8 @@
     "type": "object",
     "title": "HDF5 sparse matrix",
     "_description": [
-        "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/hdf5_sparse_matrix/v1.md) for a detailed specification).",
-        "Dimnames may also be saved inside the same HDF5 file, as string datasets in a group specified by the `hdf5_sparse_matrix.dimnames` property.\n\n",
-        "The `array.dimensions` property should have exactly two elements.",
-        "The first entry should be the number of rows, while the second entry should be the number of columns."
+        "Sparse matrix, saved in compressed sparse format inside a group of a HDF5 file.",
+        "(see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/hdf5_sparse_matrix/v1.md) for a detailed specification)."
     ],
     "allOf": [
         { "$ref": "../array/v1.json" },
@@ -39,16 +37,23 @@
                 },
                 "format": {
                     "type": "string",
-                    "description": "Format of the sparse matrix.\n\nThe `tenx_matrix` is a compressed sparse column format where `indices` contains row indices and `indptr` contains the column index pointers. The group should contain a `shape` dataset, an integer vector of length 2 containing the number of rows and columns.",
+                    "description": "Format of the sparse matrix.",
                     "enum": [ "tenx_matrix" ]
                 },
                 "dimnames": {
                     "type": "string",
-                    "description": "Name of the group containing the dimnames. This group should contain zero or one string datasets for each dimension. The name of each string dataset is based on its dimension - `\"0\"` for rows, `\"1\"` for columns - and should have length equal to the extent of that dimension. If this property is not present, it can be assumed that no dimnames are available. Each dataset should not contain any missing values, so each string can be interpreted as-is."
+                    "_description": [
+                        "Name of the HDF5 group containing the dimnames.",
+                        "Only used for older `hdf5_dense_array` instances, and is ignored if a version number attribute is present in the HDF5 group named by `group`.",
+                        "(in such cases, dimension names are instead referenced by the `dimension-names` attribute on the group)."
+                    ]
                 },
                 "version": {
                     "type": "integer",
-                    "description": "Minor version of this format.",
+                    "_description": [
+                        "Minor version of this format.",
+                        "Only used for older `hdf5_sparse_matrix` instances, and is ignored if a version number attribute is present in the HDF5 group named by `group`. "
+                    ],
                     "default": 1,
                     "maximum": 2
                 }
