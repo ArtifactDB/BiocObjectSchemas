@@ -6,10 +6,7 @@
     "_description": [
         "Virtual factor-like object where the unique levels are some vector-like object,",
         "corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package.",
-        "Each element of the factor is a 1-based integer index that refers to a specific level.",
         "The `path` property points to a CSV file, see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/factor/v1.md) for a detailed specification.",
-        "This file contains at least the `index` integer column that holds the indices for all factor elements.",
-        "If the `factor.names` property is present, the first column of the data frame contains the names of the factor elements.\n\n",
         "Concrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels."
     ],
     "allOf": [
@@ -69,9 +66,6 @@
         }
     },
     "_attributes": {
-        "format": "text/csv",
-        "restore": {
-            "R": "alabaster.base::loadDataFrameFactor"
-        }
+        "format": "text/csv"
     }
 }

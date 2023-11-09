@@ -43,7 +43,7 @@
         "format": "text/csv",
         "restore": {
             "R": "alabaster.base::loadBaseFactor",
-            "python": "dolomite_base.load_base_factor"
+            "python": "dolomite_base.load_string_factor"
         }
     }
 }
