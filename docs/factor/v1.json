@@ -66,11 +66,6 @@
                     "description": "Whether the factor is named. If `true`, the first column of CSV contains the names of the factor elements.",
                     "type": "boolean"
                 },
-                "ordered": {
-                    "default": false,
-                    "description": "Whether the factor levels are assumed to be ordered.",
-                    "type": "boolean"
-                },
                 "other_data": {
                     "description": "Pointer to a list of additional metadata for this object.",
                     "properties": {
