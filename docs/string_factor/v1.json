@@ -9,7 +9,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "A factor where the levels are strings, roughly equivalent to base R's `factor`. The `levels` property points to a `atomic_vector` resource containing the levels as unique strings.\n\nDerived from `factor/v1.json`: virtual factor-like object where the unique levels are some vector-like object, corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package. The `path` property points to a CSV file, see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/factor/v1.md) for a detailed specification. Concrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels.",
+    "description": "A factor where the levels are strings, roughly equivalent to base R's `factor`. The `levels` property points to a `atomic_vector` resource containing the levels as unique strings.\n\nDerived from `factor/v1.json`: virtual factor-like object where the unique levels are some vector-like object, corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package. The `path` property points to a CSV file, see [here](https://github.com/ArtifactDB/BiocObjectSchemas/blob/master/docs/factor/v1.md) for a detailed specification. Concrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",

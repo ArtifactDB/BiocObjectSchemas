@@ -8,7 +8,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "Genomic ranges, stored in a CSV file (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/genomic_ranges/v1.md) for a detailed specification). Each row of the CSV corresponds to a genomic range. The file should contain at least the columns `seqnames` (character), `start` (integer), `end` (integer), and `strand` (string, one of `-`, `+` or `*`). Both `start` and `end` are 1-based positions where `end` is inclusive, i.e., the genomic interval is defined as `[start, end]`. If the `genomic_ranges.names` property is present, the first column of the CSV file contains the names of the ranges.",
+    "description": "Genomic ranges, stored in a CSV file (see [here](https://github.com/ArtifactDB/BiocObjectSchemas/blob/master/docs/genomic_ranges/v1.md) for a detailed specification). Each row of the CSV corresponds to a genomic range. The file should contain at least the columns `seqnames` (character), `start` (integer), `end` (integer), and `strand` (string, one of `-`, `+` or `*`). Both `start` and `end` are 1-based positions where `end` is inclusive, i.e., the genomic interval is defined as `[start, end]`. If the `genomic_ranges.names` property is present, the first column of the CSV file contains the names of the ranges.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",

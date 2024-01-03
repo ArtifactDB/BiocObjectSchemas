@@ -5,7 +5,7 @@
         "format": "text/csv"
     },
     "additionalProperties": false,
-    "description": "Virtual factor-like object where the unique levels are some vector-like object, corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package. The `path` property points to a CSV file, see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/factor/v1.md) for a detailed specification. Concrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels.",
+    "description": "Virtual factor-like object where the unique levels are some vector-like object, corresponding to the Factor class in the [**S4Vectors**](https://bioconductor.org/packages/S4Vectors) Bioconductor package. The `path` property points to a CSV file, see [here](https://github.com/ArtifactDB/BiocObjectSchemas/blob/master/docs/factor/v1.md) for a detailed specification. Concrete subclasses are expected to define a `levels` property that points to a vector-like object containing the levels.",
     "properties": {
         "$schema": {
             "description": "The schema to use.",

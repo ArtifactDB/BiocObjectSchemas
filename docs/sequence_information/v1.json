@@ -8,7 +8,7 @@
         }
     },
     "additionalProperties": false,
-    "description": "Sequence information, stored in a CSV file (see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/sequence_information/v1.md) for a detailed specification). This contains a data frame with one row per reference sequence in the custom annotation. It has at least the columns `seqnames` (string), `seqlengths` (integer), `isCircular` (boolean), and `genome` (string).",
+    "description": "Sequence information, stored in a CSV file (see [here](https://github.com/ArtifactDB/BiocObjectSchemas/blob/master/docs/sequence_information/v1.md) for a detailed specification). This contains a data frame with one row per reference sequence in the custom annotation. It has at least the columns `seqnames` (string), `seqlengths` (integer), `isCircular` (boolean), and `genome` (string).",
     "properties": {
         "$schema": {
             "description": "The schema to use.",
