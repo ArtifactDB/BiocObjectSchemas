@@ -5,7 +5,7 @@
     "title": "HDF5 dense array",
     "_description": [
         "Dense array, saved in a HDF5 file as an N-dimensional dataset for positive N",
-        "(see [here](https://github.com/ArtifactDB/takane/blob/master/docs/specifications/hdf5_dense_array/v1.md) for a detailed specification.)"
+        "(see [here](https://github.com/ArtifactDB/BiocObjectSchemas/blob/master/docs/hdf5_dense_array/v1.md) for a detailed specification.)"
     ],
     "allOf": [
         { "$ref": "../array/v1.json" },
