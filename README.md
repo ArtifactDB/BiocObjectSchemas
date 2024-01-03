@@ -1,5 +1,7 @@
 # JSON schemas for Bioconductor objects
 
+🚨🚨🚨 **NOTE: this repository is deprecated; see https://github.com/ArtifactDB/takane for a more explicit specification of the various file formats.** 🚨🚨🚨
+
 ## Overview
 
 This repository contains JSON schemas for saving Bioconductor objects to file using a language-agnostic format.
